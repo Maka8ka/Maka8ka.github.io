@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Java反序列化学习记录 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Java反序列化学习记录" />
+<meta property="og:description" content="Java反序列化学习记录 关键词: 漏洞 状态: 进行中
+反序列化分享【226安全团队内部周分享内容】
+https://www.bilibili.com/video/BV1pt411A7mX
+从零开始Weblogic反序列化漏洞
+https://www.bilibili.com/video/BV16Z4y1K7Rb
+参考与致谢：
+https://eviladan0s.github.io/2020/07/30/java-sec-newbee/
+https://eviladan0s.github.io/2020/07/31/learn-CommonsCollections1/
+JavaEE开发体系MVC 应用程序被划分成模型层model 视图层 view 控制层Controller
+Servlet （处理用户请求controller）&#43; JSP（处理数据显示view ） &#43; JavaBean（负责封装数据model ）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-07-15T21:00:40&#43;00:00" />
+<meta property="article:modified_time" content="2021-07-15T21:00:40&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java反序列化学习记录"/>
+<meta name="twitter:description" content="Java反序列化学习记录 关键词: 漏洞 状态: 进行中
+反序列化分享【226安全团队内部周分享内容】
+https://www.bilibili.com/video/BV1pt411A7mX
+从零开始Weblogic反序列化漏洞
+https://www.bilibili.com/video/BV16Z4y1K7Rb
+参考与致谢：
+https://eviladan0s.github.io/2020/07/30/java-sec-newbee/
+https://eviladan0s.github.io/2020/07/31/learn-CommonsCollections1/
+JavaEE开发体系MVC 应用程序被划分成模型层model 视图层 view 控制层Controller
+Servlet （处理用户请求controller）&#43; JSP（处理数据显示view ） &#43; JavaBean（负责封装数据model ）"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="java反序列化学习记录">Java反序列化学习记录</h1>
+<p>关键词: 漏洞
+状态: 进行中</p>
+<p>反序列化分享【226安全团队内部周分享内容】</p>
+<p><a href="https://www.bilibili.com/video/BV1pt411A7mX">https://www.bilibili.com/video/BV1pt411A7mX</a></p>
+<p>从零开始Weblogic反序列化漏洞</p>
+<p><a href="https://www.bilibili.com/video/BV16Z4y1K7Rb">https://www.bilibili.com/video/BV16Z4y1K7Rb</a></p>
+<p>参考与致谢：</p>
+<p><a href="https://eviladan0s.github.io/2020/07/30/java-sec-newbee/">https://eviladan0s.github.io/2020/07/30/java-sec-newbee/</a></p>
+<p><a href="https://eviladan0s.github.io/2020/07/31/learn-CommonsCollections1/">https://eviladan0s.github.io/2020/07/31/learn-CommonsCollections1/</a></p>
+<h3 id="javaee开发体系mvc">JavaEE开发体系MVC</h3>
+<p>应用程序被划分成模型层model 视图层 view 控制层Controller</p>
+<p>Servlet （处理用户请求controller）+ JSP（处理数据显示view ） + JavaBean（负责封装数据model ）</p>
+<ul>
+<li>RMI</li>
+</ul>
+<p>RMI调用远程Java对象和方法，能让程序员开发处基于Java的分布式应用，RMI目前使用JRMP进行通信。</p>
+<ul>
+<li>JRMP</li>
+</ul>
+<p>JRMP时专门为Java的远程对象定制的协议</p>
+<ul>
+<li>JNDI</li>
+</ul>
+<p>Java提供目录系统，将服务名称和对象关联，使得开发过程及漏洞利用过程中可以使用名称来访问对象</p>
+<ul>
+<li>T3协议</li>
+</ul>
+<p>Weblogic RMI通信使用T3协议，和Web共用一个端口</p>
+<h3 id="利用工具">利用工具</h3>
+<p>ysoserial：常见gadget链集合，如Commons Collections</p>
+<p>Commons Collections是一个拓展Java标准库的Collection结构的第三方基础库</p>
+<p>分析：<a href="https://www.anquanke.com/post/id/229108">https://www.anquanke.com/post/id/229108</a></p>
+<p>marshalsec</p>
+<p>Java反序列化利用工具，开启RMI、LDAP服务，查询可用GAdget，生成特定Payload</p>
+<hr>
+<h2 id="rmi">RMI</h2>
+<p>Java RMI（Remote Method Invocation）即Java远程方法调用，它允许一个 JVM 上的 object 调用另一个 JVM 上 object 方法。</p>
+<p>RMI程序通常包括三部分：</p>
+<p>RMI Registry，提供注册查询等功能，是一种特殊的Remote Object
+RMI Server，创建Remote Object，将其注册到RMI Registry
+RMI Client， 通过name向 RMI Registry获取Remote Object reference (stub)，调用其方法</p>
+<h3 id="rmi程序示例">RMI程序示例</h3>
+<p>一个继承java.rmi.Remote的接口
+一个实现此接口的类
+一个用来创建Registry的主类，实例化后绑定地址</p>
+<ul>
+<li>实现接口，接口继承java.rmi.Remote</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> RMItest<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.rmi.Remote<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">RMIRemote</span> <span style="color:#66d9ef">extends</span> Remote <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rmiTest</span><span style="color:#f92672">();</span><span style="color:#75715e">//声明函数
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>使用上述接口实现：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> RMItest<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RMIremoteTest</span> <span style="color:#66d9ef">implements</span> RMIRemote<span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rmiTest</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>服务端</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> RMItest<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.rmi.AlreadyBoundException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.rmi.RemoteException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.rmi.registry.LocateRegistry<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.rmi.registry.Registry<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> RemoteException<span style="color:#f92672">,</span> AlreadyBoundException <span style="color:#f92672">{</span>
+        RMIRemote rmitest <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RMIremoteTest<span style="color:#f92672">();</span> <span style="color:#75715e">//接口需要使用实现的具体类去创建对象
+</span><span style="color:#75715e"></span>        Registry registry <span style="color:#f92672">=</span> LocateRegistry<span style="color:#f92672">.</span><span style="color:#a6e22e">createRegistry</span><span style="color:#f92672">(</span>1099<span style="color:#f92672">);</span>
+        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">bind</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rmi://127.0.0.1/test&#34;</span><span style="color:#f92672">,</span> rmitest<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>客户端</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> RMItest<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.rmi.NotBoundException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.rmi.RemoteException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.rmi.registry.LocateRegistry<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.rmi.registry.Registry<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Client</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> RemoteException<span style="color:#f92672">,</span> NotBoundException <span style="color:#f92672">{</span>
+        Registry registry <span style="color:#f92672">=</span> LocateRegistry<span style="color:#f92672">.</span><span style="color:#a6e22e">getRegistry</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127.0.0.1&#34;</span><span style="color:#f92672">,</span>1099<span style="color:#f92672">);</span>
+        RMIRemote rmi <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>RMIRemote<span style="color:#f92672">)</span> registry<span style="color:#f92672">.</span><span style="color:#a6e22e">lookup</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rmi://127.0.0.1/test&#34;</span><span style="color:#f92672">);</span>
+        rmi<span style="color:#f92672">.</span><span style="color:#a6e22e">rmiTest</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<h2 id="反射">反射</h2>
+<p><a href="https://maka8ka.github.io/post/java-%E5%8F%8D%E5%B0%84-%E7%AE%80/">Java-反射-简</a> 中反射介绍</p>
+<p>利用反射命令执行</p>
+<hr>
+<h2 id="java反序列化方法">Java反序列化方法</h2>
+<ol>
+<li>找序列化入口 source</li>
+<li>调用链 gadget</li>
+<li>出发漏洞的目标方法 sink</li>
+</ol>
+<h2 id="触发漏洞的方法">触发漏洞的方法</h2>
+<h3 id="runtimeexec方法命令执行">Runtime.exec()方法命令执行</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">String <span style="color:#f92672">[]</span> cmd<span style="color:#f92672">={</span><span style="color:#e6db74">&#34;cmd&#34;</span>,<span style="color:#e6db74">&#34;/C&#34;</span>,<span style="color:#e6db74">&#34;copy exe1 exe2&#34;</span><span style="color:#f92672">}</span>; 
+Process proc <span style="color:#f92672">=</span>Runtime.getRuntime<span style="color:#f92672">()</span>.exec<span style="color:#f92672">(</span>cmd<span style="color:#f92672">)</span>;
+</code></pre></div><h3 id="methodinvoke-需要释放的选择方法和参数反射执行java方法">Method.invoke() 需要释放的选择方法和参数，反射执行java方法</h3>
+<h3 id="rmijndijrmp引用远程对象简介实现任意代码执行">RMI/JNDI/JRMP引用远程对象，简介实现任意代码执行</h3>
+<h3 id="apache-commons-collections基础知识">Apache Commons Collections基础知识</h3>
+<p>使用transform方法反射调用任意对象函数</p>
+<p>使用transform方法执行命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> org.apache.commons.collections.functors.InvokerTransformer<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">test</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+        InvokerTransformer myInvoke <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InvokerTransformer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;exec&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> Class<span style="color:#f92672">[]{</span>String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">},</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[]{</span><span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;c:\\windows\\system32\\notepad.exe&#34;</span><span style="color:#f92672">)});</span>
+        myInvoke<span style="color:#f92672">.</span><span style="color:#a6e22e">transform</span><span style="color:#f92672">(</span>Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>InvokerTransformer 的构造方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">public InvokerTransformer<span style="color:#f92672">(</span>String methodName, Class<span style="color:#f92672">[]</span> paramTypes, Object<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        this.iMethodName <span style="color:#f92672">=</span> methodName;
+        this.iParamTypes <span style="color:#f92672">=</span> paramTypes;
+        this.iArgs <span style="color:#f92672">=</span> args;
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>transform方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">public Object transform<span style="color:#f92672">(</span>Object input<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>input <span style="color:#f92672">==</span> null<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> null;
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+            try <span style="color:#f92672">{</span>
+                Class cls <span style="color:#f92672">=</span> input.getClass<span style="color:#f92672">()</span>;
+                Method method <span style="color:#f92672">=</span> cls.getMethod<span style="color:#f92672">(</span>this.iMethodName, this.iParamTypes<span style="color:#f92672">)</span>;
+                <span style="color:#66d9ef">return</span> method.invoke<span style="color:#f92672">(</span>input, this.iArgs<span style="color:#f92672">)</span>;
+            <span style="color:#f92672">}</span> catch <span style="color:#f92672">(</span>NoSuchMethodException var5<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                throw new FunctorException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;InvokerTransformer: The method &#39;&#34;</span> + this.iMethodName + <span style="color:#e6db74">&#34;&#39; on &#39;&#34;</span> + input.getClass<span style="color:#f92672">()</span> + <span style="color:#e6db74">&#34;&#39; does not exist&#34;</span><span style="color:#f92672">)</span>;
+            <span style="color:#f92672">}</span> catch <span style="color:#f92672">(</span>IllegalAccessException var6<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                throw new FunctorException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;InvokerTransformer: The method &#39;&#34;</span> + this.iMethodName + <span style="color:#e6db74">&#34;&#39; on &#39;&#34;</span> + input.getClass<span style="color:#f92672">()</span> + <span style="color:#e6db74">&#34;&#39; cannot be accessed&#34;</span><span style="color:#f92672">)</span>;
+            <span style="color:#f92672">}</span> catch <span style="color:#f92672">(</span>InvocationTargetException var7<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                throw new FunctorException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;InvokerTransformer: The method &#39;&#34;</span> + this.iMethodName + <span style="color:#e6db74">&#34;&#39; on &#39;&#34;</span> + input.getClass<span style="color:#f92672">()</span> + <span style="color:#e6db74">&#34;&#39; threw an exception&#34;</span>, var7<span style="color:#f92672">)</span>;
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="commonscollections-gadgets1-调用链分析">CommonsCollections Gadgets1 调用链分析</h2>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

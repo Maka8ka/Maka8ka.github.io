@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> 常用快捷键 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="常用快捷键" />
+<meta property="og:description" content="Tmux快捷键 Tips - Tmux 快捷键 基本操作
+所有快捷键的执行方式:
+按下control &#43; b两个按键组合, 然后松开control &#43; b(为了告诉Tmux我要用Tmux的快捷键了), 然后在按快捷键触发各种行为。
+例如: C-b ?的执行过程为按下control &#43; b两个按键组合, 然后松开control &#43; b, 然后在按’?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-08-26T21:55:13&#43;00:00" />
+<meta property="article:modified_time" content="2019-08-26T21:55:13&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="常用快捷键"/>
+<meta name="twitter:description" content="Tmux快捷键 Tips - Tmux 快捷键 基本操作
+所有快捷键的执行方式:
+按下control &#43; b两个按键组合, 然后松开control &#43; b(为了告诉Tmux我要用Tmux的快捷键了), 然后在按快捷键触发各种行为。
+例如: C-b ?的执行过程为按下control &#43; b两个按键组合, 然后松开control &#43; b, 然后在按’?"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="tmux快捷键">Tmux快捷键</h1>
+<h3 id="tips---tmux-快捷键"><strong>Tips - Tmux 快捷键</strong></h3>
+<p>基本操作</p>
+<p>所有快捷键的执行方式:</p>
+<p>按下control + b两个按键组合, 然后松开control + b(为了告诉Tmux我要用Tmux的快捷键了), 然后在按快捷键触发各种行为。</p>
+<p>例如: C-b ?的执行过程为按下control + b两个按键组合, 然后松开control + b, 然后在按’?’键, 会显示所有快捷键的列表。</p>
+<ul>
+<li>C-b ? 列出所有快捷键, 按q或Esc返回</li>
+<li>C-b d detach当前会话,可暂时返回Shell界面，输入tmux attach能够重新进入之前会话</li>
+<li>C-b s 选择并切换会话；在同时开启了多个会话时使用</li>
+</ul>
+<h3 id="快捷键">快捷键</h3>
+<p><strong>Session</strong>操作</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建一个新的session</span>
+$ tmux new -s &lt;name-of-my-session&gt;
+<span style="color:#75715e"># 在当前session中创建一个新的Session, 并保证之前session依然存在</span>
+<span style="color:#75715e"># C-b : 然后输入下面命令</span>
+new -s &lt;name-of-my-new-session&gt;
+<span style="color:#75715e"># 进入名为test的session</span>
+$ tmux attach -t test
+tmux detach 离开session | **ctrl + b d** ,
+tmux ls | **ctrl + b s**
+tmux switch -t &lt;session-name&gt; 切换session
+重命名tmux rename-session -t &lt;old-session-name&gt; &lt;new-session-name&gt;｜**ctrl +b $**
+</code></pre></div><p><strong>Window</strong>操作</p>
+<ul>
+<li>C-b c 创建一个新窗口</li>
+<li>C-b &amp; 关闭当前窗口</li>
+<li>C-b w 列出所有的窗口选择</li>
+<li>C-b p 切换到上一个窗口</li>
+<li>C-b n 切换到下一个窗口</li>
+<li>C-b 窗口号 使用窗口号切换窗口(例如窗口号为1的, 则C-b 1)</li>
+<li>C-b , 重命名当前窗口，便于识别各个窗口</li>
+</ul>
+<p><strong>Pane</strong>操作</p>
+<ul>
+<li>C-b % 横向分Terminal</li>
+<li>C-b &quot; 纵向分Terminal</li>
+<li>C-b 方向键 则会在自由选择各面板</li>
+<li>C-b x 关闭当前pane</li>
+<li>C-b q 显示面板编号</li>
+<li>C-b s 列出所有会话</li>
+<li>C-b d detach当前session(可以认为后台运行)</li>
+</ul>
+<p>**ctrl +b <!-- raw HTML omitted -->**例如 ctrl +b ⬆ 会把光标移动到上方的窗格。</p>
+<p>**ctrl +b ;**光标切换到上一个窗格</p>
+<p><strong>ctrl +b o</strong> 光标切换到下一个窗格</p>
+<h1 id="vi快捷键">VI快捷键</h1>
+<p>关键词: 快捷键, 运维
+状态: 已完成</p>
+<p><strong>Vi 快捷键</strong></p>
+<p>:set nu 显示行号</p>
+<p>gg 跳转到首行</p>
+<p>G 跳转到末行</p>
+<p>10 G 跳转到第10行</p>
+<p>0 跳转到行首</p>
+<p>$ 跳转到行末</p>
+<p>/a 搜索a + 回车 加n搜索下一个 N搜索上一个</p>
+<p>:10,20s/c/a/g   替换第10行到第20行中的c为a</p>
+<p>:10,$s/c/a/g  替换第10行到最后中的c为a</p>
+<p>x 删除光标位置</p>
+<p>X 删除光标前一位</p>
+<p>dd 删除整行</p>
+<p>3dd 删除向下3行</p>
+<p>yy 复制光标所在的整行</p>
+<p>3yy 复制向下3行</p>
+<p>p 在光标所在的下一行粘贴</p>
+<p>P 在光标所在的上一行粘贴</p>
+<p>H 屏幕左上第一个字符</p>
+<p>M 屏幕中间第一个字符</p>
+<p>L 屏幕左下第一个字符</p>
+<p>u 撤销</p>
+<p>ctrl . 重复前一个操作</p>
+<p>ctrl f 下一页</p>
+<p>ctrl b 上一页</p>
+<p>ctrl d 向下半页</p>
+<p>ctrl u 向上半页</p>
+<p>w 下一单词</p>
+<p>b 上一单词</p>
+<ul>
+<li>前一行行首</li>
+</ul>
+<p>3- 向前3行行首</p>
+<p>3 enter 向下3行</p>
+<ul>
+<li>下一行行首</li>
+</ul>
+<p>3+ 向后三行行首</p>
+<p>hjkl 左下上右</p>
+<p>v 字符可视化选择</p>
+<p>V 行可视化选择</p>
+<p>ctrl v 块可视化选择</p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

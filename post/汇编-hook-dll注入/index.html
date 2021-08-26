@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Hook-dll注入 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Hook-dll注入" />
+<meta property="og:description" content="Hook-dll注入 状态: 进行中
+OD用法 界面 c主界面模式
+t线程/进程模式
+b所有断点
+常用命令 dd查看地址
+dc查看地址ascii数据
+du 查看地址unicode数据
+快捷键 F2设置断点
+CE用法 快捷键 内存浏览器中
+ctrl&#43;G前往内存
+微信分析（3.3.0.115）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96-hook-dll%E6%B3%A8%E5%85%A5/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-07-01T17:21:56&#43;00:00" />
+<meta property="article:modified_time" content="2020-07-01T17:21:56&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hook-dll注入"/>
+<meta name="twitter:description" content="Hook-dll注入 状态: 进行中
+OD用法 界面 c主界面模式
+t线程/进程模式
+b所有断点
+常用命令 dd查看地址
+dc查看地址ascii数据
+du 查看地址unicode数据
+快捷键 F2设置断点
+CE用法 快捷键 内存浏览器中
+ctrl&#43;G前往内存
+微信分析（3.3.0.115）"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="hook-dll注入">Hook-dll注入</h1>
+<p>状态: 进行中</p>
+<h2 id="od用法">OD用法</h2>
+<h3 id="界面">界面</h3>
+<p>c主界面模式</p>
+<p>t线程/进程模式</p>
+<p>b所有断点</p>
+<h3 id="常用命令">常用命令</h3>
+<p>dd查看地址</p>
+<p>dc查看地址ascii数据</p>
+<p>du 查看地址unicode数据</p>
+<h3 id="快捷键">快捷键</h3>
+<p>F2设置断点</p>
+<h2 id="ce用法">CE用法</h2>
+<h3 id="快捷键-1">快捷键</h3>
+<p>内存浏览器中</p>
+<p>ctrl+G前往内存</p>
+<p>微信分析（3.3.0.115）</p>
+<p>基址</p>
+<p>WeChatWin.dll+1DDF534</p>
+<p>5DCCF534用户名 字符串 目前长度8，随用户名大小</p>
+<p>WeChatWin.dll+1DDF698 长度 随微信号大小</p>
+<p>微信号</p>
+<p>WeChatWin.dll+1DDF937 长度 随微信号大小</p>
+<p>微信id</p>
+<p>WeChatWin.dll+1DDF568</p>
+<p>5DCCF568手机号 字符串 长度11，手机号固定11</p>
+<p>WeChatWin.dll+1DDF620 长度8 随大小</p>
+<p>省</p>
+<p>WeChatWin.dll+1DDF638 长度8 随大小</p>
+<p>市</p>
+<p>WeChatWin.dll+1DDF98B 长度8 随大小</p>
+<p>登录手机型号</p>
+<p>WeChatWin.dll+1DDF7FC 头像 指向4字节16进制 085D5A90</p>
+<p>获取085D5A90的字符串 真实148，获取160-200位足够</p>
+<h2 id="dll注入工具">dll注入工具</h2>
+<p>需要用到的相关知识点</p>
+<p>需要用到的函数</p>
+<p>CreateToolhelp32Snapshot获取进程快照取得pid</p>
+<p>VirtualAlloEx申请内存</p>
+<p>WriteProcessMemory写入注入dll的路径</p>
+<p>GetModuleHandle 获取加载dll函数的基址</p>
+<p>GetProcAddress 获取加载dll函数的地址</p>
+<p>CreateRemoteThread在别人的进程里面执行，加载dll函数</p>
+<p>实现dll注入</p>
+<p>Kernel32.dll（所有软件都包含）</p>
+<p>LoadLibaray 自动加载</p>
+<p>LoadLibarayA ascii码版本</p>
+<p>LoadLibarayW unicode版本</p>
+<p>运行dll</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">rundll32 WindowsProject2_wx1.dll,<span style="color:#e6db74">&#34;&#34;</span> E:<span style="color:#960050;background-color:#1e0010">\</span>CppWorkSpace<span style="color:#960050;background-color:#1e0010">\</span>HookWeiXinLs1<span style="color:#960050;background-color:#1e0010">\</span>WindowsProject2_wx1<span style="color:#960050;background-color:#1e0010">\</span>Debug<span style="color:#960050;background-color:#1e0010">\</span>WindowsProject2_wx1.dll
+</code></pre></div><h2 id="进程注入器">进程注入器</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// WindowsProject1.cpp : 定义应用程序的入口点。
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;framework.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;WindowsProject1.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;windows.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;resource.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;TlHelp32.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;direct.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define PROCESS_NAME &#34;WeChat.exe&#34;
+</span><span style="color:#75715e"></span>
+INT_PTR CALLBACK <span style="color:#a6e22e">DialogProc</span>(_In_ HWND hwndDlg, _In_ UINT UMsg, _In_ WPARAM wParam, _In_ LPARAM IParam);
+DWORD <span style="color:#a6e22e">GetProcessPID</span>(LPCSTR ProcessName);
+VOID <span style="color:#a6e22e">InjectDLL</span>(LPVOID<span style="color:#f92672">*</span> VirtualAllocresult, HANDLE<span style="color:#f92672">*</span> CreateRemoteThreadresult);
+VOID <span style="color:#a6e22e">RemoveDLL</span>(LPVOID<span style="color:#f92672">*</span> VirtualAllocresult, HANDLE<span style="color:#f92672">*</span> CreateRemoteThreadresult);
+
+<span style="color:#66d9ef">int</span> APIENTRY <span style="color:#a6e22e">wWinMain</span>(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ <span style="color:#66d9ef">int</span>       nCmdShow)
+{
+	DialogBox(hInstance, MAKEINTRESOURCE(MAIN_Window), NULL, <span style="color:#f92672">&amp;</span>DialogProc); <span style="color:#75715e">//啓動對話框
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+INT_PTR CALLBACK <span style="color:#a6e22e">DialogProc</span>(_In_ HWND hwndDlg, _In_  UINT UMsg, _In_  WPARAM wParam, _In_ LPARAM IParam) <span style="color:#75715e">//對話框處理函數
+</span><span style="color:#75715e"></span>{
+	<span style="color:#75715e">/*if (UMsg == WM_INITDIALOG) { //首次運行
+</span><span style="color:#75715e">		MessageBox(NULL,&#34;first&#34;,&#34;windows&#34;,0);
+</span><span style="color:#75715e">	}*/</span>
+	LPVOID VAdd <span style="color:#f92672">=</span> NULL;
+	HANDLE CRAdd <span style="color:#f92672">=</span> NULL;
+
+	<span style="color:#66d9ef">if</span> (UMsg <span style="color:#f92672">==</span> WM_CLOSE) { <span style="color:#75715e">//UMsg按鈕事件
+</span><span style="color:#75715e"></span>		EndDialog(hwndDlg,NULL); <span style="color:#75715e">//hwndDlg程序句柄
+</span><span style="color:#75715e"></span>	}
+	<span style="color:#75715e">//所有界面上的按鈕事件都是走這個WM_COMMAND宏
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (UMsg <span style="color:#f92672">==</span> WM_COMMAND) { 
+		
+		<span style="color:#66d9ef">if</span> (wParam <span style="color:#f92672">==</span> DLL_Inject) { <span style="color:#75715e">//wParam 控件ID
+</span><span style="color:#75715e"></span>			InjectDLL(<span style="color:#f92672">&amp;</span>VAdd, <span style="color:#f92672">&amp;</span>CRAdd);
+			CHAR SuccessInfo[<span style="color:#ae81ff">0x160</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+			sprintf_s(SuccessInfo, <span style="color:#e6db74">&#34;dll返回值,dllAddPoint is %X,InjectAddress is %X&#34;</span>, VAdd, CRAdd);
+			MessageBox(NULL, SuccessInfo, <span style="color:#e6db74">&#34;Info&#34;</span>, <span style="color:#ae81ff">0</span>);
+		}
+		<span style="color:#66d9ef">if</span> (wParam <span style="color:#f92672">==</span> DLL_Uninstall) {
+			CHAR SuccessInfo[<span style="color:#ae81ff">0x160</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+			sprintf_s(SuccessInfo, <span style="color:#e6db74">&#34;dll進入值,dllAddPoint is %X,InjectAddress is %X&#34;</span>, VAdd, CRAdd);
+			MessageBox(NULL, SuccessInfo, <span style="color:#e6db74">&#34;Info&#34;</span>, <span style="color:#ae81ff">0</span>);
+			RemoveDLL(<span style="color:#f92672">&amp;</span>VAdd, <span style="color:#f92672">&amp;</span>CRAdd);
+			
+		}
+	}
+
+	<span style="color:#66d9ef">return</span> FALSE;
+}
+
+<span style="color:#75715e">//1、獲取微信進程句柄
+</span><span style="color:#75715e">//通過進程名獲取pid，通過pid獲取進程句柄
+</span><span style="color:#75715e"></span>DWORD <span style="color:#a6e22e">GetProcessPID</span>(LPCSTR ProcessName) { <span style="color:#75715e">//LPCSTR Long Point Const STR  //LPSTR Long Point STR 
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//#include &lt;TlHelp32.h&gt;
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//獲取系統進程快照
+</span><span style="color:#75715e"></span>	HANDLE ALLProcess <span style="color:#f92672">=</span> CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,NULL);
+	<span style="color:#75715e">//快照中對比進程名稱獲得PID
+</span><span style="color:#75715e"></span>	PROCESSENTRY32 Process <span style="color:#f92672">=</span> {};
+	Process.dwSize <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(PROCESSENTRY32);
+	<span style="color:#66d9ef">do</span> {
+		<span style="color:#66d9ef">if</span> (strcmp(ProcessName, Process.szExeFile) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) { <span style="color:#75715e">//此處判斷相等，相等即返回0
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">return</span> Process.th32ProcessID; <span style="color:#75715e">//返回進程PID
+</span><span style="color:#75715e"></span>		}
+	} <span style="color:#66d9ef">while</span> (Process32Next(ALLProcess, <span style="color:#f92672">&amp;</span>Process));
+	<span style="color:#75715e">//對比PID獲取句柄-&gt;InjectDLL()
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">//未找到句柄，返回0
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#75715e">//2、在微信内部申請内存存放dll路徑
+</span><span style="color:#75715e"></span>VOID <span style="color:#a6e22e">InjectDLL</span>(LPVOID<span style="color:#f92672">*</span> VirtualAllocresult, HANDLE<span style="color:#f92672">*</span> CreateRemoteThreadresult) {
+	<span style="color:#75715e">//通過PID 獲取 微信句柄
+</span><span style="color:#75715e"></span>	DWORD PID <span style="color:#f92672">=</span> GetProcessPID(PROCESS_NAME);
+	<span style="color:#66d9ef">if</span> (PID <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;未找到所需要的進程句柄，請查看程式是否啓動&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span>;
+	}
+	HANDLE ProcessHandle <span style="color:#f92672">=</span> OpenProcess(PROCESS_ALL_ACCESS,FALSE,PID); <span style="color:#75715e">//參數分別爲權限、是否繼承、進程PID //此處繼承需注意
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (ProcessHandle <span style="color:#f92672">==</span> NULL) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;句柄開啓失敗，請檢查權限&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span>;
+	}
+	<span style="color:#75715e">//
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//CHAR pathStr[0x100] = {&#34;C://dll.dll&#34;};
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//CHAR pathStr[0x100] = {&#34;E://CppWorkSpace//HookWeiXinLs1//WindowsProject2_wx1//Debug//WindowsProject2_wx1.dll&#34;};
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//處理路徑,獲取當前路徑wechatdll.dll
+</span><span style="color:#75715e"></span>	CHAR pathStr[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>buffer <span style="color:#f92672">=</span> NULL;
+	<span style="color:#66d9ef">if</span> ((buffer <span style="color:#f92672">=</span> _getcwd(NULL, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">==</span> NULL) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+	}
+	<span style="color:#66d9ef">else</span> {
+		sprintf_s(pathStr, <span style="color:#e6db74">&#34;%s</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">wechatdll.dll&#34;</span>, buffer);
+	}
+	
+	<span style="color:#75715e">//申請内存
+</span><span style="color:#75715e"></span>	LPVOID dllAddPoint <span style="color:#f92672">=</span> VirtualAllocEx(ProcessHandle,NULL,<span style="color:#66d9ef">sizeof</span>(pathStr), MEM_COMMIT, PAGE_READWRITE);<span style="color:#75715e">//參數分別是注入的進程句柄、分配的内存地址NULL為隨機、内存分配類型、内存頁保護狀態
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (dllAddPoint <span style="color:#f92672">==</span> NULL) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;内存申請失敗,檢查dll路徑&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span>;
+	}
+	
+	
+
+	<span style="color:#75715e">//3、寫入dll路徑，通過遠程綫程執行函數去執行loadLibrary函數去加載路徑中的dll
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//寫入dll路徑到微信/需要注入的進程中
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (WriteProcessMemory(ProcessHandle, dllAddPoint, pathStr, <span style="color:#66d9ef">sizeof</span>(pathStr), NULL) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;dll路徑寫入失敗&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span>;
+	}
+	<span style="color:#75715e">//LoadLibrary,加載dll
+</span><span style="color:#75715e"></span>	HMODULE k32 <span style="color:#f92672">=</span> GetModuleHandle(<span style="color:#e6db74">&#34;kernel32.dll&#34;</span>);
+	FARPROC LoadAddress<span style="color:#f92672">=</span>GetProcAddress(k32,<span style="color:#e6db74">&#34;LoadLibraryA&#34;</span>);
+	HANDLE Inject <span style="color:#f92672">=</span>CreateRemoteThread(ProcessHandle,NULL,<span style="color:#ae81ff">0</span>,(LPTHREAD_START_ROUTINE)LoadAddress, dllAddPoint,<span style="color:#ae81ff">0</span>,NULL); <span style="color:#75715e">//目的進程的句柄，NULL表示創建的句柄不能被繼承，0表示默認大小，kernel32中LoadLibrary的地址(執行的函數)，插入的dll地址的指針(加載的參數)
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (Inject <span style="color:#f92672">==</span> NULL) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;dll注入失敗&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span>;
+	}
+	<span style="color:#66d9ef">else</span> {
+		<span style="color:#f92672">*</span>CreateRemoteThreadresult <span style="color:#f92672">=</span> Inject;
+		<span style="color:#f92672">*</span>VirtualAllocresult <span style="color:#f92672">=</span> dllAddPoint;
+		CHAR SuccessInfo[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+		sprintf_s(SuccessInfo, <span style="color:#e6db74">&#34;dll注入成功,dllAddPoint is %X,InjectAddress is %X&#34;</span>, dllAddPoint, Inject);
+		MessageBox(NULL, SuccessInfo, <span style="color:#e6db74">&#34;Info&#34;</span>, <span style="color:#ae81ff">0</span>);
+		<span style="color:#66d9ef">return</span>;
+	}
+	
+}
+
+VOID <span style="color:#a6e22e">RemoveDLL</span>(LPVOID<span style="color:#f92672">*</span> VirtualAllocresult, HANDLE<span style="color:#f92672">*</span> CreateRemoteThreadresult) { <span style="color:#75715e">//卸載功能處於不可用狀態
+</span><span style="color:#75715e"></span>	CHAR SuccessInfo[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	sprintf_s(SuccessInfo, <span style="color:#e6db74">&#34;dll加載中,dllAddPoint is %X,InjectAddress is %X&#34;</span>, <span style="color:#f92672">*</span>VirtualAllocresult, <span style="color:#f92672">*</span>CreateRemoteThreadresult);
+	MessageBox(NULL, SuccessInfo, <span style="color:#e6db74">&#34;Info&#34;</span>, <span style="color:#ae81ff">0</span>);
+	DWORD PID <span style="color:#f92672">=</span> GetProcessPID(PROCESS_NAME);
+	HANDLE hProcess <span style="color:#f92672">=</span> OpenProcess(PROCESS_ALL_ACCESS, FALSE, PID);
+
+	<span style="color:#75715e">//使用CE找到的想要卸载的DLL的地址
+</span><span style="color:#75715e"></span>	CHAR DLLAddStr[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	sprintf_s(DLLAddStr, <span style="color:#e6db74">&#34;地址%X卸載成功&#34;</span>, <span style="color:#f92672">*</span>CreateRemoteThreadresult);
+	<span style="color:#75715e">//MessageBox(NULL, DLLAddStr, &#34;Info&#34;, 0);
+</span><span style="color:#75715e"></span>
+	LPVOID pRetAddress <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>CreateRemoteThreadresult;
+
+	HMODULE hModule <span style="color:#f92672">=</span> LoadLibrary(<span style="color:#e6db74">&#34;KERNEL32.DLL&#34;</span>);
+
+	<span style="color:#75715e">//使用CE找到的FreeLibrary的地址是 
+</span><span style="color:#75715e"></span>	LPTHREAD_START_ROUTINE lp_start_address <span style="color:#f92672">=</span> (LPTHREAD_START_ROUTINE)GetProcAddress(hModule, <span style="color:#e6db74">&#34;FreeLibrary&#34;</span>);
+
+	HANDLE hThread <span style="color:#f92672">=</span> CreateRemoteThread(hProcess, NULL, <span style="color:#ae81ff">0</span>, lp_start_address, pRetAddress, <span style="color:#ae81ff">0</span>, NULL);
+
+	WaitForSingleObject(hThread, <span style="color:#ae81ff">2000</span>);
+
+	<span style="color:#75715e">//CHAR pathStr[0x100] = {&#34;C://dll.dll&#34;};
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//CHAR pathStr[0x100] = {&#34;E://CppWorkSpace//HookWeiXinLs1//WindowsProject2_wx1//Debug//WindowsProject2_wx1.dll&#34;};
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//處理路徑,獲取當前路徑wechatdll.dll
+</span><span style="color:#75715e"></span>	CHAR pathStr[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>buffer <span style="color:#f92672">=</span> NULL;
+	<span style="color:#66d9ef">if</span> ((buffer <span style="color:#f92672">=</span> _getcwd(NULL, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">==</span> NULL) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+	}
+	<span style="color:#66d9ef">else</span> {
+		sprintf_s(pathStr, <span style="color:#e6db74">&#34;%s</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">wechatdll.dll&#34;</span>, buffer);
+	}
+	<span style="color:#66d9ef">if</span> (VirtualFree(OpenProcess(PROCESS_ALL_ACCESS, FALSE, PID), <span style="color:#66d9ef">sizeof</span>(pathStr), MEM_DECOMMIT)<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) {
+		MessageBox(NULL, <span style="color:#e6db74">&#34;VirtualFree Error&#34;</span>, <span style="color:#e6db74">&#34;Error&#34;</span>, <span style="color:#ae81ff">0</span>);
+	}
+
+	CloseHandle(hThread);
+	CloseHandle(hProcess);
+
+	MessageBox(NULL, DLLAddStr, <span style="color:#e6db74">&#34;DLL卸載&#34;</span>, <span style="color:#ae81ff">0</span>);
+}
+</code></pre></div><h2 id="dll">DLL</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// dllmain.cpp : 定义 DLL 应用程序的入口点。
+</span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;pch.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;Windows.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;resource.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+INT_PTR CALLBACK <span style="color:#a6e22e">DialogProc</span>(_In_ HWND hwndDlg, _In_ UINT UMsg, _In_ WPARAM wParam, _In_ LPARAM IParam);
+DWORD <span style="color:#a6e22e">getWechatDllAdd</span>();
+VOID <span style="color:#a6e22e">readMEN</span>(HWND hwndDlg);
+VOID <span style="color:#a6e22e">writeMEN</span>(HWND hwndDlg);
+
+BOOL APIENTRY <span style="color:#a6e22e">DllMain</span>( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    <span style="color:#66d9ef">switch</span> (ul_reason_for_call)
+    {
+    <span style="color:#66d9ef">case</span> DLL_PROCESS_ATTACH:
+		DialogBox(hModule, MAKEINTRESOURCE(MAIN_DLL), NULL, <span style="color:#f92672">&amp;</span>DialogProc);
+    <span style="color:#66d9ef">case</span> DLL_THREAD_ATTACH:
+    <span style="color:#66d9ef">case</span> DLL_THREAD_DETACH:
+    <span style="color:#66d9ef">case</span> DLL_PROCESS_DETACH:
+        <span style="color:#66d9ef">break</span>;
+    }
+    <span style="color:#66d9ef">return</span> TRUE;
+}
+
+INT_PTR CALLBACK <span style="color:#a6e22e">DialogProc</span>(_In_ HWND hwndDlg, _In_ UINT UMsg, _In_ WPARAM wParam, _In_ LPARAM IParam) {
+	<span style="color:#66d9ef">switch</span> (UMsg) {
+	<span style="color:#66d9ef">case</span> WM_INITDIALOG:
+		<span style="color:#66d9ef">break</span>;
+	<span style="color:#66d9ef">case</span> WM_CLOSE:
+		EndDialog(hwndDlg, NULL);
+	<span style="color:#66d9ef">case</span> WM_COMMAND:
+		<span style="color:#66d9ef">if</span> (wParam <span style="color:#f92672">==</span> MEM_Read) { <span style="color:#75715e">//讀内存
+</span><span style="color:#75715e"></span>			readMEN(hwndDlg);
+			
+		}
+		<span style="color:#66d9ef">if</span> (wParam <span style="color:#f92672">==</span> MEM_Write) { <span style="color:#75715e">//寫内存
+</span><span style="color:#75715e"></span>			writeMEN(hwndDlg);
+
+		}
+	}
+	<span style="color:#66d9ef">return</span> FALSE;
+}
+
+<span style="color:#75715e">//獲取WeChatWin.dll基址
+</span><span style="color:#75715e"></span>DWORD <span style="color:#a6e22e">getWechatDllAdd</span>() {
+	HMODULE wechatdll <span style="color:#f92672">=</span> LoadLibrary(<span style="color:#e6db74">&#34;WeChatWin.dll&#34;</span>);
+	<span style="color:#66d9ef">return</span> (DWORD)wechatdll;
+}
+
+<span style="color:#75715e">//讀取内存數據
+</span><span style="color:#75715e"></span>VOID <span style="color:#a6e22e">readMEN</span>(HWND hwndDlg) {
+	<span style="color:#75715e">//獲取基址
+</span><span style="color:#75715e"></span>	DWORD wechatDllAdd <span style="color:#f92672">=</span> getWechatDllAdd();
+
+	CHAR wxid[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	sprintf_s(wxid, <span style="color:#e6db74">&#34;%s&#34;</span>, wechatDllAdd <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x1DDF534</span>);
+	SetDlgItemText(hwndDlg,WXID_TEXT, wxid);
+
+	CHAR phone[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	sprintf_s(phone, <span style="color:#e6db74">&#34;%s&#34;</span>, wechatDllAdd <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x1DDF568</span>);
+	SetDlgItemText(hwndDlg, PHONENUM_TEXT, phone);
+
+	CHAR device[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	sprintf_s(device, <span style="color:#e6db74">&#34;%s&#34;</span>, wechatDllAdd <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x1DDF98B</span>);
+	SetDlgItemText(hwndDlg, DEVICE_TEXT, device);
+
+	CHAR qlogo[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	DWORD logoPoint <span style="color:#f92672">=</span> wechatDllAdd <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x1DDF7FC</span>;
+	
+	DWORD qlogoRealAdd <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>((DWORD <span style="color:#f92672">*</span>)logoPoint); <span style="color:#75715e">//*(DWORD *)logoPoint; //取指針内容
+</span><span style="color:#75715e"></span>	sprintf_s(qlogo, <span style="color:#e6db74">&#34;%s&#34;</span>, qlogoRealAdd);
+	SetDlgItemText(hwndDlg, QLOGO_TEXT, qlogo);
+}
+
+VOID <span style="color:#a6e22e">writeMEN</span>(HWND hwndDlg) {
+	<span style="color:#75715e">//獲取基址
+</span><span style="color:#75715e"></span>	DWORD wechatDllAdd <span style="color:#f92672">=</span> getWechatDllAdd();
+
+	DWORD wxidAddr <span style="color:#f92672">=</span> wechatDllAdd <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x1DDF534</span>;
+	<span style="color:#75715e">//獲取文中字符串
+</span><span style="color:#75715e"></span>	CHAR wxid[<span style="color:#ae81ff">0x100</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span> };
+	GetDlgItemText(hwndDlg, WXID_TEXT, wxid,<span style="color:#66d9ef">sizeof</span>(WXID_TEXT));
+
+	<span style="color:#75715e">//修改内存
+</span><span style="color:#75715e"></span>	WriteProcessMemory(GetCurrentProcess(), (LPVOID)wxidAddr,wxid,<span style="color:#66d9ef">sizeof</span>(wxid),NULL);
+
+}
+</code></pre></div><h2 id="调试卸载">调试卸载</h2>
+<p><img src="/images/Hook_DLLInject/Untitled.png" alt="/images/Hook_DLLInject/Untitled.png"></p>
+<p><img src="/images/Hook_DLLInject/Untitled%201.png" alt="/images/Hook_DLLInject/Untitled%201.png"></p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

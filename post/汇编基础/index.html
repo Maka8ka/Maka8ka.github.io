@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> 汇编基础 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="汇编基础" />
+<meta property="og:description" content="汇编基础 状态: 进行中
+基础知识 原码反码补码
+反码=除首位（正负值）取反
+补码=反码&#43;一
+移码=补码正负值取反
+仅限有符号的值
+  16位处理器是实模式
+  32 64位处理器是保护模式
+  EIP是指令指针寄存器 只想下一个操作的指针" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-12-21T17:13:19&#43;00:00" />
+<meta property="article:modified_time" content="2019-12-21T17:13:19&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="汇编基础"/>
+<meta name="twitter:description" content="汇编基础 状态: 进行中
+基础知识 原码反码补码
+反码=除首位（正负值）取反
+补码=反码&#43;一
+移码=补码正负值取反
+仅限有符号的值
+  16位处理器是实模式
+  32 64位处理器是保护模式
+  EIP是指令指针寄存器 只想下一个操作的指针"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="汇编基础">汇编基础</h1>
+<p>状态: 进行中</p>
+<h2 id="基础知识">基础知识</h2>
+<p>原码反码补码</p>
+<p><img src="/images/MASM/Untitled.png" alt="Untitled"></p>
+<p>反码=除首位（正负值）取反</p>
+<p>补码=反码+一</p>
+<p>移码=补码正负值取反</p>
+<p>仅限有符号的值</p>
+<ul>
+<li>
+<p>16位处理器是实模式</p>
+</li>
+<li>
+<p>32 64位处理器是保护模式</p>
+</li>
+<li>
+<p>EIP是指令指针寄存器 只想下一个操作的指针</p>
+</li>
+</ul>
+<h2 id="visual-studio-汇编">Visual Studio →汇编</h2>
+<ol>
+<li>新建空项目</li>
+<li>选中右键“生成自定义”，选择MASM生成规则</li>
+<li>新建一个.asm后缀新文件</li>
+<li>选中项目→属性→链接器→系统→子系统选&lt;控制台(SUBSYSTEM:CONSOLE)&gt;</li>
+<li>选中项目→属性→链接器→高级→入口点 填“main”</li>
+</ol>
+<p><img src="/images/MASM/Untitled%201.png" alt="Untitled"></p>
+<p><img src="/images/MASM/Untitled%202.png" alt="Untitled"></p>
+<p><img src="/images/MASM/Untitled%203.png" alt="Untitled"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">.</span><span style="color:#a6e22e">586</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">MODEL</span> flat<span style="color:#f92672">,</span>stdcall 
+<span style="color:#f92672">;</span>使用的内存模式flat 使用同一4G段<span style="color:#960050;background-color:#1e0010">，</span>stdcall函數調用約定
+
+includelib user32<span style="color:#f92672">.</span><span style="color:#a6e22e">lib</span>
+includelib kernel32<span style="color:#f92672">.</span><span style="color:#a6e22e">lib</span>
+<span style="color:#f92672">;</span>導入庫
+
+<span style="color:#f92672">;</span>Win32API原型
+ExitProcess PROTO<span style="color:#f92672">,</span> dwExitCode <span style="color:#f92672">:</span>DWORD
+MessageBoxA PROTO hWnd <span style="color:#f92672">:</span>DWORD<span style="color:#f92672">,</span>lpText<span style="color:#f92672">:</span>BYTE<span style="color:#f92672">,</span>lpCaption<span style="color:#f92672">:</span>BYTE<span style="color:#f92672">,</span>uType<span style="color:#f92672">:</span>DWORD
+
+<span style="color:#f92672">;</span>數據段<span style="color:#f92672">/</span>節區
+
+<span style="color:#f92672">;</span>已初始的數據段
+<span style="color:#f92672">.</span><span style="color:#a6e22e">data</span>
+Number DWORD 0
+text db <span style="color:#e6db74">&#34;shellcode&#34;</span> <span style="color:#f92672">,</span>0
+
+<span style="color:#f92672">;</span>未初始的數據段
+<span style="color:#f92672">.</span><span style="color:#a6e22e">data</span><span style="color:#f92672">?</span>
+
+<span style="color:#f92672">;</span>常量
+<span style="color:#f92672">.</span><span style="color:#a6e22e">const</span>
+
+<span style="color:#f92672">;</span>代碼段
+<span style="color:#f92672">.</span><span style="color:#a6e22e">code</span>
+main proc
+	mov eax <span style="color:#f92672">,</span>5
+	mov ebx <span style="color:#f92672">,</span>6
+	add eax<span style="color:#f92672">,</span>ebx
+	add eax<span style="color:#f92672">,</span>Number
+	push 0
+	push offset text
+	push offset text
+	push 0
+	call MessageBoxA
+	sub esp<span style="color:#f92672">,</span>16
+	call ExitProcess
+main ENDP
+
+END main
+</code></pre></div><h2 id="段寄存器">段寄存器</h2>
+<ul>
+<li>CS（Code Segment）：代码段寄存器；</li>
+<li>DS（Data Segment）：数据段寄存器；</li>
+<li>SS（Stack Segment）：堆栈段寄存器；</li>
+<li>ES（Extra Segment）：附加段寄存器。</li>
+</ul>
+<h2 id="32位寄存器逻辑结构">32位寄存器逻辑结构</h2>
+<h3 id="eax">EAX</h3>
+<ul>
+<li>累加器，操作数和结果数据累加，返回值和数据结果存储在此处</li>
+</ul>
+<h3 id="ebx">EBX</h3>
+<ul>
+<li>基地址，DS短的数据指针，在内存寻址的时候存放基地址。亦可用作其他作用</li>
+</ul>
+<h3 id="ecx">ECX</h3>
+<ul>
+<li>计数器，字符串和循环操作的计数器</li>
+</ul>
+<h3 id="edx">EDX</h3>
+<ul>
+<li>用于存储部分乘法结果或部分除法被除数</li>
+</ul>
+<h3 id="ebp">EBP</h3>
+<ul>
+<li>基址指针，SS段的数据指针，栈底指针</li>
+<li>只能分为BP16位寄存器，没有8位寄存器</li>
+</ul>
+<h3 id="esp">ESP</h3>
+<ul>
+<li>栈桢指针，一般指向栈顶，所以也被称为栈顶指针</li>
+<li>只能划分为SP16位寄存器</li>
+</ul>
+<h3 id="edi">EDI</h3>
+<ul>
+<li>字符串操作的目标指针，ES段的数据指针</li>
+<li>只能划分为16位寄存器DI</li>
+</ul>
+<h3 id="esi">ESI</h3>
+<ul>
+<li>字符串操作的源指针，SS段的数据指针</li>
+<li>只能划分为16位寄存器SI</li>
+</ul>
+<h3 id="eip">EIP</h3>
+<ul>
+<li>指令指针寄存器</li>
+</ul>
+<h2 id="冯诺伊曼体系结构">冯·诺伊曼体系结构</h2>
+<h2 id="算数运算">算数运算</h2>
+<p>add</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>5
+mov ebx <span style="color:#f92672">,</span>5
+add eax<span style="color:#f92672">,</span>ebx
+</code></pre></div><p>sub</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>5
+mov ebx <span style="color:#f92672">,</span>5
+sub eax<span style="color:#f92672">,</span>ebx
+</code></pre></div><p>mul 乘法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>5
+mov ebx <span style="color:#f92672">,</span>5
+mul ebx
+<span style="color:#f92672">;</span>eax <span style="color:#f92672">==</span> 00000019
+</code></pre></div><p>div 除法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov ax <span style="color:#f92672">,</span>1000
+mov bl <span style="color:#f92672">,</span>50
+div bl
+mov ah<span style="color:#f92672">,</span>ah <span style="color:#f92672">;</span>存商
+mov al<span style="color:#f92672">,</span>al <span style="color:#f92672">;</span>存余数
+
+</code></pre></div><p>inc 自增+1</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>1000
+inc eax
+
+</code></pre></div><p>dec 自减-1</p>
+<h2 id="逻辑运算">逻辑运算</h2>
+<p>AND与</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>5
+mov ebx <span style="color:#f92672">,</span>6
+and eax<span style="color:#f92672">,</span>ebx
+<span style="color:#f92672">;</span>eax <span style="color:#f92672">==</span>4
+</code></pre></div><p>OR或</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>5
+mov ebx <span style="color:#f92672">,</span>6
+or eax<span style="color:#f92672">,</span>ebx
+<span style="color:#f92672">;</span>eax <span style="color:#f92672">==</span>7
+</code></pre></div><p>XOR异或</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>5
+mov ebx <span style="color:#f92672">,</span>6
+xor eax<span style="color:#f92672">,</span>ebx
+<span style="color:#f92672">;</span>eax <span style="color:#f92672">==</span>3
+</code></pre></div><p>NOT非</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax <span style="color:#f92672">,</span>5
+not eax
+<span style="color:#f92672">;</span>eax <span style="color:#f92672">==-</span>6
+</code></pre></div><h2 id="堆栈操作">堆栈操作</h2>
+<p>ebp寄存器指向栈底，栈定会上下移动</p>
+<p>PUSH 压栈指令</p>
+<p>ESP-4，留出空间，内容压入</p>
+<p>POP 出栈指令</p>
+<p>ESP+4，将栈顶数据弹出给指令目标，清除空间</p>
+<p>栈的作用</p>
+<ol>
+<li>存储少量数据</li>
+<li>保存寄存器环境，以供恢复</li>
+<li>传递参数</li>
+</ol>
+<h2 id="数据移动指令">数据移动指令</h2>
+<p>mov</p>
+<p>lea</p>
+<p>将数据传入寄存器</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">lea eax<span style="color:#f92672">,</span>dword ptr ss<span style="color:#f92672">:[</span>esp<span style="color:#f92672">-</span>4<span style="color:#f92672">]</span>
+
+</code></pre></div><p><img src="/images/MASM/Untitled%204.png" alt="Untitled"></p>
+<p>数据交换指令</p>
+<p>xchg</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">xchg eax<span style="color:#f92672">,</span>dword ptr ss<span style="color:#f92672">:[</span>esp<span style="color:#f92672">-</span>4<span style="color:#f92672">]</span>
+</code></pre></div><p><img src="/images/MASM/Untitled%205.png" alt="Untitled"></p>
+<h2 id="cmp-比较指令">CMP 比较指令</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax<span style="color:#f92672">,</span>4
+mov ebx<span style="color:#f92672">,</span>5
+cmp eax<span style="color:#f92672">.</span><span style="color:#a6e22e">ebx</span>
+查看EFLAGS寄存器
+</code></pre></div><h2 id="汇编标志位eflags">汇编标志位EFLAGS</h2>
+<p>EFLAGS寄存器标识位</p>
+<ul>
+<li>CF 进位（carry）标志位，在无符号运算时，产生进位或借位，CF=1</li>
+<li>PF 奇偶（Parity）标志位，结果说有bit中1的个数为偶数，PF=1，奇数=0</li>
+<li>AF 辅助进位标志位，运算过程中看最后四位，不论长度多少，最后四位向前进位或借位，AF=1</li>
+<li>ZF 零（Zero）标志位，执行后结果为0，ZF=1，结果为不为0.则ZF=0</li>
+<li>SF 符号（SF）标志位，结果为负，则为1</li>
+<li>TF 调试标志位，TF=1，处理器单步执行，每次执行一条指令</li>
+<li>IF 中断允许标志位，控制8086是否允许接收外部中断请求，IF=1，允许</li>
+<li>DF 方向标志位，DF=0，si，di递增，反之递减，cld设置df=0，std设置df=1</li>
+<li>OF 溢出标志位，运算结果发生溢出，OF=1</li>
+</ul>
+<h2 id="test-指令">TEST 指令</h2>
+<h2 id="jcc指令">JCC指令</h2>
+<ul>
+<li>JMP 无条件跳转</li>
+<li>JZ/JE  ZF=1 ,运算结果为0时，跳转</li>
+<li>JNZ/JNE ZF=0 ,运算结果不为0时，或者比较不相等，跳转</li>
+<li>JBE/JNA CF=1/ZF=1 低于等于/不高于 跳转</li>
+<li>JNBE/JA CF=0/ZF=0 不低于等于/高于跳转</li>
+<li>JL/JNGE SF ≠ OF 小于/不大于等于跳转</li>
+<li>JNL/JGE SF = OF 不小于/大于等于</li>
+</ul>
+<p>JMP 无条件跳转</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">.</span><span style="color:#a6e22e">586</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">MODEL</span> flat<span style="color:#f92672">,</span>stdcall 
+<span style="color:#f92672">.</span><span style="color:#a6e22e">code</span>
+main proc
+
+	mov eax<span style="color:#f92672">,</span>4
+flag:
+	add eax<span style="color:#f92672">,</span>1
+	jmp flag
+
+<span style="color:#f92672">;</span>无条件跳转 
+
+main ENDP
+
+END main
+</code></pre></div><p>for (i=4,i&lt;10) {i++}</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  mov eax<span style="color:#f92672">,</span>4
+	mov ebx<span style="color:#f92672">,</span>10
+	
+flag:
+	add eax<span style="color:#f92672">,</span>1
+	cmp eax<span style="color:#f92672">,</span>ebx
+	JNZ flag
+</code></pre></div><p><img src="/images/MASM/Untitled%206.png" alt="Untitled"></p>
+<h2 id="串操作指令">串操作指令</h2>
+<ul>
+<li>MOVS 字符串传送指令</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov edi<span style="color:#f92672">,</span>esp
+mov dword ptr ss<span style="color:#f92672">:[</span>esp<span style="color:#f92672">],</span>0
+mov esi<span style="color:#f92672">,</span>ebp
+movs dword ptr es<span style="color:#f92672">:[</span>edi<span style="color:#f92672">],</span>dword ptr ds<span style="color:#f92672">:[</span>esi<span style="color:#f92672">]</span>
+
+</code></pre></div><ul>
+<li>STOS 字符串存储指令</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mov eax<span style="color:#f92672">,</span>11223344
+mov edi<span style="color:#f92672">,</span>esp
+stos dword ptr es<span style="color:#f92672">:[</span>edi<span style="color:#f92672">]</span>
+
+</code></pre></div><p>eax → edi,小端序</p>
+<ul>
+<li>REP 指令 重复前缀指令</li>
+</ul>
+<p>CALL指令</p>
+<p>相当于</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">push eip
+jmp operate
+</code></pre></div><p>retn 返回</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">pop eip
+jmp eip
+</code></pre></div><h2 id="汇编中的函数">汇编中的函数</h2>
+<p>过程调用方式（伪指令）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">function proc
+	code
+function endp
+</code></pre></div><p>参数传递方式：</p>
+<ul>
+<li>寄存器传参</li>
+</ul>
+<p><img src="/images/MASM/Untitled%207.png" alt="Untitled"></p>
+<ul>
+<li>堆栈传参</li>
+</ul>
+<p><img src="/images/MASM/Untitled%208.png" alt="Untitled"></p>
+<h2 id="win32汇编入门">Win32汇编入门</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">.</span><span style="color:#a6e22e">586</span>
+<span style="color:#f92672">.</span><span style="color:#a6e22e">MODEL</span> flat<span style="color:#f92672">,</span>stdcall 
+
+includelib user32<span style="color:#f92672">.</span><span style="color:#a6e22e">lib</span>
+includelib kernel32<span style="color:#f92672">.</span><span style="color:#a6e22e">lib</span>
+
+ExitProcess PROTO<span style="color:#f92672">,</span> dwExitCode <span style="color:#f92672">:</span>DWORD
+MessageBoxA PROTO hWnd <span style="color:#f92672">:</span>DWORD<span style="color:#f92672">,</span>lpText<span style="color:#f92672">:</span>BYTE<span style="color:#f92672">,</span>lpCaption<span style="color:#f92672">:</span>BYTE<span style="color:#f92672">,</span>uType<span style="color:#f92672">:</span>DWORD
+
+<span style="color:#f92672">.</span><span style="color:#a6e22e">data</span>
+text db <span style="color:#e6db74">&#34;shellcode&#34;</span> <span style="color:#f92672">,</span>0
+
+<span style="color:#f92672">.</span><span style="color:#a6e22e">code</span>
+main proc
+	push 0
+	push offset text
+	push offset text
+	push 0
+	call MessageBoxA
+	add esp<span style="color:#f92672">,</span>16 <span style="color:#f92672">;</span>堆棧平衡<span style="color:#960050;background-color:#1e0010">，</span>將堆棧中的4個dword彈出
+	call ExitProcess
+main ENDP
+
+END main
+</code></pre></div>
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

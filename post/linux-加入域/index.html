@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Linux 加入域 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Linux 加入域" />
+<meta property="og:description" content="Linux 加入域 关键词: Linux, 运维
+在 Ubuntu 桌面平台上，安裝 samba 和 winbind 套件
+sudo apt install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind   針對預設的 Kerberos 第 5 版領域，請輸入您 AD 網域的 DNS 名稱 (全部使用大寫字母)。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-04-03T03:20:22&#43;00:00" />
+<meta property="article:modified_time" content="2018-04-03T03:20:22&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux 加入域"/>
+<meta name="twitter:description" content="Linux 加入域 关键词: Linux, 运维
+在 Ubuntu 桌面平台上，安裝 samba 和 winbind 套件
+sudo apt install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind   針對預設的 Kerberos 第 5 版領域，請輸入您 AD 網域的 DNS 名稱 (全部使用大寫字母)。"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="linux-加入域">Linux 加入域</h1>
+<p>关键词: Linux, 运维</p>
+<!-- raw HTML omitted -->
+<p>在 Ubuntu 桌面平台上，安裝 samba 和 winbind 套件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind
+</code></pre></div><ol>
+<li>
+<p>針對<strong>預設的 Kerberos 第 5 版領域</strong>，請輸入您 AD 網域的 DNS 名稱 (全部使用大寫字母)。</p>
+<p>例如，如果您的 AD 網域名稱為 <strong>mydomain.com</strong>，請輸入 <strong>MYDOMAIN.COM</strong>。</p>
+</li>
+<li>
+<p>針對<strong>您領域的 Kerberos 伺服器</strong>，請輸入您 AD 伺服器的主機名稱 (在這整個程序的各個範例中均顯示為 )。</p>
+<p><strong>ads_hostname /example:ad2012</strong></p>
+</li>
+<li>
+<p>針對<strong>您 Kerberos 領域的管理伺服器</strong>，再次輸入您 AD 伺服器的主機名稱。<strong>/example:ad2012</strong></p>
+</li>
+</ol>
+<p><img src="/images/Linux-2018-04-03//Untitled.png" alt="/images/Linux-2018-04-03//Untitled.png"></p>
+<p>更新 PAM 組態。
+開啟 PAM 組態頁面。
+sudo pam-auth-update
+選取在登入時建立主目錄，然後選取確定。</p>
+<p><img src="/images/Linux-2018-04-03//Untitled%201.png" alt="/images/Linux-2018-04-03//Untitled%201.png"></p>
+<p>4.編輯 /etc/nsswitch.conf 組態檔，如下列範例所示。</p>
+<p>/etc/nsswitch.conf</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">passwd: compat winbind
+group: compat winbind
+shadow: compat
+gshadow: files
+</code></pre></div><p>5.若要確保自動產生的 resolv.conf 檔案會以您的 AD 網域作為搜尋網域，請編輯系統連線的 NetworkManager 設定</p>
+<p>网路配置</p>
+<p>修改/etc/NetworkManager/system-connections目录下配置</p>
+<p><img src="/images/Linux-2018-04-03//Untitled%202.png" alt="/images/Linux-2018-04-03//Untitled%202.png"></p>
+<p>sudo vi /etc/resolv.conf</p>
+<p><img src="/images/Linux-2018-04-03//Untitled%203.png" alt="/images/Linux-2018-04-03//Untitled%203.png"></p>
+<p>編輯 /etc/hosts 組態檔，如下列範例所示。</p>
+<p>sudo vi /etc/hosts</p>
+<p><img src="/images/Linux-2018-04-03//Untitled%204.png" alt="/images/Linux-2018-04-03//Untitled%204.png"></p>
+<p>7.编辑/etc/samba/smb.conf 組態檔</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>global<span style="color:#f92672">]</span>
+security <span style="color:#f92672">=</span> ads
+realm <span style="color:#f92672">=</span> makapaka.garden
+workgroup <span style="color:#f92672">=</span> MAKAPAKA
+idmap uid <span style="color:#f92672">=</span> 10000-20000
+idmap gid <span style="color:#f92672">=</span> 10000-20000
+winbind enum users <span style="color:#f92672">=</span> yes
+winbind enum groups <span style="color:#f92672">=</span> yes
+template homedir <span style="color:#f92672">=</span> /home/%D/%U
+template shell <span style="color:#f92672">=</span> /bin/bash
+client use spnego <span style="color:#f92672">=</span> yes
+client ntlmv2 auth <span style="color:#f92672">=</span> yes
+encrypt passwords <span style="color:#f92672">=</span> yes
+winbind use default domain <span style="color:#f92672">=</span> yes
+restrict anonymous <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+kerberos method <span style="color:#f92672">=</span> secrets and keytab
+winbind refresh tickets <span style="color:#f92672">=</span> true
+</code></pre></div><p>8.重新啟動 smbd 服務。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo systemctl restart smbd.service
+</code></pre></div><p>9.編輯 /etc/krb5.conf 組態檔，使其具有類似下列範例的內容。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>libdefaults<span style="color:#f92672">]</span>
+      default_realm <span style="color:#f92672">=</span> makapaka.garden
+      dns_lookup_realm <span style="color:#f92672">=</span> true
+      dns_lookup_kdc <span style="color:#f92672">=</span> true
+
+<span style="color:#f92672">[</span>realms<span style="color:#f92672">]</span>
+      MYDOMAIN.COM <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+            kdc <span style="color:#f92672">=</span> ad2012
+            admin_server <span style="color:#f92672">=</span> ad2012 
+      <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">[</span>domain_realm<span style="color:#f92672">]</span>
+      .makapaka.garden <span style="color:#f92672">=</span> makapaka.garden
+			makapaka.garden <span style="color:#f92672">=</span> makapaka.garden
+</code></pre></div><p>10.加入域</p>
+<ol>
+<li>
+<p>將您的 Ubuntu 桌面平台加入 AD 網域。</p>
+<ol>
+<li>
+<p>起始 Kerberos 票證。</p>
+<p><code>sudo kinit admin-user</code>出現提示時，輸入您的管理員密碼。</p>
+</li>
+<li>
+<p>確認票證已成功建立。</p>
+<p><code>sudo klist</code>此命令會傳回票證的相關資訊，包括其有效起始時間和到期時間。</p>
+</li>
+<li>
+<p>建立 Kerberos Keytab 檔案。</p>
+<p><code>sudo net ads keytab create -U admin-user</code></p>
+</li>
+<li>
+<p>加入 AD 網域。</p>
+<p><code>sudo net ads join -U admin-user</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p>重新啟動並確認 Winbind 服務。</p>
+<ol>
+<li>
+<p>重新啟動 Winbind 服務。</p>
+<p><code>sudo systemctl restart winbind.service</code></p>
+</li>
+<li>
+<p>若要確認 Winbind 服務，請執行下列命令，並確認命令傳回正確的輸出。</p>
+<ul>
+<li>wbinfo -u</li>
+<li>wbinfo -g</li>
+<li>getend passwd</li>
+<li>getend group</li>
+</ul>
+<p>重启后即可使用域用户登录</p>
+<p><img src="/images/Linux-2018-04-03//Untitled%205.png" alt="/images/Linux-2018-04-03//Untitled%205.png"></p>
+<p><img src="/images/Linux-2018-04-03//Untitled%206.png" alt="/images/Linux-2018-04-03//Untitled%206.png"></p>
+</li>
+</ol>
+</li>
+</ol>
+<p>版权声明： 本文除特别声明外，请勿转载。转载请附上原文链接及出处。</p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

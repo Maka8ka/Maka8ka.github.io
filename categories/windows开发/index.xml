@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows开发 on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/categories/windows%E5%BC%80%E5%8F%91/</link>
+    <description>Recent content in Windows开发 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Fri, 03 Jul 2020 22:31:02 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/categories/windows%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows PE权威指南-学习记录</title>
+      <link>https://www.maka8ka.cc/post/windows-pe%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Fri, 03 Jul 2020 22:31:02 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/windows-pe%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</guid>
+      <description>Windows PE权威指南-学习记录 关键词: Windows 状态: 进行中
+运行环境 Windows 环境变量 path = e:\masm32\bin include = e:\masm32\include lib = e:\masm32\lib 第一个PE程序 .386 .</description>
+    </item>
+    
+    <item>
+      <title>Hook-dll注入</title>
+      <link>https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96-hook-dll%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Wed, 01 Jul 2020 17:21:56 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96-hook-dll%E6%B3%A8%E5%85%A5/</guid>
+      <description>Hook-dll注入 状态: 进行中
+OD用法 界面 c主界面模式
+t线程/进程模式
+b所有断点
+常用命令 dd查看地址
+dc查看地址ascii数据
+du 查看地址unicode数据
+快捷键 F2设置断点
+CE用法 快捷键 内存浏览器中
+ctrl+G前往内存
+微信分析（3.3.0.115）</description>
+    </item>
+    
+    <item>
+      <title>Windows驱动程序开发(1)</title>
+      <link>https://www.maka8ka.cc/post/windows%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%911/</link>
+      <pubDate>Wed, 01 Apr 2020 16:44:31 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/windows%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%911/</guid>
+      <description>Windows驱动程序开发(1) 状态: 进行中
+环境准备 https://go.microsoft.com/fwlink/?linkid=873060
+下载WDK(Windows Driver Kit 10.0.15063)
+下载对应版本Win SDK(Windows 10.0.15063.468)
+Visual Studio (include C++的桌面开发)
+第一个Windows驱动程序 驱动运行在Ring0
+#include &amp;lt;ntddk.h&amp;gt; //DriverUnload 为驱动卸载函数,驱动使用真实内存，释放清理资源，3环中内存错误蓝屏 VOID DriverUnload(PDRIVER_OBJECT pDriverObject) { //指明未使用的参数，告知编译器，否则会报错 	UNREFERENCED_PARAMETER(pDriverObject); DbgPrint(&amp;#34;Unload Success&amp;#34;); } //DiverEntry 相當於三環程序，也就是應用層程序的main函數 //pDriverObject 驱动对象指针 //pRegPath 注册表路径指针 NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegPath) { //指明未使用的参数，告知编译器，否则会报错 	UNREFERENCED_PARAMETER(pRegPath); //指定了驱动卸载程序 	pDriverObject-&amp;gt;DriverUnload = DriverUnload; DbgPrint(&amp;#34;DiverEntry Success&amp;#34;); //STATUS_SUCCESS == 0,三环中0代表失败，驱动零环中0代表成功 	return STATUS_SUCCESS; } Windows调试工具</description>
+    </item>
+    
+    <item>
+      <title>窗体与Hook</title>
+      <link>https://www.maka8ka.cc/post/%E7%AA%97%E4%BD%93%E4%B8%8Ehook/</link>
+      <pubDate>Wed, 25 Dec 2019 07:20:21 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/%E7%AA%97%E4%BD%93%E4%B8%8Ehook/</guid>
+      <description>窗体与Hook 状态: 进行中
+/* HOOK: 1.進程内Hook 2.全局Hook Windows消息機制: */ #include &amp;lt;windows.h&amp;gt; //CUI -&amp;gt; maink 控制台程序 //GUI -&amp;gt; WinMain 圖形界面程序 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nShowCmd); //HWND 窗體句柄 //UINT 消息類型，鼠標移動消息，案件消息 //WPARAM LRESULT CALLBACK WindowsProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam); LRESULT CALLBACK HookProc(int nCode, WPARAM wParam, LPARAM lParam); HHOOK hookHwnd; //HINSTANCE:指針類型 應用程式實例句柄 //HINSTANCE:已被廢棄 //LPSTR:char* 字符串指針 命令行參數 //nShowCmd 窗口的顯示方式  int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) { //1.</description>
+    </item>
+    
+  </channel>
+</rss>

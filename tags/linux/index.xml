@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/tags/linux/</link>
+    <description>Recent content in Linux on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Tue, 03 Apr 2018 03:20:22 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 加入域</title>
+      <link>https://www.maka8ka.cc/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/</link>
+      <pubDate>Tue, 03 Apr 2018 03:20:22 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/</guid>
+      <description>Linux 加入域 关键词: Linux, 运维
+在 Ubuntu 桌面平台上，安裝 samba 和 winbind 套件
+sudo apt install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind   針對預設的 Kerberos 第 5 版領域，請輸入您 AD 網域的 DNS 名稱 (全部使用大寫字母)。</description>
+    </item>
+    
+  </channel>
+</rss>

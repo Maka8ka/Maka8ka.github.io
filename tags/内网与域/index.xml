@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>内网与域 on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/tags/%E5%86%85%E7%BD%91%E4%B8%8E%E5%9F%9F/</link>
+    <description>Recent content in 内网与域 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Thu, 21 Nov 2019 11:28:35 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/tags/%E5%86%85%E7%BD%91%E4%B8%8E%E5%9F%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows认证</title>
+      <link>https://www.maka8ka.cc/post/windows%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Thu, 21 Nov 2019 11:28:35 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/windows%E8%AE%A4%E8%AF%81/</guid>
+      <description>Windows认证 关键词: LDAP, Windows, 域, 运维 学习目标: 内网不同票据认证及使用 Kerberos协议的了解及使用
+学习视频
+本地认证  本地密码存储路径,sam文件  c:\windows\system32\config\sam %SystemRoot%\system32\config\sam   NTLM（NT LAN Manager）：支持Net NTLM认证协议</description>
+    </item>
+    
+  </channel>
+</rss>

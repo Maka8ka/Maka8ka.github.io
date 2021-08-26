@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Burp插件开发(一) | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Burp插件开发(一)" />
+<meta property="og:description" content="Burp插件开发(一) 从零开始开发Burp插件 在burp目录中新建java文件，以官方示例helloworld为例
+E:\JavaWorkSpace\BurpApi&gt;mkdir build E:\JavaWorkSpace\BurpApi&gt;javac -d build burp/* E:\JavaWorkSpace\BurpApi&gt;jar -cf hello.jar -C build burp //-cf createFile E:\JavaWorkSpace\BurpApi&gt; 0x01 helloWorld解析 第一步，新建入口类BurpExtender" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/burp%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%80/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-06-23T11:12:31&#43;00:00" />
+<meta property="article:modified_time" content="2021-06-23T11:12:31&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Burp插件开发(一)"/>
+<meta name="twitter:description" content="Burp插件开发(一) 从零开始开发Burp插件 在burp目录中新建java文件，以官方示例helloworld为例
+E:\JavaWorkSpace\BurpApi&gt;mkdir build E:\JavaWorkSpace\BurpApi&gt;javac -d build burp/* E:\JavaWorkSpace\BurpApi&gt;jar -cf hello.jar -C build burp //-cf createFile E:\JavaWorkSpace\BurpApi&gt; 0x01 helloWorld解析 第一步，新建入口类BurpExtender"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="burp插件开发一">Burp插件开发(一)</h1>
+<h2 id="从零开始开发burp插件">从零开始开发Burp插件</h2>
+<p><img src="/images/BurpExtender(1)/Untitled.png" alt="/images/BurpExtender(1)/Untitled.png"></p>
+<p>在burp目录中新建java文件，以官方示例helloworld为例</p>
+<p><img src="/images/BurpExtender(1)/Untitled%201.png" alt="/images/BurpExtender(1)/Untitled%201.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">E:<span style="color:#960050;background-color:#1e0010">\</span>JavaWorkSpace<span style="color:#960050;background-color:#1e0010">\</span>BurpApi<span style="color:#f92672">&gt;</span>mkdir build
+
+E:<span style="color:#960050;background-color:#1e0010">\</span>JavaWorkSpace<span style="color:#960050;background-color:#1e0010">\</span>BurpApi<span style="color:#f92672">&gt;</span>javac <span style="color:#f92672">-</span>d build burp<span style="color:#75715e">/*
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">E:\JavaWorkSpace\BurpApi&gt;jar -cf hello.jar -C build burp //-cf createFile
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">E:\JavaWorkSpace\BurpApi&gt;
+</span></code></pre></div><p><img src="/images/BurpExtender(1)/Untitled%202.png" alt="/images/BurpExtender(1)/Untitled%202.png"></p>
+<h2 id="0x01-helloworld解析">0x01 helloWorld解析</h2>
+<p>第一步，新建入口类BurpExtender</p>
+<p><img src="/images/BurpExtender(1)/Untitled%203.png" alt="/images/BurpExtender(1)/Untitled%203.png"></p>
+<p>alt+insert+重写方法</p>
+<p>ctrl+O 重写方法</p>
+<p>重写注册方法registerExtenderCallbacks</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> burp<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.PrintWriter<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">//BurpExtender 入口類 實現接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BurpExtender</span> <span style="color:#66d9ef">implements</span> IBurpExtender<span style="color:#f92672">{</span>
+    <span style="color:#75715e">//申明回調對象
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> IBurpExtenderCallbacks callbacks<span style="color:#f92672">;</span>
+    <span style="color:#75715e">//聲明輔助類-工具箱可以實現類型轉換
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> IExtensionHelpers helpers<span style="color:#f92672">;</span>
+    <span style="color:#75715e">//聲明輸出流-方便調試輸出
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> PrintWriter stdout<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerExtenderCallbacks</span><span style="color:#f92672">(</span>IBurpExtenderCallbacks callbacks<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">callbacks</span> <span style="color:#f92672">=</span>callbacks<span style="color:#f92672">;</span> <span style="color:#75715e">//定義回調對象
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">helpers</span> <span style="color:#f92672">=</span>callbacks<span style="color:#f92672">.</span><span style="color:#a6e22e">getHelpers</span><span style="color:#f92672">();</span> <span style="color:#75715e">//從回調對象中獲取helpers
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">stdout</span> <span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PrintWriter<span style="color:#f92672">(</span>callbacks<span style="color:#f92672">.</span><span style="color:#a6e22e">getStdout</span><span style="color:#f92672">(),</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span> <span style="color:#75715e">//定義輸出流自動刷新
+</span><span style="color:#75715e"></span>
+        callbacks<span style="color:#f92672">.</span><span style="color:#a6e22e">setExtensionName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;new extend demo&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//設置插件名
+</span><span style="color:#75715e"></span>
+        stdout<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello new extend&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//輸出字符串
+</span><span style="color:#75715e"></span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><img src="/images/BurpExtender(1)/Untitled%204.png" alt="/images/BurpExtender(1)/Untitled%204.png"></p>
+<p>构建jar</p>
+<p><img src="/images/BurpExtender(1)/Untitled%205.png" alt="/images/BurpExtender(1)/Untitled%205.png"></p>
+<p><img src="/images/BurpExtender(1)/Untitled%206.png" alt="/images/BurpExtender(1)/Untitled%206.png"></p>
+<p><img src="/images/BurpExtender(1)/Untitled%207.png" alt="/images/BurpExtender(1)/Untitled%207.png"></p>
+<p><img src="/images/BurpExtender(1)/Untitled%208.png" alt="/images/BurpExtender(1)/Untitled%208.png"></p>
+<p>构建基本配置</p>
+<p><img src="/images/BurpExtender(1)/Untitled%209.png" alt="/images/BurpExtender(1)/Untitled%209.png"></p>
+<p><img src="/images/BurpExtender(1)/Untitled%2010.png" alt="/images/BurpExtender(1)/Untitled%2010.png"></p>
+<p><img src="/images/BurpExtender(1)/Untitled%2011.png" alt="/images/BurpExtender(1)/Untitled%2011.png"></p>
+<p><img src="/images/BurpExtender(1)/Untitled%2012.png" alt="/images/BurpExtender(1)/Untitled%2012.png"></p>
+<p><img src="/images/BurpExtender(1)/Untitled%2013.png" alt="/images/BurpExtender(1)/Untitled%2013.png"></p>
+<h2 id="0x02-简单的插件编写">0x02 简单的插件编写</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> burp<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.PrintWriter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.sql.PseudoColumnUsage<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.regex.Matcher<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.regex.Pattern<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">//BurpExtender 入口類 實現接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BurpExtender</span> <span style="color:#66d9ef">implements</span> IBurpExtender<span style="color:#f92672">,</span>IHttpListener<span style="color:#f92672">{</span>
+    <span style="color:#75715e">//申明回調對象
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> IBurpExtenderCallbacks callbacks<span style="color:#f92672">;</span>
+    <span style="color:#75715e">//聲明輔助類-工具箱可以實現類型轉換
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> IExtensionHelpers helpers<span style="color:#f92672">;</span>
+    <span style="color:#75715e">//聲明輸出流-方便調試輸出
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> PrintWriter stdout<span style="color:#f92672">;</span>
+
+    <span style="color:#75715e">//正則樣本
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[][][]</span> regex <span style="color:#f92672">={</span>
+            <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;qq&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(),</span><span style="color:#e6db74">&#34;qq:[1-9][0-9]{4,}&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">()},</span>
+            <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;email&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(),</span><span style="color:#e6db74">&#34;[a-zA-Z_]{1,}[0-9]{0,}@(([a-zA-z0-9]-*){1,}\\.){1,3}[a-zA-z\\-]{1,}&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">()},</span>
+            <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;phoneNum&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(),</span><span style="color:#e6db74">&#34;1[356789]\\d{9}&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">()}</span>
+    <span style="color:#f92672">};</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerExtenderCallbacks</span><span style="color:#f92672">(</span>IBurpExtenderCallbacks callbacks<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">callbacks</span> <span style="color:#f92672">=</span>callbacks<span style="color:#f92672">;</span> <span style="color:#75715e">//定義回調對象
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">helpers</span> <span style="color:#f92672">=</span>callbacks<span style="color:#f92672">.</span><span style="color:#a6e22e">getHelpers</span><span style="color:#f92672">();</span> <span style="color:#75715e">//從回調對象中獲取helpers
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">stdout</span> <span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PrintWriter<span style="color:#f92672">(</span>callbacks<span style="color:#f92672">.</span><span style="color:#a6e22e">getStdout</span><span style="color:#f92672">(),</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span> <span style="color:#75715e">//定義輸出流自動刷新
+</span><span style="color:#75715e"></span>
+        callbacks<span style="color:#f92672">.</span><span style="color:#a6e22e">setExtensionName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;GetInfo&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//設置插件名
+</span><span style="color:#75715e"></span>        stdout<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;new extend import&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//輸出字符串
+</span><span style="color:#75715e"></span>
+        callbacks<span style="color:#f92672">.</span><span style="color:#a6e22e">registerHttpListener</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span> <span style="color:#75715e">//注冊監聽器
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processHttpMessage</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> toolFlag<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> messageIsRequest<span style="color:#f92672">,</span> IHttpRequestResponse messageInfo<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//toolFlag從哪個工具組件傳輸過來的 messageIsRequest判斷是相應還是請求 messageInfo數據内對象
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>toolFlag <span style="color:#f92672">==</span> 4<span style="color:#f92672">|</span>toolFlag <span style="color:#f92672">==</span>8<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>messageIsRequest<span style="color:#f92672">){</span> <span style="color:#75715e">//toolFlag 4 代理 8 spider messageIsRequest取反
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> res <span style="color:#f92672">=</span>messageInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">getResponse</span><span style="color:#f92672">();</span> <span style="color:#75715e">//從response中獲取數據包
+</span><span style="color:#75715e"></span>            String resString <span style="color:#f92672">=</span> helpers<span style="color:#f92672">.</span><span style="color:#a6e22e">bytesToString</span><span style="color:#f92672">(</span>res<span style="color:#f92672">);</span> <span style="color:#75715e">//helpers將bytes准換為字符串
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[][]</span> reg<span style="color:#f92672">:</span>regex<span style="color:#f92672">){</span>
+                String type <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>reg<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span>
+                String regex <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>reg<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+                Pattern r <span style="color:#f92672">=</span> Pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">compile</span><span style="color:#f92672">(</span>regex<span style="color:#f92672">,</span>Pattern<span style="color:#f92672">.</span><span style="color:#a6e22e">CASE_INSENSITIVE</span><span style="color:#f92672">);</span>
+                Matcher m <span style="color:#f92672">=</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">matcher</span><span style="color:#f92672">(</span>resString<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>m<span style="color:#f92672">.</span><span style="color:#a6e22e">find</span><span style="color:#f92672">()){</span>
+                    stdout<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>type<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;:&#34;</span><span style="color:#f92672">+</span>m<span style="color:#f92672">.</span><span style="color:#a6e22e">group</span><span style="color:#f92672">());</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span> 
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><img src="/images/BurpExtender(1)/Untitled%2014.png" alt="/images/BurpExtender(1)/Untitled%2014.png"></p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

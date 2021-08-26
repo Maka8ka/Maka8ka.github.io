@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Windows PE权威指南-学习记录 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Windows PE权威指南-学习记录" />
+<meta property="og:description" content="Windows PE权威指南-学习记录 关键词: Windows 状态: 进行中
+运行环境 Windows 环境变量 path = e:\masm32\bin include = e:\masm32\include lib = e:\masm32\lib 第一个PE程序 .386 ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/windows-pe%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-07-03T22:31:02&#43;00:00" />
+<meta property="article:modified_time" content="2020-07-03T22:31:02&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows PE权威指南-学习记录"/>
+<meta name="twitter:description" content="Windows PE权威指南-学习记录 关键词: Windows 状态: 进行中
+运行环境 Windows 环境变量 path = e:\masm32\bin include = e:\masm32\include lib = e:\masm32\lib 第一个PE程序 .386 ."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="windows-pe权威指南-学习记录">Windows PE权威指南-学习记录</h1>
+<p>关键词: Windows
+状态: 进行中</p>
+<h2 id="运行环境">运行环境</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">Windows
+<span style="color:#960050;background-color:#1e0010">环境变量</span>
+path <span style="color:#f92672">=</span> e:<span style="color:#960050;background-color:#1e0010">\</span>masm32<span style="color:#960050;background-color:#1e0010">\</span>bin
+include <span style="color:#f92672">=</span> e:<span style="color:#960050;background-color:#1e0010">\</span>masm32<span style="color:#960050;background-color:#1e0010">\</span>include
+lib <span style="color:#f92672">=</span> e:<span style="color:#960050;background-color:#1e0010">\</span>masm32<span style="color:#960050;background-color:#1e0010">\</span>lib
+</code></pre></div><h2 id="第一个pe程序">第一个PE程序</h2>
+<pre><code class="language-wasm" data-lang="wasm">.386
+
+.model flat,stdcall
+option casemap:none
+
+;數據段 此处环境变量未配置成功所以全路径
+include e:\masm32\include\windows.inc
+include e:\masm32\include\user32.inc
+includelib e:\masm32\lib\user32.lib
+include e:\masm32\include\kernel32.inc
+includelib e:\masm32\lib\kernel32.lib
+
+;數據段
+.data
+szText db 'helloworld',0
+
+;代碼段
+.code
+start:
+invoke MessageBox,NULL,offset szText,NULL,MB_OK
+invoke ExitProcess,NULL
+end start
+</code></pre><pre><code class="language-wasm" data-lang="wasm">.386
+;使用寄存器
+
+.model flat,stdcall
+option casemap:none
+
+include e:\masm32\include\windows.inc
+include e:\masm32\include\user32.inc
+includelib e:\masm32\lib\user32.lib
+include e:\masm32\include\kernel32.inc
+includelib e:\masm32\lib\kernel32.lib
+
+.data
+szTitle db 'title',0
+szText db 'helloworld',0
+
+.code
+start:
+push 0
+lea eax,szTitle
+push eax
+lea eax,szText
+push eax
+push 0
+call MessageBox
+push 0
+call ExitProcess
+
+end start
+</code></pre><pre><code class="language-wasm" data-lang="wasm">e:\masm32\bin\ml -c -coff new.asm
+;编译生成obj文件 -c表示独立编译，不进行链接，-coff表示编译后生成标准coff目标文件
+e:\masm32\bin\link -subsystem:windows new.obj
+;subsystem表示允许运行的系统，无错误即生成可执行文件exe
+</code></pre><p><img src="/images/Windows_PE_Learning/Untitled.png" alt="/images/Windows_PE_Learning/Untitled.png"></p>
+<p>此处new为new.exe的进程缩写，0x00403000为虚拟内存地址</p>
+<ul>
+<li>vscode二进制查看十六进制</li>
+</ul>
+<pre><code class="language-wasm" data-lang="wasm">ctrl+P
+ext install slevesque.vscode-hexdump
+右键文件Show Hexdump
+</code></pre><p>十六进制文件说明</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%201.png" alt="/images/Windows_PE_Learning/Untitled%201.png"></p>
+<p>PE头部 0x0000</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%202.png" alt="/images/Windows_PE_Learning/Untitled%202.png"></p>
+<p>代码段 0x0400</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%203.png" alt="/images/Windows_PE_Learning/Untitled%203.png"></p>
+<p>引入函数 0x0600</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%204.png" alt="/images/Windows_PE_Learning/Untitled%204.png"></p>
+<p>数据段 0x0800</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%205.png" alt="/images/Windows_PE_Learning/Untitled%205.png"></p>
+<h2 id="pe-的地址">PE 的地址</h2>
+<ul>
+<li>虚拟内存地址 VA
+<ul>
+<li>操作系统在程序运行时，假设让一个程序独立拥有4G内存，4G按照固定大小等成1M个页，页一部分与物理内存一一对应，无法对应的分配虚拟内存，对应关系记录在windows的pagefile.sys中，用于交换内存。</li>
+<li>PE文件被加载进内存中后，分配了4G的独立虚拟空间，这个空间的定位地址为VA。进程本身的VA被解释为：进程的基地址+相对虚拟内存地址。</li>
+</ul>
+</li>
+<li>相对虚拟内存地址 RVA
+<ul>
+<li>相对于基地址的偏移，一般针对特定模块存在。</li>
+</ul>
+</li>
+<li>
+<h2 id="文件偏移地址foa">文件偏移地址FOA</h2>
+</li>
+<li>
+<h2 id="特殊地址">特殊地址</h2>
+</li>
+</ul>
+<h2 id="数据结构">数据结构</h2>
+<ul>
+<li>
+<p>数据目录（在PE头文件中）</p>
+<p>PE中有一个数据结构称为数据目录，其中记录了所有可能的数据类型。这些类型中，目前已定义的有15种，包括导出表、导入表、资源表、异常表、属性证书表、重定位表、调试数据、Architecture、Global Ptr、线程局部存储、加载配置表、绑定导入表、IAT、延迟导入表和CLR运行时头部。</p>
+</li>
+<li>
+<p>对齐</p>
+<p>32为系统4k对齐，64位8k对齐</p>
+</li>
+</ul>
+<p>尝试CCF Explorer 将shellcode打包至PE文件</p>
+<p><a href="https://www.ired.team/offensive-security/code-injection-process-injection/backdooring-portable-executables-pe-with-shellcode">https://www.ired.team/offensive-security/code-injection-process-injection/backdooring-portable-executables-pe-with-shellcode</a></p>
+<p>CFF用法及相关功能介绍</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%206.png" alt="/images/Windows_PE_Learning/Untitled%206.png"></p>
+<p>VituralSize映射到内存中的虚拟地址长度</p>
+<p>Vitural Address 映射到内存中的虚拟地址</p>
+<p>RAW address 在文件中的位置</p>
+<p>RAW Size 在文件中的长度</p>
+<p>Characteristics 属性(LordPE中叫做section Flags)</p>
+<p>下图为LordPE工具，与CFF类似，叫法不同</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%207.png" alt="/images/Windows_PE_Learning/Untitled%207.png"></p>
+<p>插入newdata区块后保存程序无法运行</p>
+<p>此时文件大小不对，</p>
+<p>第一步，使用winhex等工具插入16进制的200字节，相当于十进制512字节</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%208.png" alt="/images/Windows_PE_Learning/Untitled%208.png"></p>
+<p>第二步、在optional header中将sizeofimage+1000，此处1000为映射入内存的大小也就是设置中的vituralsize</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%209.png" alt="/images/Windows_PE_Learning/Untitled%209.png"></p>
+<p>计算方式也可以看下图，最后一节的内存地址加上地址大小</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2010.png" alt="/images/Windows_PE_Learning/Untitled%2010.png"></p>
+<p>修正后保存程序即可运行</p>
+<p>OD分析修改过的文件</p>
+<p>打开文件</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2011.png" alt="/images/Windows_PE_Learning/Untitled%2011.png"></p>
+<p>此时00401000为程序的入口地址=00400000+AddressOfEntryPoint(入口点地址)</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2012.png" alt="/images/Windows_PE_Learning/Untitled%2012.png"></p>
+<p>要想程序从自己的代码入口点地址，修改指针为.new的虚拟地址</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2013.png" alt="/images/Windows_PE_Learning/Untitled%2013.png"></p>
+<p>修改后入口变为.new</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2014.png" alt="/images/Windows_PE_Learning/Untitled%2014.png"></p>
+<p>OD调试入口点已修改</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2015.png" alt="/images/Windows_PE_Learning/Untitled%2015.png"></p>
+<p>尝试插入汇编程序</p>
+<p>选中地址中hex数据，改写ascii，此时会改变汇编代码块，此时代码是无法执行的假代码，真实有意义的内容是hex数据，假代码无意义</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2016.png" alt="/images/Windows_PE_Learning/Untitled%2016.png"></p>
+<p>编写汇编代码</p>
+<pre><code class="language-wasm" data-lang="wasm">push 0
+push 404030
+push 404020
+push 0
+call MessageBoxA
+jmp 401000跳转到原入口函数
+</code></pre><p><img src="/images/Windows_PE_Learning/Untitled%2017.png" alt="/images/Windows_PE_Learning/Untitled%2017.png"></p>
+<p>F8单步执行</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2018.png" alt="/images/Windows_PE_Learning/Untitled%2018.png"></p>
+<p>保存文件，选中所有修改过的代码</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2019.png" alt="/images/Windows_PE_Learning/Untitled%2019.png"></p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2020.png" alt="/images/Windows_PE_Learning/Untitled%2020.png"></p>
+<p>即可完成修改，程序即可按照修改运行</p>
+<h2 id="用winhex对比可执行文件在文件和内存中的差异">用Winhex对比可执行文件在文件和内存中的差异</h2>
+<p>.rdata区块内存和文件中有差异,.text.data中数据无差异</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2021.png" alt="/images/Windows_PE_Learning/Untitled%2021.png"></p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2022.png" alt="/images/Windows_PE_Learning/Untitled%2022.png"></p>
+<h2 id="查看pe头">查看PE头</h2>
+<p>由于字节序，地址处数据在查看器中按字节倒序</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2023.png" alt="/images/Windows_PE_Learning/Untitled%2023.png"></p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2024.png" alt="/images/Windows_PE_Learning/Untitled%2024.png"></p>
+<h2 id="dos-头">DOS 头</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_DOS_HEADER {      <span style="color:#75715e">// 
+</span><span style="color:#75715e"></span>    WORD   e_magic;                     <span style="color:#75715e">// 0000h MZ标识
+</span><span style="color:#75715e"></span>    WORD   e_cblp;                      <span style="color:#75715e">// 0002h 最后(部分)页的字节数
+</span><span style="color:#75715e"></span>    WORD   e_cp;                        <span style="color:#75715e">// 0004h 文件中的全部和部分页数
+</span><span style="color:#75715e"></span>    WORD   e_crlc;                      <span style="color:#75715e">// 0006h 重定位表中的指针数
+</span><span style="color:#75715e"></span>    WORD   e_cparhdr;                   <span style="color:#75715e">// 0008h 头部尺寸，以段落为单位
+</span><span style="color:#75715e"></span>    WORD   e_minalloc;                  <span style="color:#75715e">// 000Ah 所需的最小附加段
+</span><span style="color:#75715e"></span>    WORD   e_maxalloc;                  <span style="color:#75715e">// 000Ch 所需的最大附加段
+</span><span style="color:#75715e"></span>    WORD   e_ss;                        <span style="color:#75715e">// 000Eh 初始的SS值
+</span><span style="color:#75715e"></span>    WORD   e_sp;                        <span style="color:#75715e">// 0010h 初始的SP值
+</span><span style="color:#75715e"></span>    WORD   e_csum;                      <span style="color:#75715e">// 0012h 校验和
+</span><span style="color:#75715e"></span>    WORD   e_ip;                        <span style="color:#75715e">// 0014h 初始的IP值
+</span><span style="color:#75715e"></span>    WORD   e_cs;                        <span style="color:#75715e">// 0016h 初始的CS值
+</span><span style="color:#75715e"></span>    WORD   e_lfarlc;                    <span style="color:#75715e">// 0018h 重定位表的字节偏移量
+</span><span style="color:#75715e"></span>    WORD   e_ovno;                      <span style="color:#75715e">// 001Ah 覆盖号
+</span><span style="color:#75715e"></span>    WORD   e_res[<span style="color:#ae81ff">4</span>];                    <span style="color:#75715e">// 001Ch 保留字
+</span><span style="color:#75715e"></span>    WORD   e_oemid;                     <span style="color:#75715e">// 0024h OEM标识符
+</span><span style="color:#75715e"></span>    WORD   e_oeminfo;                   <span style="color:#75715e">// 0026h OEM信息
+</span><span style="color:#75715e"></span>    WORD   e_res2[<span style="color:#ae81ff">10</span>];                  <span style="color:#75715e">// 0028h 保留字
+</span><span style="color:#75715e"></span>    LONG   e_lfanew;                    <span style="color:#75715e">// 003Ch 对应PE头相对于文件的偏移地址
+</span><span style="color:#75715e"></span>  } IMAGE_DOS_HEADER, <span style="color:#f92672">*</span>PIMAGE_DOS_HEADER;
+</code></pre></div><p>WORD   两字节 LONG 4字节</p>
+<p>e_lfanew 对应PE头相对于文件的偏移地址</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2025.png" alt="/images/Windows_PE_Learning/Untitled%2025.png"></p>
+<p>在windows中以下数据无关紧要</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2026.png" alt="/images/Windows_PE_Learning/Untitled%2026.png"></p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2027.png" alt="/images/Windows_PE_Learning/Untitled%2027.png"></p>
+<p>十进制64字节</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;windows.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{
+	printf(<span style="color:#e6db74">&#34;%d %x</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>,<span style="color:#66d9ef">sizeof</span>(IMAGE_DOS_HEADER), <span style="color:#66d9ef">sizeof</span>(IMAGE_DOS_HEADER)); <span style="color:#75715e">//%d十進制 %x十六進制
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h2 id="判断是否为pe文件">判断是否为PE文件</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;framework.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;Project2.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;windows.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;resource.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+INT_PTR CALLBACK <span style="color:#a6e22e">DialogProc</span>(_In_ HWND hwndDlg, _In_ UINT UMsg, _In_ WPARAM wParam, _In_ LPARAM IParam);
+BOOL <span style="color:#a6e22e">IsPE</span>(LPVOID lpBase);
+
+<span style="color:#66d9ef">int</span> APIENTRY <span style="color:#a6e22e">wWinMain</span>(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ <span style="color:#66d9ef">int</span>       nCmdShow)
+{
+	DialogBox(hInstance, MAKEINTRESOURCE(MAIN_Window), NULL, <span style="color:#f92672">&amp;</span>DialogProc); <span style="color:#75715e">//啓動對話框
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+INT_PTR CALLBACK <span style="color:#a6e22e">DialogProc</span>(_In_ HWND hwndDlg, _In_  UINT UMsg, _In_  WPARAM wParam, _In_ LPARAM IParam) <span style="color:#75715e">//對話框處理函數
+</span><span style="color:#75715e"></span>{
+
+	<span style="color:#66d9ef">if</span> (UMsg <span style="color:#f92672">==</span> WM_CLOSE) { <span style="color:#75715e">//UMsg按鈕事件
+</span><span style="color:#75715e"></span>		EndDialog(hwndDlg, NULL); <span style="color:#75715e">//hwndDlg程序句柄
+</span><span style="color:#75715e"></span>	}
+	<span style="color:#75715e">//所有界面上的按鈕事件都是走這個WM_COMMAND宏
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (UMsg <span style="color:#f92672">==</span> WM_COMMAND) {
+
+		<span style="color:#66d9ef">if</span> (wParam <span style="color:#f92672">==</span> OPEN_BUTTON) { <span style="color:#75715e">//wParam 控件ID
+</span><span style="color:#75715e"></span>
+			<span style="color:#75715e">//從編輯框獲取文件路勁和文件名
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">char</span> FileLo[MAX_PATH] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+			GetDlgItemText(hwndDlg,FILE_LO, FileLo, MAX_PATH);
+			<span style="color:#75715e">//MessageBox(NULL, FileLo, &#34;Info&#34;, 0);
+</span><span style="color:#75715e"></span>
+			<span style="color:#75715e">//打開文件
+</span><span style="color:#75715e"></span>			HANDLE FileHw <span style="color:#f92672">=</span> CreateFile(FileLo, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+			<span style="color:#75715e">//創建一個内存映射内核對象
+</span><span style="color:#75715e"></span>			HANDLE FileHwMap <span style="color:#f92672">=</span> CreateFileMapping(FileHw, NULL, PAGE_READONLY,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,NULL);
+
+			<span style="color:#75715e">//將文件映射機内内存
+</span><span style="color:#75715e"></span>			LPVOID lpBase <span style="color:#f92672">=</span> MapViewOfFile(FileHwMap,FILE_MAP_READ,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>);
+			<span style="color:#66d9ef">if</span> (lpBase <span style="color:#f92672">==</span> NULL) {
+				MessageBox(NULL, <span style="color:#e6db74">&#34;文件打開/映射失敗&#34;</span>, <span style="color:#e6db74">&#34;Info&#34;</span>, <span style="color:#ae81ff">0</span>);
+				<span style="color:#66d9ef">return</span> FALSE;
+			}
+
+			<span style="color:#75715e">//判斷是否為PE文件
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (IsPE(lpBase)) {
+				MessageBox(NULL, <span style="color:#e6db74">&#34;所選為PE文件&#34;</span>, <span style="color:#e6db74">&#34;Info&#34;</span>, <span style="color:#ae81ff">0</span>);
+			}
+			<span style="color:#66d9ef">else</span> {
+				MessageBox(NULL, <span style="color:#e6db74">&#34;所選文件非PE文件&#34;</span>, <span style="color:#e6db74">&#34;Info&#34;</span>, <span style="color:#ae81ff">0</span>);
+			}
+
+			<span style="color:#75715e">//釋放内存映射
+</span><span style="color:#75715e"></span>			UnmapViewOfFile(lpBase);
+			<span style="color:#75715e">//關閉内存映射内核對象
+</span><span style="color:#75715e"></span>			CloseHandle(FileHwMap);
+			<span style="color:#75715e">//關閉文件
+</span><span style="color:#75715e"></span>			CloseHandle(FileHw);
+		}
+	}
+	<span style="color:#66d9ef">return</span> FALSE;
+}
+
+BOOL <span style="color:#a6e22e">IsPE</span>(LPVOID lpBase) {
+	PIMAGE_DOS_HEADER pImgDosHeader <span style="color:#f92672">=</span> NULL;
+	PIMAGE_NT_HEADERS pImgNtHeader <span style="color:#f92672">=</span> NULL;
+	pImgDosHeader <span style="color:#f92672">=</span> (PIMAGE_DOS_HEADER)lpBase;
+	pImgNtHeader <span style="color:#f92672">=</span> (PIMAGE_NT_HEADERS)((DWORD)lpBase<span style="color:#f92672">+</span>(DWORD)pImgDosHeader<span style="color:#f92672">-&gt;</span>e_lfanew);
+	<span style="color:#66d9ef">if</span> (pImgDosHeader<span style="color:#f92672">-&gt;</span>e_magic <span style="color:#f92672">!=</span> IMAGE_DOS_SIGNATURE) {
+		<span style="color:#66d9ef">return</span> FALSE;
+	}
+	<span style="color:#66d9ef">if</span> (pImgNtHeader<span style="color:#f92672">-&gt;</span>Signature <span style="color:#f92672">!=</span> IMAGE_NT_SIGNATURE) {
+		<span style="color:#66d9ef">return</span> FALSE;
+	}
+	<span style="color:#66d9ef">return</span> TRUE;
+}
+</code></pre></div><p>NT_HEADERS</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_NT_HEADERS {
+    DWORD Signature;
+    IMAGE_FILE_HEADER FileHeader;
+    IMAGE_OPTIONAL_HEADER32 OptionalHeader;
+} IMAGE_NT_HEADERS32, <span style="color:#f92672">*</span>PIMAGE_NT_HEADERS32;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_FILE_HEADER {
+    WORD    Machine;  <span style="color:#75715e">//0004h 运行平台 i386(0x014c) amd64
+</span><span style="color:#75715e"></span>    WORD    NumberOfSections; <span style="color:#75715e">//0006h PE中节的数量 最大值96个节
+</span><span style="color:#75715e"></span>    DWORD   TimeDateStamp; <span style="color:#75715e">//0008h 文件创建时间，编译器创建文件的时间戳(无关)
+</span><span style="color:#75715e"></span>    DWORD   PointerToSymbolTable; <span style="color:#75715e">//000Ch 指向符号表（用于调试）
+</span><span style="color:#75715e"></span>    DWORD   NumberOfSymbols; <span style="color:#75715e">//0010h 符号表中符号数量（用于调试）
+</span><span style="color:#75715e"></span>    WORD    SizeOfOptionalHeader; <span style="color:#75715e">//0014h 可选头结构体长度 E0 F0
+</span><span style="color:#75715e"></span>    WORD    Characteristics; <span style="color:#75715e">//0016h 文件属性，由不同属性相加
+</span><span style="color:#75715e"></span>} IMAGE_FILE_HEADER, <span style="color:#f92672">*</span>PIMAGE_FILE_HEADER;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_OPTIONAL_HEADER {
+    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Standard fields.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>
+    WORD    Magic; <span style="color:#75715e">//0018h 魔术字 107h ROM Image 10Bh EXE 20Bh PE32+/EXE64
+</span><span style="color:#75715e"></span>    BYTE    MajorLinkerVersion; <span style="color:#75715e">//001Ah 连接器版本号
+</span><span style="color:#75715e"></span>    BYTE    MinorLinkerVersion;
+    DWORD   SizeOfCode; <span style="color:#75715e">//001Ch 所有代码节大小
+</span><span style="color:#75715e"></span>    DWORD   SizeOfInitializedData; <span style="color:#75715e">//0020h 初始化节大小
+</span><span style="color:#75715e"></span>    DWORD   SizeOfUninitializedData; <span style="color:#75715e">//0024h 未初始化数据节大小
+</span><span style="color:#75715e"></span>    DWORD   AddressOfEntryPoint; <span style="color:#75715e">//0028h 程序执行入口RVA，对于驱动程序为初始化地址
+</span><span style="color:#75715e"></span>    DWORD   BaseOfCode; <span style="color:#75715e">//002Ch 代码的节的起始RVA
+</span><span style="color:#75715e"></span>    DWORD   BaseOfData; <span style="color:#75715e">//0030h 数据节的起始RVA
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// NT additional fields.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>
+    DWORD   ImageBase; <span style="color:#75715e">//0034h 建议的存储空间
+</span><span style="color:#75715e"></span>    DWORD   SectionAlignment;<span style="color:#75715e">//0038h 内存中的节的对齐值 一般为4k
+</span><span style="color:#75715e"></span>    DWORD   FileAlignment;<span style="color:#75715e">//003Ch  文件中的节的对齐值 0x1000 0x200 512字节 刚好为1山区
+</span><span style="color:#75715e"></span>    WORD    MajorOperatingSystemVersion; <span style="color:#75715e">//0040h 操作系统版本号
+</span><span style="color:#75715e"></span>    WORD    MinorOperatingSystemVersion; <span style="color:#75715e">//0042h
+</span><span style="color:#75715e"></span>    WORD    MajorImageVersion; <span style="color:#75715e">//0044h PE版本号
+</span><span style="color:#75715e"></span>    WORD    MinorImageVersion; <span style="color:#75715e">//0046h
+</span><span style="color:#75715e"></span>    WORD    MajorSubsystemVersion; <span style="color:#75715e">//0048h 所需子系统的版本号
+</span><span style="color:#75715e"></span>    WORD    MinorSubsystemVersion; <span style="color:#75715e">//004Ah
+</span><span style="color:#75715e"></span>    DWORD   Win32VersionValue; <span style="color:#75715e">//004Ch 未使用，必须为0
+</span><span style="color:#75715e"></span>    DWORD   SizeOfImage; <span style="color:#75715e">//0050h 内存中整个PE文件的映像大小（按照内存对齐）
+</span><span style="color:#75715e"></span>    DWORD   SizeOfHeaders; <span style="color:#75715e">//0054h 所有头＋节表大小
+</span><span style="color:#75715e"></span>    DWORD   CheckSum; <span style="color:#75715e">//0058h 校验和（EXE为0，DLL和SYS[内核驱动]必须为正确值）
+</span><span style="color:#75715e"></span>    WORD    Subsystem; <span style="color:#75715e">//005Ch 文件子系统 2为GUI，3为命令行
+</span><span style="color:#75715e"></span>    WORD    DllCharacteristics; <span style="color:#75715e">//005Eh dll文件特定
+</span><span style="color:#75715e"></span>    DWORD   SizeOfStackReserve; <span style="color:#75715e">//0060h 初始化时保留的栈区大小 (默认1M)
+</span><span style="color:#75715e"></span>    DWORD   SizeOfStackCommit; <span style="color:#75715e">//0064h 初始化时实际提交栈大小(默认4k)
+</span><span style="color:#75715e"></span>    DWORD   SizeOfHeapReserve; <span style="color:#75715e">//0068h 初始化时保留的堆大小(默认1M)
+</span><span style="color:#75715e"></span>    DWORD   SizeOfHeapCommit; <span style="color:#75715e">//006Ch 初始化实际提交的堆大小(默认4k)
+</span><span style="color:#75715e"></span>    DWORD   LoaderFlags; <span style="color:#75715e">//0070h 加载标志一般为0
+</span><span style="color:#75715e"></span>    DWORD   NumberOfRvaAndSizes; <span style="color:#75715e">//0074h 数据目录数量
+</span><span style="color:#75715e"></span>    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES]; <span style="color:#75715e">//0078h数据目录数组
+</span><span style="color:#75715e"></span>} IMAGE_OPTIONAL_HEADER32, <span style="color:#f92672">*</span>PIMAGE_OPTIONAL_HEADER32;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_DATA_DIRECTORY {
+    DWORD   VirtualAddress; <span style="color:#75715e">//虚拟地址
+</span><span style="color:#75715e"></span>    DWORD   Size; <span style="color:#75715e">//虚拟地址大小
+</span><span style="color:#75715e"></span>} IMAGE_DATA_DIRECTORY, <span style="color:#f92672">*</span>PIMAGE_DATA_DIRECTORY;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_OPTIONAL_HEADER64 {
+    WORD        Magic;
+    BYTE        MajorLinkerVersion;
+    BYTE        MinorLinkerVersion;
+    DWORD       SizeOfCode;
+    DWORD       SizeOfInitializedData;
+    DWORD       SizeOfUninitializedData;
+    DWORD       AddressOfEntryPoint;
+    DWORD       BaseOfCode;
+    ULONGLONG   ImageBase;
+    DWORD       SectionAlignment;
+    DWORD       FileAlignment;
+    WORD        MajorOperatingSystemVersion;
+    WORD        MinorOperatingSystemVersion;
+    WORD        MajorImageVersion;
+    WORD        MinorImageVersion;
+    WORD        MajorSubsystemVersion;
+    WORD        MinorSubsystemVersion;
+    DWORD       Win32VersionValue;
+    DWORD       SizeOfImage;
+    DWORD       SizeOfHeaders;
+    DWORD       CheckSum;
+    WORD        Subsystem;
+    WORD        DllCharacteristics;
+    ULONGLONG   SizeOfStackReserve;
+    ULONGLONG   SizeOfStackCommit;
+    ULONGLONG   SizeOfHeapReserve;
+    ULONGLONG   SizeOfHeapCommit;
+    DWORD       LoaderFlags;
+    DWORD       NumberOfRvaAndSizes;
+    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
+} IMAGE_OPTIONAL_HEADER64, <span style="color:#f92672">*</span>PIMAGE_OPTIONAL_HEADER64;
+</code></pre></div><p>Characteristics属性</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2028.png" alt="/images/Windows_PE_Learning/Untitled%2028.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#define IMAGE_FILE_RELOCS_STRIPPED           0x0001  </span><span style="color:#75715e">// Relocation info stripped from file.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_EXECUTABLE_IMAGE          0x0002  </span><span style="color:#75715e">// File is executable  (i.e. no unresolved external references).
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_LINE_NUMS_STRIPPED        0x0004  </span><span style="color:#75715e">// Line nunbers stripped from file.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_LOCAL_SYMS_STRIPPED       0x0008  </span><span style="color:#75715e">// Local symbols stripped from file.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_AGGRESIVE_WS_TRIM         0x0010  </span><span style="color:#75715e">// Aggressively trim working set
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_LARGE_ADDRESS_AWARE       0x0020  </span><span style="color:#75715e">// App can handle &gt;2gb addresses
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_BYTES_REVERSED_LO         0x0080  </span><span style="color:#75715e">// Bytes of machine word are reversed.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_32BIT_MACHINE             0x0100  </span><span style="color:#75715e">// 32 bit word machine.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_DEBUG_STRIPPED            0x0200  </span><span style="color:#75715e">// Debugging info stripped from file in .DBG file
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP   0x0400  </span><span style="color:#75715e">// If Image is on removable media, copy and run from the swap file.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_NET_RUN_FROM_SWAP         0x0800  </span><span style="color:#75715e">// If Image is on Net, copy and run from the swap file.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_SYSTEM                    0x1000  </span><span style="color:#75715e">// System File.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_DLL                       0x2000  </span><span style="color:#75715e">// File is a DLL.
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_UP_SYSTEM_ONLY            0x4000  </span><span style="color:#75715e">// File should only be run on a UP machine
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define IMAGE_FILE_BYTES_REVERSED_HI         0x8000  </span><span style="color:#75715e">// Bytes of machine word are reversed.
+</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_SECTION_HEADER {
+    BYTE    Name[IMAGE_SIZEOF_SHORT_NAME]; <span style="color:#75715e">//节名称
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">union</span> {
+            DWORD   PhysicalAddress; <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>            DWORD   VirtualSize; <span style="color:#75715e">//节区尺寸
+</span><span style="color:#75715e"></span>    } Misc;
+    DWORD   VirtualAddress; <span style="color:#75715e">//节起始RVA地址
+</span><span style="color:#75715e"></span>    DWORD   SizeOfRawData; <span style="color:#75715e">//在文件中对齐的尺寸
+</span><span style="color:#75715e"></span>    DWORD   PointerToRawData; <span style="color:#75715e">//该节在文件中的起始偏移
+</span><span style="color:#75715e"></span>    DWORD   PointerToRelocations; <span style="color:#75715e">//在obj文件中使用
+</span><span style="color:#75715e"></span>    DWORD   PointerToLinenumbers; <span style="color:#75715e">//行号表的位置(仅供调试)
+</span><span style="color:#75715e"></span>    WORD    NumberOfRelocations; <span style="color:#75715e">//在OBJ文件中使用
+</span><span style="color:#75715e"></span>    WORD    NumberOfLinenumbers; <span style="color:#75715e">//行号表中行号的数量
+</span><span style="color:#75715e"></span>    DWORD   Characteristics; <span style="color:#75715e">//节的属性
+</span><span style="color:#75715e"></span>} IMAGE_SECTION_HEADER, <span style="color:#f92672">*</span>PIMAGE_SECTION_HEADER;
+
+<span style="color:#75715e">#define IMAGE_SIZEOF_SECTION_HEADER          40
+</span></code></pre></div><h2 id="pe导入表">PE导入表</h2>
+<p>在内存中情况</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_IMPORT_DESCRIPTOR {
+    <span style="color:#66d9ef">union</span> {
+        DWORD   Characteristics;            <span style="color:#75715e">// 0 for terminating null import descriptor
+</span><span style="color:#75715e"></span>        DWORD   OriginalFirstThunk;         <span style="color:#75715e">// 指向的是INT表Import Name Table，保存的是所有导入函数名称的RVA RVA to original unbound IAT (PIMAGE_THUNK_DATA)
+</span><span style="color:#75715e"></span>    } DUMMYUNIONNAME;
+    DWORD   TimeDateStamp;                  <span style="color:#75715e">// 0 if not bound,
+</span><span style="color:#75715e"></span>                                            <span style="color:#75715e">// -1 if bound, and real date\time stamp
+</span><span style="color:#75715e"></span>                                            <span style="color:#75715e">//     in IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT (new BIND)
+</span><span style="color:#75715e"></span>                                            <span style="color:#75715e">// O.W. date/time stamp of DLL bound to (Old BIND)
+</span><span style="color:#75715e"></span>
+    DWORD   ForwarderChain;                 <span style="color:#75715e">// -1 if no forwarders
+</span><span style="color:#75715e"></span>    DWORD   Name;                           <span style="color:#75715e">// 保存的是RVA，RVA指向的内容是DLL的文件名
+</span><span style="color:#75715e"></span>    DWORD   FirstThunk;                     <span style="color:#75715e">// 指向的是IAT表，Import Address Table,这个表保存的是所有导入函数的地址（VA）RVA to IAT (if bound this IAT has actual addresses)
+</span><span style="color:#75715e"></span>} IMAGE_IMPORT_DESCRIPTOR;
+<span style="color:#66d9ef">typedef</span> IMAGE_IMPORT_DESCRIPTOR UNALIGNED <span style="color:#f92672">*</span>PIMAGE_IMPORT_DESCRIPTOR;
+</code></pre></div><p>在文件中OriginalFirstThunk FirstThunk相同</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> _IMAGE_IMPORT_DESCRIPTOR {
+    <span style="color:#66d9ef">union</span> {
+        DWORD   Characteristics;            <span style="color:#75715e">// 0 for terminating null import descriptor
+</span><span style="color:#75715e"></span>        DWORD   OriginalFirstThunk;         <span style="color:#75715e">// 指向的是INT表Import Name Table，保存的是所有导入函数名称的RVA RVA to original unbound IAT (PIMAGE_THUNK_DATA)
+</span><span style="color:#75715e"></span>    } DUMMYUNIONNAME;
+    DWORD   TimeDateStamp;                  <span style="color:#75715e">// 0 if not bound,
+</span><span style="color:#75715e"></span>                                            <span style="color:#75715e">// -1 if bound, and real date\time stamp
+</span><span style="color:#75715e"></span>                                            <span style="color:#75715e">//     in IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT (new BIND)
+</span><span style="color:#75715e"></span>                                            <span style="color:#75715e">// O.W. date/time stamp of DLL bound to (Old BIND)
+</span><span style="color:#75715e"></span>
+    DWORD   ForwarderChain;                 <span style="color:#75715e">// -1 if no forwarders
+</span><span style="color:#75715e"></span>    DWORD   Name;                           <span style="color:#75715e">// 保存的是RVA，RVA指向的内容是DLL的文件名
+</span><span style="color:#75715e"></span>    DWORD   FirstThunk;                     <span style="color:#75715e">// 指向的是INT表Import Name Table，保存的是所有导入函数名称的RVA(if bound this IAT has actual addresses)
+</span><span style="color:#75715e"></span>} IMAGE_IMPORT_DESCRIPTOR;
+<span style="color:#66d9ef">typedef</span> IMAGE_IMPORT_DESCRIPTOR UNALIGNED <span style="color:#f92672">*</span>PIMAGE_IMPORT_DESCRIPTOR;
+</code></pre></div><h2 id="手动将shellcode打包至正常pe程序">手动将shellcode打包至正常PE程序</h2>
+<p>新增区块reso</p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2029.png" alt="/images/Windows_PE_Learning/Untitled%2029.png"></p>
+<p><img src="/images/Windows_PE_Learning/Untitled%2030.png" alt="/images/Windows_PE_Learning/Untitled%2030.png"></p>
+<p>原程序入口</p>
+<h2 id="写shellcode">写shellcode</h2>
+<p><a href="https://idafchev.github.io/exploit/2017/09/26/writing_windows_shellcode.html">https://idafchev.github.io/exploit/2017/09/26/writing_windows_shellcode.html</a></p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

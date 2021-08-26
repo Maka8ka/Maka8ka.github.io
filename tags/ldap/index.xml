@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LDAP on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/tags/ldap/</link>
+    <description>Recent content in LDAP on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Tue, 03 Apr 2018 04:15:45 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/tags/ldap/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快速搭建AD域环境</title>
+      <link>https://www.maka8ka.cc/post/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAad%E5%9F%9F%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Tue, 03 Apr 2018 04:15:45 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAad%E5%9F%9F%E7%8E%AF%E5%A2%83/</guid>
+      <description>快速搭建AD域环境 关键词: LDAP, 域, 运维
+ 新建域控制器   安装完成重启   重启后部署域控制器配置   安装时本地计算机administrator用户不允许密码为空，ip需设置为固定ip   DC2加入域   普通机器使用使用普通用户加入域即可   Linux加入域 点击链接查看详情 https://maka8ka.</description>
+    </item>
+    
+    <item>
+      <title>Linux 加入域</title>
+      <link>https://www.maka8ka.cc/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/</link>
+      <pubDate>Tue, 03 Apr 2018 03:20:22 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/</guid>
+      <description>Linux 加入域 关键词: Linux, 运维
+在 Ubuntu 桌面平台上，安裝 samba 和 winbind 套件
+sudo apt install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind   針對預設的 Kerberos 第 5 版領域，請輸入您 AD 網域的 DNS 名稱 (全部使用大寫字母)。</description>
+    </item>
+    
+  </channel>
+</rss>

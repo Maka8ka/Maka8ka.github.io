@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>逆向破解 on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/categories/%E9%80%86%E5%90%91%E7%A0%B4%E8%A7%A3/</link>
+    <description>Recent content in 逆向破解 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Sat, 01 May 2021 12:22:41 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/categories/%E9%80%86%E5%90%91%E7%A0%B4%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CobaltStrike 4.3 破解 修复暗桩</title>
+      <link>https://www.maka8ka.cc/post/cobaltstrike-4-3-%E7%A0%B4%E8%A7%A3-%E4%BF%AE%E5%A4%8D%E6%9A%97%E6%A1%A9/</link>
+      <pubDate>Sat, 01 May 2021 12:22:41 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/cobaltstrike-4-3-%E7%A0%B4%E8%A7%A3-%E4%BF%AE%E5%A4%8D%E6%9A%97%E6%A1%A9/</guid>
+      <description>CobaltStrike 4.3 破解 修复暗桩 关键词: CobaltStrike
+记录过程，自己动手，丰衣足食
+破解目标
+ 替换authkey.pub文件 修改源码中authkay.pub的md5值 修改过期时间 修复becon/BeaconData.class中暗桩  破解第一步，反编译,Reserve_Cobalt_src目录需自行创建，否则会报目录不存在错误，出现其他错误更换Java版本，比如
+Error: A JNI error has occurred, please check your installation and try again 使用Idea自带的反编译工具</description>
+    </item>
+    
+  </channel>
+</rss>

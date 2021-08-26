@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JAVA基础 on Maka8ka&#39;s Garden</title>
+    <link>https://maka8ka.github.io/tags/java%E5%9F%BA%E7%A1%80/</link>
+    <description>Recent content in JAVA基础 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Nov 2018 15:20:44 +0000</lastBuildDate><atom:link href="https://maka8ka.github.io/tags/java%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JAVA基础</title>
+      <link>https://maka8ka.github.io/post/java%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Fri, 02 Nov 2018 15:20:44 +0000</pubDate>
+      
+      <guid>https://maka8ka.github.io/post/java%E5%9F%BA%E7%A1%80/</guid>
+      <description>Java基础 优先级: 2 学习权重: 9 学习目标: 了解基础语法、学习序列化及反序列化等相关知识点 学习类型: 编程/语法学习 学习进度: 0.68 状态: 进行中 语言类别: Java
+IDEA操作 新建项目》新建模块》src中新建软件包》新建类文件
+demo 数组遍历 package com.test1; public class hello{ public static void main(String[] args) { System.out.println(&amp;#34;test&amp;#34;); int[] arr = new int[3]; int[] arr2 = new int[]{1,2,3}; int[] arr3 = {1,2,3}; for(int i=0;i&amp;lt;arr3.length;i++){ //语句间用分号 ，变量需要声明类型 如 int a =0  System.out.println(arr[i]); } arr[0] = 10; System.out.println(arr); //打印内存空间地址 [I@330bedb4  System.out.println(arr[0]); } } demo 方法同java文件内调用 package com.test1; public class hello{ public static void main(String[] args) { System.</description>
+    </item>
+    
+  </channel>
+</rss>

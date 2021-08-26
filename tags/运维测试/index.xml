@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>运维测试 on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/tags/%E8%BF%90%E7%BB%B4%E6%B5%8B%E8%AF%95/</link>
+    <description>Recent content in 运维测试 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Mon, 26 Aug 2019 21:55:13 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/tags/%E8%BF%90%E7%BB%B4%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>常用快捷键</title>
+      <link>https://www.maka8ka.cc/post/%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/</link>
+      <pubDate>Mon, 26 Aug 2019 21:55:13 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/</guid>
+      <description>Tmux快捷键 Tips - Tmux 快捷键 基本操作
+所有快捷键的执行方式:
+按下control + b两个按键组合, 然后松开control + b(为了告诉Tmux我要用Tmux的快捷键了), 然后在按快捷键触发各种行为。
+例如: C-b ?的执行过程为按下control + b两个按键组合, 然后松开control + b, 然后在按’?</description>
+    </item>
+    
+    <item>
+      <title>Docker常用命令</title>
+      <link>https://www.maka8ka.cc/post/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Fri, 17 Mar 2017 19:25:11 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>Docker常用命令 关键词: 容器, 运维 状态: 需补充
+Docker 相关命令 Docker 示例  docker运行MySQL容器  docker run -d -p 3306:3306 —name mysql -e MYSQL_ROOT_PASSWORD=root mysql</description>
+    </item>
+    
+  </channel>
+</rss>

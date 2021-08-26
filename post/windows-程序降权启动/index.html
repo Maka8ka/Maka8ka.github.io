@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Windows-程序降权启动 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Windows-程序降权启动" />
+<meta property="og:description" content="Windows-程序降权启动 关键词: Windows, 漏洞
+先上文件:
+SelectMyParent.rar
+SelectMyParent 用来创建具有选定父进程的windows进程
+需获取需要继承的进程pid
+tasklist /v /fo list tasklist /v /fo list /fi &#34;USERNAME eq NT AUTHORITY\SYSTEM&#34; /* SelectMyParent Author： Didier Stevens Link：https://blog." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/windows-%E7%A8%8B%E5%BA%8F%E9%99%8D%E6%9D%83%E5%90%AF%E5%8A%A8/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-05-27T12:32:59&#43;00:00" />
+<meta property="article:modified_time" content="2019-05-27T12:32:59&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windows-程序降权启动"/>
+<meta name="twitter:description" content="Windows-程序降权启动 关键词: Windows, 漏洞
+先上文件:
+SelectMyParent.rar
+SelectMyParent 用来创建具有选定父进程的windows进程
+需获取需要继承的进程pid
+tasklist /v /fo list tasklist /v /fo list /fi &#34;USERNAME eq NT AUTHORITY\SYSTEM&#34; /* SelectMyParent Author： Didier Stevens Link：https://blog."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="windows-程序降权启动">Windows-程序降权启动</h1>
+<p>关键词: Windows, 漏洞</p>
+<p>先上文件:</p>
+<p><a href="/images/Windows-SelectMyParent/SelectMyParent.rar">SelectMyParent.rar</a></p>
+<h2 id="selectmyparent">SelectMyParent</h2>
+<p>用来创建具有选定父进程的windows进程</p>
+<p>需获取需要继承的进程pid</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tasklist /v /fo list
+tasklist /v /fo list /fi <span style="color:#e6db74">&#34;USERNAME eq NT AUTHORITY\SYSTEM&#34;</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/*
+	SelectMyParent
+	Author： Didier Stevens
+	Link：https://blog.didierstevens.com/2009/11/22/quickpost-selectmyparent-or-playing-with-the-windows-process-tree/
+	start a program and <span style="color:#66d9ef">select</span> its parent process	
+*/
+<span style="color:#75715e">#include &#34;stdafx.h&#34;</span>
+
+<span style="color:#75715e">#include &lt;windows.h&gt;</span>
+<span style="color:#75715e">#pragma comment(lib,&#34;advapi32.lib&#34;)</span>
+void DisplayErrorMessage<span style="color:#f92672">(</span>LPTSTR pszMessage, DWORD dwLastError<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+	HLOCAL hlErrorMessage <span style="color:#f92672">=</span> NULL;
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>FormatMessage<span style="color:#f92672">(</span>FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, dwLastError, MAKELANGID<span style="color:#f92672">(</span>LANG_NEUTRAL, SUBLANG_NEUTRAL<span style="color:#f92672">)</span>, <span style="color:#f92672">(</span>PTSTR<span style="color:#f92672">)</span> &amp;hlErrorMessage, 0, NULL<span style="color:#f92672">))</span>
+	<span style="color:#f92672">{</span>
+		_tprintf<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s: %s&#34;</span><span style="color:#f92672">)</span>, pszMessage, <span style="color:#f92672">(</span>PCTSTR<span style="color:#f92672">)</span> LocalLock<span style="color:#f92672">(</span>hlErrorMessage<span style="color:#f92672">))</span>;
+		LocalFree<span style="color:#f92672">(</span>hlErrorMessage<span style="color:#f92672">)</span>;
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+BOOL CurrentProcessAdjustToken<span style="color:#f92672">(</span>void<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+	HANDLE hToken;
+	TOKEN_PRIVILEGES sTP;
+
+	<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>OpenProcessToken<span style="color:#f92672">(</span>GetCurrentProcess<span style="color:#f92672">()</span>, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &amp;hToken<span style="color:#f92672">))</span>
+	<span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!LookupPrivilegeValue<span style="color:#f92672">(</span>NULL, SE_DEBUG_NAME, &amp;sTP.Privileges<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>.Luid<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			CloseHandle<span style="color:#f92672">(</span>hToken<span style="color:#f92672">)</span>;
+			<span style="color:#66d9ef">return</span> FALSE;
+		<span style="color:#f92672">}</span>
+		sTP.PrivilegeCount <span style="color:#f92672">=</span> 1;
+		sTP.Privileges<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>.Attributes <span style="color:#f92672">=</span> SE_PRIVILEGE_ENABLED;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!AdjustTokenPrivileges<span style="color:#f92672">(</span>hToken, 0, &amp;sTP, sizeof<span style="color:#f92672">(</span>sTP<span style="color:#f92672">)</span>, NULL, NULL<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			CloseHandle<span style="color:#f92672">(</span>hToken<span style="color:#f92672">)</span>;
+			<span style="color:#66d9ef">return</span> FALSE;
+		<span style="color:#f92672">}</span>
+		CloseHandle<span style="color:#f92672">(</span>hToken<span style="color:#f92672">)</span>;
+		<span style="color:#66d9ef">return</span> TRUE;
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">return</span> FALSE;
+<span style="color:#f92672">}</span>
+
+int _tmain<span style="color:#f92672">(</span>int argc, _TCHAR* argv<span style="color:#f92672">[])</span>
+<span style="color:#f92672">{</span>
+	STARTUPINFOEX sie <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>sizeof<span style="color:#f92672">(</span>sie<span style="color:#f92672">)}</span>;
+	PROCESS_INFORMATION pi;
+	SIZE_T cbAttributeListSize <span style="color:#f92672">=</span> 0;
+	PPROC_THREAD_ATTRIBUTE_LIST pAttributeList <span style="color:#f92672">=</span> NULL;
+	HANDLE hParentProcess <span style="color:#f92672">=</span> NULL;
+	DWORD dwPid <span style="color:#f92672">=</span> 0;
+
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SelectMyParent v0.0.0.1: start a program with a selected parent process&#34;</span><span style="color:#f92672">))</span>;
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Source code put in public domain by Didier Stevens, no Copyright&#34;</span><span style="color:#f92672">))</span>;
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;https://DidierStevens.com&#34;</span><span style="color:#f92672">))</span>;
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Use at your own risk\n&#34;</span><span style="color:#f92672">))</span>;
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>argc !<span style="color:#f92672">=</span> 3<span style="color:#f92672">)</span>
+		_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;usage: SelectMyParent program pid&#34;</span><span style="color:#f92672">))</span>;
+	<span style="color:#66d9ef">else</span>
+	<span style="color:#f92672">{</span>
+		dwPid <span style="color:#f92672">=</span> _tstoi<span style="color:#f92672">(</span>argv<span style="color:#f92672">[</span>2<span style="color:#f92672">])</span>;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>0 <span style="color:#f92672">==</span> dwPid<span style="color:#f92672">)</span>
+		<span style="color:#f92672">{</span>
+			_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Invalid pid&#34;</span><span style="color:#f92672">))</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		InitializeProcThreadAttributeList<span style="color:#f92672">(</span>NULL, 1, 0, &amp;cbAttributeListSize<span style="color:#f92672">)</span>;
+		pAttributeList <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>PPROC_THREAD_ATTRIBUTE_LIST<span style="color:#f92672">)</span> HeapAlloc<span style="color:#f92672">(</span>GetProcessHeap<span style="color:#f92672">()</span>, 0, cbAttributeListSize<span style="color:#f92672">)</span>;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>NULL <span style="color:#f92672">==</span> pAttributeList<span style="color:#f92672">)</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;HeapAlloc error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!InitializeProcThreadAttributeList<span style="color:#f92672">(</span>pAttributeList, 1, 0, &amp;cbAttributeListSize<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;InitializeProcThreadAttributeList error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		CurrentProcessAdjustToken<span style="color:#f92672">()</span>;
+		hParentProcess <span style="color:#f92672">=</span> OpenProcess<span style="color:#f92672">(</span>PROCESS_ALL_ACCESS, FALSE, dwPid<span style="color:#f92672">)</span>;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>NULL <span style="color:#f92672">==</span> hParentProcess<span style="color:#f92672">)</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;OpenProcess error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!UpdateProcThreadAttribute<span style="color:#f92672">(</span>pAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &amp;hParentProcess, sizeof<span style="color:#f92672">(</span>HANDLE<span style="color:#f92672">)</span>, NULL, NULL<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;UpdateProcThreadAttribute error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		sie.lpAttributeList <span style="color:#f92672">=</span> pAttributeList;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!CreateProcess<span style="color:#f92672">(</span>NULL, argv<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>, NULL, NULL, FALSE, EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &amp;sie.StartupInfo, &amp;pi<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;CreateProcess error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		_tprintf<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Process created: %d\n&#34;</span><span style="color:#f92672">)</span>, pi.dwProcessId<span style="color:#f92672">)</span>;
+		DeleteProcThreadAttributeList<span style="color:#f92672">(</span>pAttributeList<span style="color:#f92672">)</span>;
+		CloseHandle<span style="color:#f92672">(</span>hParentProcess<span style="color:#f92672">)</span>;
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">return</span> 0;
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/*
+	SelectMyParent
+	Author： Didier Stevens
+	Link：https://blog.didierstevens.com/2009/11/22/quickpost-selectmyparent-or-playing-with-the-windows-process-tree/
+	start a program and <span style="color:#66d9ef">select</span> its parent process	
+*/
+//#include &lt;iostream&gt;
+////#include &lt;stdio.h&gt;
+<span style="color:#75715e">#include &#34;stdlib.h&#34;</span>
+<span style="color:#75715e">#include &lt;tchar.h&gt;</span>
+//#include <span style="color:#e6db74">&#34;stdafx.h&#34;</span>
+
+<span style="color:#75715e">#include &lt;windows.h&gt;</span>
+<span style="color:#75715e">#pragma comment(lib,&#34;advapi32.lib&#34;)</span>
+//using  namespace std;
+void DisplayErrorMessage<span style="color:#f92672">(</span>LPTSTR pszMessage, DWORD dwLastError<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+	HLOCAL hlErrorMessage <span style="color:#f92672">=</span> NULL;
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>FormatMessage<span style="color:#f92672">(</span>FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, dwLastError, MAKELANGID<span style="color:#f92672">(</span>LANG_NEUTRAL, SUBLANG_NEUTRAL<span style="color:#f92672">)</span>, <span style="color:#f92672">(</span>PTSTR<span style="color:#f92672">)</span>&amp;hlErrorMessage, 0, NULL<span style="color:#f92672">))</span>
+	<span style="color:#f92672">{</span>
+		_tprintf<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s: %s&#34;</span><span style="color:#f92672">)</span>, pszMessage, <span style="color:#f92672">(</span>PCTSTR<span style="color:#f92672">)</span>LocalLock<span style="color:#f92672">(</span>hlErrorMessage<span style="color:#f92672">))</span>;
+		LocalFree<span style="color:#f92672">(</span>hlErrorMessage<span style="color:#f92672">)</span>;
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+BOOL CurrentProcessAdjustToken<span style="color:#f92672">(</span>void<span style="color:#f92672">)</span>
+<span style="color:#f92672">{</span>
+	HANDLE hToken;
+	TOKEN_PRIVILEGES sTP;
+
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>OpenProcessToken<span style="color:#f92672">(</span>GetCurrentProcess<span style="color:#f92672">()</span>, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &amp;hToken<span style="color:#f92672">))</span>
+	<span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!LookupPrivilegeValue<span style="color:#f92672">(</span>NULL, SE_DEBUG_NAME, &amp;sTP.Privileges<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>.Luid<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			CloseHandle<span style="color:#f92672">(</span>hToken<span style="color:#f92672">)</span>;
+			<span style="color:#66d9ef">return</span> FALSE;
+		<span style="color:#f92672">}</span>
+		sTP.PrivilegeCount <span style="color:#f92672">=</span> 1;
+		sTP.Privileges<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>.Attributes <span style="color:#f92672">=</span> SE_PRIVILEGE_ENABLED;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!AdjustTokenPrivileges<span style="color:#f92672">(</span>hToken, 0, &amp;sTP, sizeof<span style="color:#f92672">(</span>sTP<span style="color:#f92672">)</span>, NULL, NULL<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			CloseHandle<span style="color:#f92672">(</span>hToken<span style="color:#f92672">)</span>;
+			<span style="color:#66d9ef">return</span> FALSE;
+		<span style="color:#f92672">}</span>
+		CloseHandle<span style="color:#f92672">(</span>hToken<span style="color:#f92672">)</span>;
+		<span style="color:#66d9ef">return</span> TRUE;
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">return</span> FALSE;
+<span style="color:#f92672">}</span>
+
+int _tmain<span style="color:#f92672">(</span>int argc, _TCHAR* argv<span style="color:#f92672">[])</span>
+<span style="color:#f92672">{</span>
+	STARTUPINFOEX sie <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> sizeof<span style="color:#f92672">(</span>sie<span style="color:#f92672">)</span> <span style="color:#f92672">}</span>;
+	PROCESS_INFORMATION pi;
+	SIZE_T cbAttributeListSize <span style="color:#f92672">=</span> 0;
+	PPROC_THREAD_ATTRIBUTE_LIST pAttributeList <span style="color:#f92672">=</span> NULL;
+	HANDLE hParentProcess <span style="color:#f92672">=</span> NULL;
+	DWORD dwPid <span style="color:#f92672">=</span> 0;
+
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SelectMyParent v0.0.0.1: start a program with a selected parent process&#34;</span><span style="color:#f92672">))</span>;
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Source code put in public domain by Didier Stevens, no Copyright&#34;</span><span style="color:#f92672">))</span>;
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;https://DidierStevens.com&#34;</span><span style="color:#f92672">))</span>;
+	_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Use at your own risk\n&#34;</span><span style="color:#f92672">))</span>;
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>argc !<span style="color:#f92672">=</span> 3<span style="color:#f92672">)</span>
+		_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;usage: SelectMyParent program pid&#34;</span><span style="color:#f92672">))</span>;
+	<span style="color:#66d9ef">else</span>
+	<span style="color:#f92672">{</span>
+		dwPid <span style="color:#f92672">=</span> _tstoi<span style="color:#f92672">(</span>argv<span style="color:#f92672">[</span>2<span style="color:#f92672">])</span>;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>0 <span style="color:#f92672">==</span> dwPid<span style="color:#f92672">)</span>
+		<span style="color:#f92672">{</span>
+			_putts<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Invalid pid&#34;</span><span style="color:#f92672">))</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		InitializeProcThreadAttributeList<span style="color:#f92672">(</span>NULL, 1, 0, &amp;cbAttributeListSize<span style="color:#f92672">)</span>;
+		pAttributeList <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>PPROC_THREAD_ATTRIBUTE_LIST<span style="color:#f92672">)</span>HeapAlloc<span style="color:#f92672">(</span>GetProcessHeap<span style="color:#f92672">()</span>, 0, cbAttributeListSize<span style="color:#f92672">)</span>;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>NULL <span style="color:#f92672">==</span> pAttributeList<span style="color:#f92672">)</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>LPWSTR<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;HeapAlloc error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!InitializeProcThreadAttributeList<span style="color:#f92672">(</span>pAttributeList, 1, 0, &amp;cbAttributeListSize<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>LPWSTR<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;InitializeProcThreadAttributeList error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		CurrentProcessAdjustToken<span style="color:#f92672">()</span>;
+		hParentProcess <span style="color:#f92672">=</span> OpenProcess<span style="color:#f92672">(</span>PROCESS_ALL_ACCESS, FALSE, dwPid<span style="color:#f92672">)</span>;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>NULL <span style="color:#f92672">==</span> hParentProcess<span style="color:#f92672">)</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>LPWSTR<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;OpenProcess error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!UpdateProcThreadAttribute<span style="color:#f92672">(</span>pAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &amp;hParentProcess, sizeof<span style="color:#f92672">(</span>HANDLE<span style="color:#f92672">)</span>, NULL, NULL<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>LPWSTR<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;UpdateProcThreadAttribute error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		sie.lpAttributeList <span style="color:#f92672">=</span> pAttributeList;
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!CreateProcess<span style="color:#f92672">(</span>NULL, argv<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>, NULL, NULL, FALSE, EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &amp;sie.StartupInfo, &amp;pi<span style="color:#f92672">))</span>
+		<span style="color:#f92672">{</span>
+			DisplayErrorMessage<span style="color:#f92672">(</span>LPWSTR<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;CreateProcess error&#34;</span><span style="color:#f92672">)</span>, GetLastError<span style="color:#f92672">())</span>;
+			<span style="color:#66d9ef">return</span> 0;
+		<span style="color:#f92672">}</span>
+		_tprintf<span style="color:#f92672">(</span>TEXT<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Process created: %d\n&#34;</span><span style="color:#f92672">)</span>, pi.dwProcessId<span style="color:#f92672">)</span>;
+		DeleteProcThreadAttributeList<span style="color:#f92672">(</span>pAttributeList<span style="color:#f92672">)</span>;
+		CloseHandle<span style="color:#f92672">(</span>hParentProcess<span style="color:#f92672">)</span>;
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">return</span> 0;
+<span style="color:#f92672">}</span>
+</code></pre></div><p>参考原文:<a href="https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%99%8D%E6%9D%83%E5%90%AF%E5%8A%A8">https://3gstudent.github.io/渗透技巧-程序的降权启动</a></p>
+<p>程序出处:<a href="https://blog.didierstevens.com/2009/11/22/quickpost-selectmyparent-or-playing-with-the-windows-process-tree/">https://blog.didierstevens.com/2009/11/22/quickpost-selectmyparent-or-playing-with-the-windows-process-tree/</a></p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

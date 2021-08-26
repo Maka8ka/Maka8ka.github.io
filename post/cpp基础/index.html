@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> C&#43;&#43;基础 | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="C&#43;&#43;基础" />
+<meta property="og:description" content="C&#43;&#43;基础 优先级: 2 学习权重: 9 学习目标: 了解基础语法，为后面WindowsApi及QT等c&#43;&#43;面向对象项目提供基础 学习类型: 编程/语法学习 学习进度: 0.1 状态: 进行中 语言类别: C&#43;&#43;
+
+HelloWorld #include &lt;iostream&gt;#define day 7; //常量  using namespace std; const int b = 20; //常量  int main() { int a = 10; string b = &#34;world&#34;; cout &lt;&lt; &#34;hello&#34; &lt;&lt; b &lt;&lt; a &lt;&lt; endl; system(&#34;pause&#34;); return 0; } 命名规则 字母数字下划线，大小写敏感" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/cpp%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-03-12T12:33:12&#43;00:00" />
+<meta property="article:modified_time" content="2019-03-12T12:33:12&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="C&#43;&#43;基础"/>
+<meta name="twitter:description" content="C&#43;&#43;基础 优先级: 2 学习权重: 9 学习目标: 了解基础语法，为后面WindowsApi及QT等c&#43;&#43;面向对象项目提供基础 学习类型: 编程/语法学习 学习进度: 0.1 状态: 进行中 语言类别: C&#43;&#43;
+
+HelloWorld #include &lt;iostream&gt;#define day 7; //常量  using namespace std; const int b = 20; //常量  int main() { int a = 10; string b = &#34;world&#34;; cout &lt;&lt; &#34;hello&#34; &lt;&lt; b &lt;&lt; a &lt;&lt; endl; system(&#34;pause&#34;); return 0; } 命名规则 字母数字下划线，大小写敏感"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="c基础">C++基础</h1>
+<p>优先级: 2
+学习权重: 9
+学习目标: 了解基础语法，为后面WindowsApi及QT等c++面向对象项目提供基础
+学习类型: 编程/语法学习
+学习进度: 0.1
+状态: 进行中
+语言类别: C++</p>
+<p><a href="https://www.bilibili.com/video/BV1et411b73Z?p=8"></a></p>
+<h3 id="helloworld">HelloWorld</h3>
+<p><img src="/images/JavaBase/Untitled.png" alt="/images/JavaBase/Untitled.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define day 7;  </span><span style="color:#75715e">//常量
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>; <span style="color:#75715e">//常量
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+	string b <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;world&#34;</span>;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;hello&#34;</span> <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="命名规则">命名规则</h3>
+<p>字母数字下划线，大小写敏感</p>
+<h3 id="整型">整型</h3>
+<p>short短整型 2的15次方-1 -32768~32767</p>
+<p>int 整型 2的31次方-1</p>
+<p>long 长整型</p>
+<p>long long 长长整型</p>
+<p>越界会变成负数</p>
+<p>sizeof 关键字</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(a) <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#75715e">//查看数据类型占用的空间
+</span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>) <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//可以是变量类型，也可以是变量名
+</span></code></pre></div><h3 id="实型浮点型">实型（浮点型）</h3>
+<p>float 7位有效数字</p>
+<p>double 15-16为有效数字</p>
+<p>小数点后及之前的都算有效数字</p>
+<h3 id="字符型">字符型</h3>
+<p>char 单字符，占用1个字节</p>
+<p>字符赋值用单引号赋值。</p>
+<p>强制类型转换，转换成ascii码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">char</span> c <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;a&#39;</span>;
+cout <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#66d9ef">int</span>)c <span style="color:#f92672">&lt;&lt;</span> endl;
+</code></pre></div><p>字符串类型</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">//#include &lt;string&gt; //引用时尽量声明头文件
+</span><span style="color:#75715e"></span>string b <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;world&#34;</span>; <span style="color:#75715e">//cpp风格的字符串
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">char</span> b1[] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;world&#34;</span>; <span style="color:#75715e">//c语言风格的字符串，字符数组
+</span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;hello&#34;</span> <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
+cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;hello&#34;</span> <span style="color:#f92672">&lt;&lt;</span> b1 <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
+</code></pre></div><h3 id="数据输入">数据输入</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">string newinput; <span style="color:#75715e">//使用前声明输入类型
+</span><span style="color:#75715e"></span>cin <span style="color:#f92672">&gt;&gt;</span> newinput; <span style="color:#75715e">// cin输入
+</span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> newinput <span style="color:#f92672">&lt;&lt;</span> endl;
+</code></pre></div><h3 id="三目运算符">三目运算符</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+<span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> <span style="color:#ae81ff">29</span>;
+<span style="color:#66d9ef">int</span> f <span style="color:#f92672">=</span> d <span style="color:#f92672">&gt;</span> e <span style="color:#f92672">?</span> d : e; 
+cout <span style="color:#f92672">&lt;&lt;</span> f <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#75715e">//29
+</span><span style="color:#75715e"></span>d <span style="color:#f92672">&gt;</span> e <span style="color:#f92672">?</span> d : e <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+cout <span style="color:#f92672">&lt;&lt;</span> e <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//100
+</span></code></pre></div><h3 id="switch分支">switch分支</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">switch</span> (f) {
+	<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">28</span><span style="color:#f92672">:</span> 
+		cout <span style="color:#f92672">&lt;&lt;</span> f <span style="color:#f92672">&lt;&lt;</span> endl;
+		<span style="color:#66d9ef">break</span>;
+	<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;error&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+		<span style="color:#66d9ef">break</span>;
+	}
+</code></pre></div><h3 id="goto">goto</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">FLAG:
+<span style="color:#66d9ef">goto</span> FLAG;
+</code></pre></div><h3 id="数组sizeof">数组sizeof</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span> };
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;数组内存空间&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(arr) <span style="color:#f92672">&lt;&lt;</span> endl;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;数组首地址空间&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(arr[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">&lt;&lt;</span> endl;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;数组长度&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(arr)<span style="color:#f92672">/</span><span style="color:#66d9ef">sizeof</span>(arr[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">&lt;&lt;</span> endl;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;数组首地址十六进制&#34;</span> <span style="color:#f92672">&lt;&lt;</span> arr <span style="color:#f92672">&lt;&lt;</span> endl;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;数组首地址强转十进制&#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#66d9ef">int</span>)arr <span style="color:#f92672">&lt;&lt;</span> endl;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;数组第一个元素地址,&amp;为取地址符号&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">&amp;</span>arr[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;数组第二个元素地址,&amp;为取地址符号&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">&amp;</span>arr[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="二维数组">二维数组</h3>
+<h3 id="函数">函数</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> sumadd(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>);
+	cout <span style="color:#f92672">&lt;&lt;</span> sumadd(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>定义函数卸载main函数前不用声明定义</p>
+<h3 id="值传递">值传递</h3>
+<h3 id="函数声明">函数声明</h3>
+<p>提前声明函数</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) ;
+<span style="color:#75715e">//函数声明，需要函数返回值，函数名，参数列表
+</span><span style="color:#75715e">//声明可以写多次
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	cout <span style="color:#f92672">&lt;&lt;</span> sumadd(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#75715e">//定义只能写一次
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+}
+</code></pre></div><h3 id="函数的分文件编写">函数的分文件编写</h3>
+<p>头文件（声明函数）==函数中使用的cout方法需要在头文件中调用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c);
+</code></pre></div><p>函数源文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+	cout <span style="color:#f92672">&lt;&lt;</span> a<span style="color:#f92672">+</span>b <span style="color:#f92672">&lt;&lt;</span> endl;
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c) {
+	cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span>c <span style="color:#f92672">&lt;&lt;</span> endl;
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span> c;
+}
+</code></pre></div><p>调用过程源文件===调用文件和函数源文件同时包含头文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	cout <span style="color:#f92672">&lt;&lt;</span> sumadd(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">7</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="指针">指针</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p; <span style="color:#75715e">//p为指针类型，声明p的int类型指针
+</span><span style="color:#75715e"></span>	p <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a; <span style="color:#75715e">//&amp;号取地址
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> p <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//p 直接打印为地址编号
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//*号取值，c中叫解引用
+</span><span style="color:#75715e"></span>	<span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+	cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//通过指针修改指针指向的内存数据
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(p) <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//32系统占用4字节，64位占8个字节
+</span><span style="color:#75715e"></span>
+	
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">&amp;</span>p <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//p指向a的地址，&amp;p为p指针的内存地址
+</span><span style="color:#75715e"></span>
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="空指针和野指针">空指针和野指针</h3>
+<p>空指针常用在初始化指针变量，该指针所指向内存不可访问</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p<span style="color:#f92672">=</span>NULL; <span style="color:#75715e">//空指针
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">//以下代码不允许访问
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>野指针，指向非法数据空间，范围跟会因权限报错</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p<span style="color:#f92672">=</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>)<span style="color:#ae81ff">0x1100</span>; <span style="color:#75715e">//野指针
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">//以下代码不允许访问
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="const指针">const指针</h3>
+<p>const 修饰指针 常量指针 const int * p = &amp;a; //此时const相当于修饰&amp;a</p>
+<p>指针的指向可以修改(p = &amp;b; )，指针指向的值不可修改(*a =199;//错误)</p>
+<p>const 修饰常量 指针常量  int * const p =&amp;a;</p>
+<p>指针的指向不可以修改，指针指向的值可以修改</p>
+<p>const 既修饰指针又修饰常量 const int * const p =&amp;a;</p>
+<p>指针的指向和指向的值都不可修改</p>
+<h3 id="指针和数组">指针和数组</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">include <span style="color:#f92672">&lt;</span>iostream<span style="color:#f92672">&gt;</span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span> };
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p1 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>arr[<span style="color:#ae81ff">0</span>];
+	<span style="color:#f92672">*</span>p1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	cout <span style="color:#f92672">&lt;&lt;</span> arr[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> p2 <span style="color:#f92672">=</span> arr;<span style="color:#75715e">//arr本身就是内存地址，无需使用&amp;
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>p2 <span style="color:#f92672">&lt;&lt;</span> endl;
+	p2<span style="color:#f92672">++</span>; <span style="color:#75715e">//直接将指针偏移4个字节
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>p2 <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>利用指针遍历数组</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> arr[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">22</span>,<span style="color:#ae81ff">333</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">21</span>,<span style="color:#ae81ff">24</span> };
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p1 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>arr[<span style="color:#ae81ff">0</span>];
+	<span style="color:#f92672">*</span>p1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#75715e">//cout &lt;&lt; arr[0] &lt;&lt; endl;
+</span><span style="color:#75715e"></span>
+	<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> p2 <span style="color:#f92672">=</span> arr;<span style="color:#75715e">//arr本身就是内存地址，无需使用&amp;
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#66d9ef">sizeof</span>(arr) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(arr[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>)
+	{
+		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>p2 <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//循环遍历
+</span><span style="color:#75715e"></span>		p2<span style="color:#f92672">++</span>; <span style="color:#75715e">//直接将指针偏移4个字节
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">//简写成 cout &lt;&lt; *p2++ &lt;&lt; endl;
+</span><span style="color:#75715e"></span>
+	}
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="指针和函数">指针和函数</h3>
+<p>指针作为参数可以改变值</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pa, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pb); <span style="color:#75715e">//方法重写需要多次声明
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pa <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a;
+	<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">102</span>;
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pb <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>b;
+
+	swap(pa,pb);
+	cout <span style="color:#f92672">&lt;&lt;</span> a<span style="color:#f92672">&lt;&lt;</span> b<span style="color:#f92672">&lt;&lt;</span>endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> a;
+	a <span style="color:#f92672">=</span> b;
+	b <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> pa, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> pb) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>pa;
+	<span style="color:#f92672">*</span>pa <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>pb;
+	<span style="color:#f92672">*</span>pb <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pa <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pb <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h3 id="结构体数组遍历">结构体+数组遍历</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#75715e">//#include &#34;maths.h&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Student</span>
+{
+	string Name;
+	<span style="color:#66d9ef">int</span> age;
+	<span style="color:#66d9ef">int</span> score;
+};
+
+string <span style="color:#a6e22e">to_string</span>(Student s);
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	Student class1[] <span style="color:#f92672">=</span> {
+		{<span style="color:#e6db74">&#34;a&#34;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>},
+		{<span style="color:#e6db74">&#34;b&#34;</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">22</span>},
+		{<span style="color:#e6db74">&#34;c&#34;</span>,<span style="color:#ae81ff">111</span>,<span style="color:#ae81ff">222</span>}
+	};
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#66d9ef">sizeof</span>(class1)<span style="color:#f92672">/</span><span style="color:#66d9ef">sizeof</span>(class1[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>)
+	{
+		cout <span style="color:#f92672">&lt;&lt;</span> to_string(class1[i]) <span style="color:#f92672">&lt;&lt;</span> endl;
+	}
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+string <span style="color:#a6e22e">to_string</span>(Student s) {
+	string str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;姓名:&#34;</span> <span style="color:#f92672">+</span> s.Name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;年龄:&#34;</span> <span style="color:#f92672">+</span> to_string(s.age) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;分数:&#34;</span><span style="color:#f92672">+</span>  to_string(s.score);
+	<span style="color:#66d9ef">return</span> str;
+}
+</code></pre></div><h3 id="结构体指针函数传参">结构体指针+函数传参</h3>
+<p>传入结构体指针传参，指针占用4字节/8字节，作为参数传递省内存</p>
+<p>加上const 可以防止方法中误操作数据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#75715e">//#include &#34;maths.h&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Student</span>
+{
+	string Name;
+	<span style="color:#66d9ef">int</span> age;
+	<span style="color:#66d9ef">int</span> score;
+};
+
+string <span style="color:#a6e22e">to_string</span>(<span style="color:#66d9ef">const</span> Student <span style="color:#f92672">*</span>s);
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	Student class1[] <span style="color:#f92672">=</span> {
+		{<span style="color:#e6db74">&#34;a&#34;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>},
+		{<span style="color:#e6db74">&#34;b&#34;</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">22</span>},
+		{<span style="color:#e6db74">&#34;c&#34;</span>,<span style="color:#ae81ff">111</span>,<span style="color:#ae81ff">222</span>}
+	};
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#66d9ef">sizeof</span>(class1)<span style="color:#f92672">/</span><span style="color:#66d9ef">sizeof</span>(class1[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>)
+	{
+		cout <span style="color:#f92672">&lt;&lt;</span> to_string(<span style="color:#f92672">&amp;</span>class1[i]) <span style="color:#f92672">&lt;&lt;</span> endl;
+	}
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+string <span style="color:#a6e22e">to_string</span>(<span style="color:#66d9ef">const</span> Student <span style="color:#f92672">*</span>s) {
+	string str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;姓名:&#34;</span> <span style="color:#f92672">+</span> s<span style="color:#f92672">-&gt;</span>Name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;年龄:&#34;</span> <span style="color:#f92672">+</span> to_string(s<span style="color:#f92672">-&gt;</span>age) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;分数:&#34;</span><span style="color:#f92672">+</span>  to_string(s<span style="color:#f92672">-&gt;</span>score);
+	<span style="color:#66d9ef">return</span> str;
+}
+</code></pre></div><h3 id="内存堆创建释放">内存堆创建释放</h3>
+<p>new/delete</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#75715e">//#include &#34;maths.h&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Student</span>
+{
+	string Name;
+	<span style="color:#66d9ef">int</span> age;
+	<span style="color:#66d9ef">int</span> score;
+};
+
+string <span style="color:#a6e22e">to_string</span>(<span style="color:#66d9ef">const</span> Student<span style="color:#f92672">*</span> s);
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	Student<span style="color:#f92672">*</span> s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Student({ <span style="color:#e6db74">&#34;aaa&#34;</span>,<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">12</span> });<span style="color:#75715e">//new创建的是指针，需要使用指针接收
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> to_string(s) <span style="color:#f92672">&lt;&lt;</span> endl;
+	<span style="color:#66d9ef">delete</span> s; <span style="color:#75715e">//使用delete关键字释放内存
+</span><span style="color:#75715e"></span>
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> arr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[<span style="color:#ae81ff">10</span>];
+	<span style="color:#66d9ef">delete</span>[] arr; <span style="color:#75715e">//new 数组指针 需要使用delete[]释放
+</span><span style="color:#75715e"></span>
+	Student<span style="color:#f92672">*</span> sarr[] <span style="color:#f92672">=</span>{
+		<span style="color:#66d9ef">new</span> Student {<span style="color:#e6db74">&#34;a&#34;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>},
+		<span style="color:#66d9ef">new</span> Student{<span style="color:#e6db74">&#34;b&#34;</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">22</span>},
+		<span style="color:#66d9ef">new</span> Student{<span style="color:#e6db74">&#34;c&#34;</span>,<span style="color:#ae81ff">111</span>,<span style="color:#ae81ff">222</span>}
+	};
+	<span style="color:#75715e">//sarr数组指针，存储Student指针，释放需要使用for循环遍历释放
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> sarr[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-&gt;</span>Name <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	Student<span style="color:#f92672">*</span> sarr1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Student[]{
+		{<span style="color:#e6db74">&#34;a&#34;</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>},
+		{<span style="color:#e6db74">&#34;b&#34;</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">22</span>},
+		{<span style="color:#e6db74">&#34;c&#34;</span>,<span style="color:#ae81ff">111</span>,<span style="color:#ae81ff">222</span>}
+	};
+
+	<span style="color:#66d9ef">delete</span>[] sarr1; <span style="color:#75715e">//new 结构体数组返回指针，需要使用delete[]释放
+</span><span style="color:#75715e"></span>
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+string <span style="color:#a6e22e">to_string</span>(<span style="color:#66d9ef">const</span> Student<span style="color:#f92672">*</span> s) {
+	string str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;姓名:&#34;</span> <span style="color:#f92672">+</span> s<span style="color:#f92672">-&gt;</span>Name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;年龄:&#34;</span> <span style="color:#f92672">+</span> to_string(s<span style="color:#f92672">-&gt;</span>age) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;分数:&#34;</span> <span style="color:#f92672">+</span> to_string(s<span style="color:#f92672">-&gt;</span>score);
+	<span style="color:#66d9ef">return</span> str;
+}
+</code></pre></div><h3 id="c引用">C++引用</h3>
+<p>变量的别名</p>
+<p>引用在初始化创建之后不可被更改</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#75715e">//#include &#34;maths.h&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Student</span>
+{
+	string Name;
+	<span style="color:#66d9ef">int</span> age;
+	<span style="color:#66d9ef">int</span> score;
+};
+
+string <span style="color:#a6e22e">to_string</span>(<span style="color:#66d9ef">const</span> Student<span style="color:#f92672">*</span> s);
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	Student<span style="color:#f92672">*</span> s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Student({ <span style="color:#e6db74">&#34;aaa&#34;</span>,<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">12</span> });<span style="color:#75715e">//new创建的是指针，需要使用指针接收
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">// 引用时一种指针常量
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//数据类型 &amp;别名 = 原名;
+</span><span style="color:#75715e"></span>	Student<span style="color:#f92672">*</span> <span style="color:#f92672">&amp;</span>s1 <span style="color:#f92672">=</span> s; <span style="color:#75715e">//s为指针，所以别名需要创建指针类型,s1和s指向同一内存
+</span><span style="color:#75715e"></span>
+	cout <span style="color:#f92672">&lt;&lt;</span> to_string(s) <span style="color:#f92672">&lt;&lt;</span> endl;
+	cout <span style="color:#f92672">&lt;&lt;</span> to_string(s1) <span style="color:#f92672">&lt;&lt;</span> endl;
+	
+	<span style="color:#66d9ef">delete</span> s1;
+	<span style="color:#75715e">//delete s; //使用delete关键字释放内存
+</span><span style="color:#75715e"></span>	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+string <span style="color:#a6e22e">to_string</span>(<span style="color:#66d9ef">const</span> Student<span style="color:#f92672">*</span> s) {
+	string str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;姓名:&#34;</span> <span style="color:#f92672">+</span> s<span style="color:#f92672">-&gt;</span>Name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;年龄:&#34;</span> <span style="color:#f92672">+</span> to_string(s<span style="color:#f92672">-&gt;</span>age) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;分数:&#34;</span> <span style="color:#f92672">+</span> to_string(s<span style="color:#f92672">-&gt;</span>score);
+	<span style="color:#66d9ef">return</span> str;
+}
+</code></pre></div><h3 id="引用作为函数参数">引用作为函数参数</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b); <span style="color:#75715e">//值传递不会修改数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap1</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>b); <span style="color:#75715e">//引用传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pa, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pb); <span style="color:#75715e">//指针地址传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+	<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">102</span>;
+
+	swap(<span style="color:#f92672">&amp;</span>a, <span style="color:#f92672">&amp;</span>b);
+	cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">101</span>;
+	<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">103</span>;
+
+	swap1(c, d);
+	cout <span style="color:#f92672">&lt;&lt;</span> c <span style="color:#f92672">&lt;&lt;</span> d <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#75715e">//值传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> a;
+	a <span style="color:#f92672">=</span> b;
+	b <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap zhi&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//地址传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>pa, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>pb) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>pa;
+	<span style="color:#f92672">*</span>pa <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>pb;
+	<span style="color:#f92672">*</span>pb <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap address&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pa <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pb <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//引用传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap1</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>b) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> a;
+	a <span style="color:#f92672">=</span> b;
+	b <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap yinyong&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h3 id="引用作为返回值">引用作为返回值</h3>
+<p>不要返回局部变量的引用</p>
+<p>错误示范</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> getint();
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+
+	<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> b <span style="color:#f92672">=</span> getint(); <span style="color:#75715e">//此处局部变量a调用完即被释放
+</span><span style="color:#75715e"></span>
+	cout <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//第一次打印数据被编辑器保留
+</span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">//第二次已被释放，输出乱码
+</span><span style="color:#75715e"></span>
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> getint() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+	<span style="color:#66d9ef">return</span> a;
+}
+</code></pre></div><p>正确用法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> getint();
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+
+	<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>b <span style="color:#f92672">=</span> getint();
+
+	cout <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	getint() <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>; <span style="color:#75715e">//此处函数作为左值，相当于将a/&amp;b赋值为100
+</span><span style="color:#75715e"></span>
+	cout <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> getint() {
+	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;<span style="color:#75715e">//此处将局部变量设置为系统变量，程序结束时由系统释放
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> a;
+}
+</code></pre></div><h3 id="引用的本质">引用的本质</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>;
+
+	<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>n <span style="color:#f92672">=</span> a;
+	<span style="color:#75715e">// 引用相当于创建了指针常量
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span> n1 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a;
+
+	n <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
+	<span style="color:#75715e">// 引用赋值相当于自动指针解引用
+</span><span style="color:#75715e"></span>	<span style="color:#f92672">*</span>n1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
+	
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="函数默认参数">函数默认参数</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">test</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">29</span>, <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">290</span>) {
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span> c;
+}
+<span style="color:#75715e">//声明中有默认参数，实现中则不允许有默认参数，声明和实现只能存在一处默认值
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">test2</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">29</span>, <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">290</span>);
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">test2</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c) {
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span> c;
+}
+
+<span style="color:#75715e">//占位参数之只声明类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">test3</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+
+	cout <span style="color:#f92672">&lt;&lt;</span> test(<span style="color:#ae81ff">11</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="c-方法重载">c++ 方法重载</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) ;
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b,<span style="color:#66d9ef">int</span> c);
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	cout <span style="color:#f92672">&lt;&lt;</span> sumadd(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">7</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sumadd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b,<span style="color:#66d9ef">int</span> c) {
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span>c;
+}
+</code></pre></div><h3 id="c引用作为重载条件">c++引用作为重载条件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b); <span style="color:#75715e">//值传递不会修改数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap1</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>b); <span style="color:#75715e">//引用传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap1</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> b);
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pa, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pb); <span style="color:#75715e">//指针地址传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+	<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">102</span>;
+
+	swap(<span style="color:#f92672">&amp;</span>a, <span style="color:#f92672">&amp;</span>b);
+	cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	<span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">101</span>;
+	<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">103</span>;
+
+	swap1(c, d);
+	cout <span style="color:#f92672">&lt;&lt;</span> c <span style="color:#f92672">&lt;&lt;</span> d <span style="color:#f92672">&lt;&lt;</span> endl;
+	swap1(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>);
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#75715e">//值传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> a;
+	a <span style="color:#f92672">=</span> b;
+	b <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap zhi&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//地址传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pa, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> pb) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>pa;
+	<span style="color:#f92672">*</span>pa <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>pb;
+	<span style="color:#f92672">*</span>pb <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap address&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pa <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pb <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//引用传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap1</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>b) {
+	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> a;
+	a <span style="color:#f92672">=</span> b;
+	b <span style="color:#f92672">=</span> tmp;
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap yinyong&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//引用传递
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">swap1</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>b) {
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;swap yinyong&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h3 id="类和对象">类和对象</h3>
+<p>封装-继承-多态</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;maths.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span>  <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Circle</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+	<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">double</span> Pi <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.14</span>;
+	
+	<span style="color:#66d9ef">double</span> mianji;
+	<span style="color:#66d9ef">double</span> <span style="color:#a6e22e">clacZC</span>() {
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> Pi <span style="color:#f92672">*</span> m;
+	}
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setName</span>(string _name) {
+		name <span style="color:#f92672">=</span> _name;
+	}
+	string <span style="color:#a6e22e">getName</span>() {
+		<span style="color:#66d9ef">return</span> name;
+	}
+
+	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setM</span>(<span style="color:#66d9ef">int</span> _m) {
+		m <span style="color:#f92672">=</span> _m;
+		mianji <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> Pi <span style="color:#f92672">*</span> m;
+	}
+
+	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getM</span>() {
+		<span style="color:#66d9ef">return</span> m;
+	}
+	Circle() {  <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>		mianji <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> Pi <span style="color:#f92672">*</span> m;
+	}
+
+<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+	string name;
+	<span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+};
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	Circle c1;
+	c1.setM(<span style="color:#ae81ff">2</span>);
+	cout <span style="color:#f92672">&lt;&lt;</span> c1.clacZC() <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	Circle c2;
+	cout <span style="color:#f92672">&lt;&lt;</span> c2.mianji<span style="color:#f92672">&lt;&lt;</span> endl;
+
+	system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>权限：</p>
+<p>public 公共 类内访问 类外访问</p>
+<p>protected 保护 类内访问 类外拒绝访问———子类可访问</p>
+<p>private 私有 类内访问 类外拒绝访问———子类不允许访问</p>
+<h3 id="struct和class">struct和class</h3>
+<p>struct 默认权限为公共</p>
+<p>class 默认为私有</p>
+<h3 id="构造函数">构造函数</h3>
+<p>可以重载</p>
+<h3 id="拷贝构造函数">拷贝构造函数</h3>
+<p>创建对象时直接拷贝一个已经存在的对象</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">Person(<span style="color:#66d9ef">const</span> Person <span style="color:#f92672">&amp;</span>p){
+	age <span style="color:#f92672">=</span> p.age;
+}
+</code></pre></div><h3 id="析构函数">析构函数</h3>
+<p>~类名(){}</p>
+<p>析构函数在栈区运行</p>
+<p>函数执行完会运行析构函数</p>
+<p>推测用于调用资源的释放</p>
+<p><a href="https://www.bilibili.com/video/BV1et411b73Z?p=108"></a></p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

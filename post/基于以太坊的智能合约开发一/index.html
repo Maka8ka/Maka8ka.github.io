@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> 基于以太坊的智能合约开发(一) | Maka8ka&#39;s Garden</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="基于以太坊的智能合约开发(一)" />
+<meta property="og:description" content="基于以太坊的智能合约开发 关键词: ETH, 区块链, 开发, 智能合约 状态: 进行中
+小结：智能合约类似于定义各种结构体及方法，这些方法及对象将保存在区块链数据库中并将操作未来的数据库对象。
+first helloworld pragma solidity ^0.4.0; contract helloword{ string Myname = &#34;name&#34;; function getName() public returns(string){ return Myname; } function setName(string _name)public{ Myname = _name; } } 以太坊地址的本质" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.maka8ka.cc/post/%E5%9F%BA%E4%BA%8E%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%9A%84%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E4%B8%80/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-03-16T14:18:45&#43;00:00" />
+<meta property="article:modified_time" content="2020-03-16T14:18:45&#43;00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于以太坊的智能合约开发(一)"/>
+<meta name="twitter:description" content="基于以太坊的智能合约开发 关键词: ETH, 区块链, 开发, 智能合约 状态: 进行中
+小结：智能合约类似于定义各种结构体及方法，这些方法及对象将保存在区块链数据库中并将操作未来的数据库对象。
+first helloworld pragma solidity ^0.4.0; contract helloword{ string Myname = &#34;name&#34;; function getName() public returns(string){ return Myname; } function setName(string _name)public{ Myname = _name; } } 以太坊地址的本质"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.maka8ka.cc/css/style-white.css">
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.maka8ka.cc/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RFYM27MKD6"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-RFYM27MKD6', { 'anonymize_ip': false });
+}
+</script>
+
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.maka8ka.cc/">
+  
+    <div id="logo" style="background-image: url(https://www.maka8ka.cc/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Maka8ka&#39;s Garden</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/post/">Posts</a></li>
+      
+        <li><a href="/categories/">Categories</a></li>
+      
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <h1 id="基于以太坊的智能合约开发">基于以太坊的智能合约开发</h1>
+<p>关键词: ETH, 区块链, 开发, 智能合约
+状态: 进行中</p>
+<!-- raw HTML omitted -->
+<p>小结：智能合约类似于定义各种结构体及方法，这些方法及对象将保存在区块链数据库中并将操作未来的数据库对象。</p>
+<h3 id="first-helloworld">first helloworld</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pragma solidity ^0.4.0;
+
+contract helloword<span style="color:#f92672">{</span>
+    string Myname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;name&#34;</span>;
+    <span style="color:#66d9ef">function</span> getName<span style="color:#f92672">()</span> public returns<span style="color:#f92672">(</span>string<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">return</span> Myname;
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">function</span> setName<span style="color:#f92672">(</span>string _name<span style="color:#f92672">)</span>public<span style="color:#f92672">{</span>
+        Myname <span style="color:#f92672">=</span>  _name;
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><img src="/images/ETHContracts2020-03-16/Untitled.png" alt="/images/ETHContracts2020-03-16/Untitled.png"></p>
+<p>以太坊地址的本质</p>
+<p>账户地址</p>
+<p>外部账户地址0x5B38Da6a701c568545dCfcB03FcB875f56beddC4</p>
+<p>合约地址0x0fC5025C764cE34df352757e82f7B5c4Df39A836</p>
+<h3 id="使用钱包转移资金">使用钱包转移资金</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">payableTest</span>{
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">pay</span>() <span style="color:#a6e22e">payable</span>{ <span style="color:#75715e">//payable 关键字使合约可接收转账，执行pay方法往合约转账
+</span><span style="color:#75715e"></span>        
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getBalance</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">balance</span>; <span style="color:#75715e">//获取合约账户金额，wei为单位，1eth=10的18次方的位
+</span><span style="color:#75715e"></span>    }
+    
+}
+</code></pre></div><p>执行pay方法通过外部账户往合约转帐</p>
+<p><img src="/images/ETHContracts2020-03-16/Untitled%201.png" alt="/images/ETHContracts2020-03-16/Untitled%201.png"></p>
+<h3 id="this属性">this属性</h3>
+<p>this代表着合约地址</p>
+<p>balance获取地址的金额</p>
+<h3 id="外部地址转账">外部地址转账</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">payableTest</span>{
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">pay</span>() <span style="color:#a6e22e">payable</span>{ <span style="color:#75715e">//PayContracts同功能
+</span><span style="color:#75715e"></span>        
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getMyBalance</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">balance</span>;
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getBalance</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_account</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_account</span>.<span style="color:#a6e22e">balance</span>;
+    }
+
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">transfer</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_account</span>) <span style="color:#a6e22e">payable</span>{ <span style="color:#75715e">//所有转账需要加上payable，往外部地址转账
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">account</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">_account</span>;
+        <span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">transfer</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">value</span>); <span style="color:#75715e">//向指定账户转账
+</span><span style="color:#75715e"></span>    }
+
+		<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">PayContracts</span>()<span style="color:#a6e22e">payable</span>{ <span style="color:#75715e">//向本合约转账需要配合回滚函数，function ()payable
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">transfer</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">value</span>);
+    }
+    
+    <span style="color:#66d9ef">function</span> ()<span style="color:#a6e22e">payable</span>{ 
+        
+    }
+}
+</code></pre></div><h3 id="以太坊中的全局属性">以太坊中的全局属性</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">grobal</span>{
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getSander</span>()  <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">address</span>){ <span style="color:#75715e">//获取发送者
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;
+    }
+    
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getBlockDifficulty</span>()  <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){ <span style="color:#75715e">//获取当前块困难度
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">difficulty</span>;
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getBlockMum</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){ <span style="color:#75715e">//获取合约所在区块的id
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">number</span>;
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getCoinbase</span>()  <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">address</span>){ <span style="color:#75715e">//获取当前块是哪个矿工挖出的
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">coinbase</span>;
+    }
+    
+    
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">- msg
+msg.sender<span style="color:#f92672">(</span>address<span style="color:#f92672">)</span> 消息发送者（当前调用）
+msg.value <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span> 随消息发送的 wei 的数量
+msg.data <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span> 完整的 calldata
+msg.gas <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span> 剩余 gas ,<span style="color:#f92672">(</span> 弃！<span style="color:#f92672">)</span>推荐使用gasleft<span style="color:#f92672">()</span>
+msg.sig <span style="color:#f92672">(</span>bytes4<span style="color:#f92672">)</span> calldata 的前 <span style="color:#ae81ff">4</span> 字节（也就是函数标识符）
+- tx
+tx.gasprice <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span> 交易的 gas 价格
+tx.origin <span style="color:#f92672">(</span>address<span style="color:#f92672">)</span> 交易发起者（完全的调用链）
+- block
+block.blockhash<span style="color:#f92672">(</span>uint blockNumber<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>bytes32<span style="color:#f92672">)</span> 指定区块的区块哈希,仅可用于最新的 <span style="color:#ae81ff">256</span> 个区块且不包括当前区块,<span style="color:#f92672">(</span> 弃！<span style="color:#f92672">)</span>推荐使用blockhash<span style="color:#f92672">(</span>uint blockNumber<span style="color:#f92672">)</span>
+block.coinbase <span style="color:#f92672">(</span>address<span style="color:#f92672">)</span>: 挖出当前区块的矿工地址
+block.difficulty <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span>: 当前区块难度
+block.gaslimit <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span>: 当前区块 gas 限额
+block.number <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span>: 当前区块号
+block.timestamp <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span>: 自 unix epoch 起始当前区块以秒计的时间戳
+- address
+&lt;address&gt;.balance <span style="color:#f92672">(</span>uint256<span style="color:#f92672">)</span>: 以 Wei 为单位的地址类型的余额。
+&lt;address payable&gt;.transfer<span style="color:#f92672">(</span>uint256 amount<span style="color:#f92672">)</span>: 向地址类型发送数量为 amount 的 Wei，失败时抛出异常，发送 <span style="color:#ae81ff">2300</span> gas 的矿工费，不可调节。
+&lt;address payable&gt;.send<span style="color:#f92672">(</span>uint256 amount<span style="color:#f92672">)</span> returns <span style="color:#f92672">(</span>bool<span style="color:#f92672">)</span>:向地址类型发送数量为 amount 的 Wei，失败时返回 false，发送 <span style="color:#ae81ff">2300</span> gas 的矿工费用，不可调节。
+&lt;address&gt;.call<span style="color:#f92672">(</span>...<span style="color:#f92672">)</span> returns <span style="color:#f92672">(</span>bool<span style="color:#f92672">)</span>: 发出低级函数 CALL，失败时返回 false，发送所有可用 gas，可调节。
+&lt;address&gt;.callcode<span style="color:#f92672">(</span>...<span style="color:#f92672">)</span> returns <span style="color:#f92672">(</span>bool<span style="color:#f92672">)</span>：已禁止使用。
+&lt;address&gt;.delegatecall<span style="color:#f92672">(</span>...<span style="color:#f92672">)</span> returns <span style="color:#f92672">(</span>bool<span style="color:#f92672">)</span>:发出低级函数 DELEGATECALL，失败时返回 false，发送所有可用 gas，可调节。
+- alias
+now <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span>: 目前区块时间戳（block.timestamp）
+blockhash<span style="color:#f92672">(</span>uint blockNumber<span style="color:#f92672">)</span>returns<span style="color:#f92672">(</span>bytes32<span style="color:#f92672">)</span> 指定区块的区块哈希,限制256个之内
+gasleft<span style="color:#f92672">()</span> returns<span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span> 剩余的 gas, <span style="color:#f92672">(</span>msg.gas<span style="color:#f92672">)</span>
+staticcall<span style="color:#f92672">()</span>
+</code></pre></div><p>转账尽量用transfer ，sand是底层函数，返回bool类型，比较危险。</p>
+<h3 id="mapping映射">Mapping映射</h3>
+<p>使用mapping制作注册和数据库功能</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">maptest</span>{
+    <span style="color:#75715e">//mapping
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">address</span> =&gt; <span style="color:#a6e22e">uint</span>) <span style="color:#a6e22e">idmapping</span>;
+    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">uint</span> =&gt; <span style="color:#a6e22e">string</span>) <span style="color:#a6e22e">namemapping</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">sum</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">//初始id,可设置为0，防止1号id被抢注册
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">register</span>(<span style="color:#a6e22e">string</span> <span style="color:#a6e22e">name</span>){
+        <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">account</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>; 
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">account</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){ <span style="color:#75715e">//判断注册者外部地址是否注册过平台，防止account一对多
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">sum</span> <span style="color:#f92672">++</span>; <span style="color:#75715e">//id默认加1
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">account</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>;
+            <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">sum</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+        }
+    }
+
+<span style="color:#75715e">//方法可重写,使用不同参数获取数据
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">id</span>];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_address</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">_address</span>]];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getId</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getId</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_address</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">_address</span>];
+    }
+    
+}
+</code></pre></div><h3 id="function修饰符">function修饰符</h3>
+<p>external 修饰符允许函数在函数外部调用，不允许函数被内部函数调用</p>
+<p>使用间接方法调用this.test</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">maptest</span>{
+    <span style="color:#75715e">//mapping
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">address</span> =&gt; <span style="color:#a6e22e">uint</span>) <span style="color:#a6e22e">idmapping</span>;
+    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">uint</span> =&gt; <span style="color:#a6e22e">string</span>) <span style="color:#a6e22e">namemapping</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">sum</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">register</span>(<span style="color:#a6e22e">string</span> <span style="color:#a6e22e">name</span>){
+        <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">account</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>; 
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">account</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+            <span style="color:#a6e22e">sum</span> <span style="color:#f92672">++</span>;
+            <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">account</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>;
+            <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">sum</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+        }
+        
+        
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getNameExternal</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>) <span style="color:#a6e22e">external</span> <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){ <span style="color:#75715e">//external 修饰，只允许外部调用
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">id</span>];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){ <span style="color:#75715e">//间接调用external所修饰的方法
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getNameExternal</span>(<span style="color:#a6e22e">id</span>);
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_address</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">_address</span>]];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getId</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getId</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_address</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">_address</span>];
+    }
+    
+}
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">externalTest</span>{
+    <span style="color:#a6e22e">maptest</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">maptest</span>(); <span style="color:#75715e">//通过new一个函数进行调用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">externalTestgetNameExternal</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">getNameExternal</span>(<span style="color:#a6e22e">id</span>);
+    }
+}
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">mapson</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">maptest</span>{ <span style="color:#75715e">//通过继承方法中使用this调用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getNameExternal</span>(<span style="color:#a6e22e">id</span>);
+    }
+}
+</code></pre></div><h3 id="constant关键字">constant关键字</h3>
+<p>constant 在4.0中等价于 view，使用不消耗gas，在5.0中即将废弃</p>
+<p>定义类似常量,定义后不允许修改</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">addresstest</span>{
+    <span style="color:#a6e22e">address</span> <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">account</span>;
+    <span style="color:#a6e22e">address</span> <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">constant</span> <span style="color:#a6e22e">add</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x617F2E2fD72FD9D5503197092aC168c91465E7f2</span>;
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getaddress</span>() <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint160</span>){
+        
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">uint160</span>(<span style="color:#a6e22e">account</span>);
+    }
+    
+}
+</code></pre></div><h3 id="合约中的构造函数">合约中的构造函数</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">constructTest</span>{
+    <span style="color:#a6e22e">address</span> <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">owner</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">a</span>;
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">constructTest</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_a</span>,<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_b</span>){
+        <span style="color:#a6e22e">owner</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;
+        <span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">_a</span>;
+    }
+}
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">constructorTest</span>{
+    <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">owner</span>;  <span style="color:#75715e">//利用构造函数声明合约拥有者
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">uint</span> <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">a</span>;
+    <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_a</span>,<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_b</span>){ <span style="color:#75715e">//在部署合约时会执行，constructor新的构造函数命名方式
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">owner</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;  
+        <span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">_a</span>;
+    }
+}
+</code></pre></div><h3 id="modifier函数">modifier函数</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">modifierTest</span>{
+    <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">owner</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">ownerID</span>;
+    <span style="color:#a6e22e">constructor</span>(){ 
+        <span style="color:#a6e22e">owner</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;  <span style="color:#75715e">// 合约初始化语句，申明拥有者
+</span><span style="color:#75715e"></span>    }
+    
+    <span style="color:#a6e22e">modifier</span> <span style="color:#a6e22e">OnlyOwner</span>{
+        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">owner</span>); <span style="color:#75715e">//判断语句，如果false，则函数不会往下执行
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span>; <span style="color:#75715e">//动态添加语句处
+</span><span style="color:#75715e"></span>    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">changeOwnerID</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_num</span>)<span style="color:#a6e22e">OnlyOwner</span>{ <span style="color:#75715e">//将函数插入到OnlyOwner函数的_处执行
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ownerID</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">_num</span>;
+    }
+}
+</code></pre></div><p>modifier 常用在判断权限等判断语句，提升代码的重用性；</p>
+<p>以下代码可模拟合约所有者设置任意用户的money，用户注册后改名需要花费10money</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">modifierTest</span>{
+    <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">owner</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">ownerID</span>;
+    
+    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">address</span> =&gt; <span style="color:#a6e22e">uint</span>) <span style="color:#a6e22e">idmapping</span>;
+    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">uint</span> =&gt; <span style="color:#a6e22e">string</span>) <span style="color:#a6e22e">namemapping</span>;
+    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">uint</span> =&gt; <span style="color:#a6e22e">uint</span>) <span style="color:#a6e22e">moneymapping</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">userid</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    
+    <span style="color:#a6e22e">constructor</span>(){ 
+        <span style="color:#a6e22e">owner</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;  <span style="color:#75715e">// 合约初始化语句，申明拥有者
+</span><span style="color:#75715e"></span>    }
+    
+    <span style="color:#a6e22e">modifier</span> <span style="color:#a6e22e">HasMoney</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">needsMoney</span>){
+        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">moneymapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]] <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">needsMoney</span>); <span style="color:#75715e">//判断语句，如果false，则函数不会往下执行
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span>;
+    }
+    <span style="color:#a6e22e">modifier</span> <span style="color:#a6e22e">OnlyOwner</span>{
+        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">owner</span>); 
+        <span style="color:#a6e22e">_</span>;
+    }
+    <span style="color:#a6e22e">modifier</span> <span style="color:#a6e22e">hasNotRegister</span>{
+        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>); 
+        <span style="color:#a6e22e">_</span>;
+    }
+    
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">register</span>(<span style="color:#a6e22e">string</span> <span style="color:#a6e22e">name</span>)<span style="color:#a6e22e">hasNotRegister</span>{
+            <span style="color:#a6e22e">userid</span> <span style="color:#f92672">++</span>;
+            <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">userid</span>;
+            <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">userid</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+    }
+
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">changeOwnerID</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_num</span>)<span style="color:#a6e22e">OnlyOwner</span>{ <span style="color:#75715e">//将函数插入到OnlyOwner函数的_处执行
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">ownerID</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">_num</span>;
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setMoney</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_id</span>,<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_money</span>)<span style="color:#a6e22e">OnlyOwner</span>{ <span style="color:#75715e">//管理员可修改用户金钱数量
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">moneymapping</span>[<span style="color:#a6e22e">_id</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">_money</span>;
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getMoney</span>()<span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){ <span style="color:#75715e">//获取金钱
+</span><span style="color:#75715e"></span>       <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">moneymapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]];
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setName</span>(<span style="color:#a6e22e">string</span> <span style="color:#a6e22e">_name</span>)<span style="color:#a6e22e">HasMoney</span>(<span style="color:#ae81ff">10</span>){<span style="color:#75715e">//改名花费10money
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]] <span style="color:#f92672">=</span> <span style="color:#a6e22e">_name</span>;
+        <span style="color:#a6e22e">moneymapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]] <span style="color:#f92672">=</span> <span style="color:#a6e22e">moneymapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]] <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>;
+        
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getNameExternal</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>) <span style="color:#a6e22e">external</span> <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){ <span style="color:#75715e">//external 修饰，只允许外部调用
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">id</span>];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>(<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){ <span style="color:#75715e">//间接调用external所修饰的方法
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">getNameExternal</span>(<span style="color:#a6e22e">id</span>);
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getName</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_address</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">string</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">namemapping</span>[<span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">_address</span>]];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getId</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>];
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getId</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_address</span>) <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">idmapping</span>[<span style="color:#a6e22e">_address</span>];
+    }
+    
+}
+</code></pre></div><h3 id="合约的继承">合约的继承</h3>
+<p>is关键词，其他和其他语言差不多。</p>
+<p>变量继承</p>
+<p>internal/public 可被继承</p>
+<p>external 没有external 修饰符</p>
+<p>private 修饰私有</p>
+<p>方法继承</p>
+<p>internal 可被继承，不能外部调用，只允许内部调用</p>
+<p>external 可以被继承，需要通过this调用</p>
+<p>private 修饰私有</p>
+<p>pure/view 修饰，不消耗gas</p>
+<h3 id="getter">Getter</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">getter</span>{
+    <span style="color:#a6e22e">uint</span> <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">num</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+    
+    <span style="color:#75715e">// function num() external view returns(uint){ //此部分代码等价于public。external只允许外部调用
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//     return num;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// }
+</span><span style="color:#75715e"></span>    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">test</span>()<span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">num</span>();<span style="color:#75715e">//调用上述代码需添加this
+</span><span style="color:#75715e"></span>    }
+}
+</code></pre></div><p>多重继承，多个继承靠后优先级大</p>
+<h3 id="销毁合约">销毁合约</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">destruct</span>{
+    <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">owner</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">money</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    
+    <span style="color:#a6e22e">constructor</span>(){
+        <span style="color:#a6e22e">owner</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">addmoney</span>(){
+        <span style="color:#a6e22e">money</span><span style="color:#f92672">+=</span><span style="color:#ae81ff">100</span>;
+
+    }
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">forcecontract</span>(){
+        <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">owner</span>){
+            <span style="color:#a6e22e">selfdestruct</span>(<span style="color:#a6e22e">owner</span>);
+        }
+    }
+    
+}
+</code></pre></div><h3 id="内存与存储">内存与存储</h3>
+<p>storage/memory</p>
+<h3 id="数组">数组</h3>
+<p><img src="/images/ETHContracts2020-03-16/Untitled%202.png" alt="/images/ETHContracts2020-03-16/Untitled%202.png"></p>
+<h3 id="结构体">结构体</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">structTest</span>{
+    
+    <span style="color:#a6e22e">struct</span> <span style="color:#a6e22e">person</span>{
+        <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>;
+        <span style="color:#a6e22e">string</span> <span style="color:#a6e22e">name</span>;
+    }
+
+		<span style="color:#a6e22e">struct</span> <span style="color:#a6e22e">person2</span>{
+        <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">id</span>;
+        <span style="color:#a6e22e">string</span> <span style="color:#a6e22e">name</span>;
+        <span style="color:#75715e">// person2 p; //结构体不能包含本身，但是可以包含本身的可变长数组，以及mapping
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">person2</span>[] <span style="color:#a6e22e">pArr</span>; 
+        <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">uint</span> =&gt; <span style="color:#a6e22e">person2</span>) <span style="color:#a6e22e">pMap</span>;
+    }
+    
+    <span style="color:#a6e22e">person</span> <span style="color:#a6e22e">p1</span>;
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">addPerson</span>() <span style="color:#a6e22e">returns</span>(<span style="color:#a6e22e">uint</span>,<span style="color:#a6e22e">string</span>){
+        <span style="color:#a6e22e">p1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">person</span>({<span style="color:#a6e22e">id</span><span style="color:#f92672">:</span><span style="color:#ae81ff">20</span>,<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;name&#34;</span>}); <span style="color:#75715e">//给区块链存储中的p1进行赋值
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">person</span> <span style="color:#a6e22e">memory</span> <span style="color:#a6e22e">p2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">person</span>(<span style="color:#ae81ff">22</span>,<span style="color:#e6db74">&#34;name1&#34;</span>);  <span style="color:#75715e">//声明在memory接收
+</span><span style="color:#75715e"></span>        
+    }
+    
+}
+</code></pre></div><h3 id="结构体嵌套mapping赋值">结构体嵌套mapping赋值</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#f92672">^</span><span style="color:#ae81ff">0.4.0</span>;
+
+<span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">structTest</span>{
+    <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">owner</span>;
+    
+    <span style="color:#a6e22e">struct</span> <span style="color:#a6e22e">user</span>{
+        <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">uint</span>=&gt;<span style="color:#a6e22e">string</span>) <span style="color:#a6e22e">name</span>;
+        <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">uint</span>=&gt;<span style="color:#a6e22e">uint</span>) <span style="color:#a6e22e">balance</span>;
+    }
+    
+    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">address</span>=&gt;<span style="color:#a6e22e">uint</span>) <span style="color:#a6e22e">id</span>;
+    
+    <span style="color:#a6e22e">constructor</span>(){
+        <span style="color:#a6e22e">owner</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;
+        <span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>] <span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;
+    }
+    
+    <span style="color:#a6e22e">modifier</span> <span style="color:#a6e22e">OnlyOwner</span>{
+        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">owner</span>); 
+        <span style="color:#a6e22e">_</span>;
+    }
+    
+    <span style="color:#a6e22e">user</span>[] <span style="color:#a6e22e">userArr</span>;
+    <span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">userid</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    
+    <span style="color:#a6e22e">modifier</span> <span style="color:#a6e22e">hasNotRegister</span>{
+        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>); 
+        <span style="color:#a6e22e">_</span>;
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">register</span>(<span style="color:#a6e22e">string</span> <span style="color:#a6e22e">_name</span>) <span style="color:#a6e22e">hasNotRegister</span>{
+        <span style="color:#a6e22e">userid</span> <span style="color:#f92672">++</span>;
+        <span style="color:#75715e">// userArr[userid] = user();
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">userArr</span>[<span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]].<span style="color:#a6e22e">name</span>[<span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]]<span style="color:#f92672">=</span><span style="color:#a6e22e">_name</span>;
+        <span style="color:#a6e22e">userArr</span>[<span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]].<span style="color:#a6e22e">balance</span>[<span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>]]<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+    }
+    
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">addMoney</span>(<span style="color:#a6e22e">address</span> <span style="color:#a6e22e">_address</span>,<span style="color:#a6e22e">uint</span> <span style="color:#a6e22e">_money</span>)<span style="color:#a6e22e">OnlyOwner</span>{
+        <span style="color:#a6e22e">userArr</span>[<span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">_address</span>]].<span style="color:#a6e22e">balance</span>[<span style="color:#a6e22e">id</span>[<span style="color:#a6e22e">_address</span>]] <span style="color:#f92672">=</span> <span style="color:#a6e22e">_money</span>;
+    }
+}
+</code></pre></div><p>版权声明： 本文除特别声明外，请勿转载。转载请附上原文链接及出处。</p>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Maka8ka 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">Home</a></li>
+         
+        <li><a href="/post/">Posts</a></li>
+         
+        <li><a href="/categories/">Categories</a></li>
+         
+        <li><a href="https://github.com/Maka8ka">Github</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

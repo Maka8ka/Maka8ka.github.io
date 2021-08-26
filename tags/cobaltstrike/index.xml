@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CobaltStrike on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/tags/cobaltstrike/</link>
+    <description>Recent content in CobaltStrike on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Tue, 03 Aug 2021 17:02:23 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/tags/cobaltstrike/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C3-Custom_Command_and_Control</title>
+      <link>https://www.maka8ka.cc/post/c3-custom_command_and_control/</link>
+      <pubDate>Tue, 03 Aug 2021 17:02:23 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/c3-custom_command_and_control/</guid>
+      <description>C3-Custom_Command_and_Control 状态: 进行中
+项目地址：https://github.com/FSecureLABS/C3
+获取可执行文件路径修改
+E:\CppWorkSpace\C3-master\Src\WebController\Backend&amp;gt;dotnet publish -c Release 用于 .NET 的 Microsoft (R) 生成引擎版本 16.10.1+2fd48ab73 版权所有(C) Microsoft Corporation。保留所有权利。 正在确定要还原的项目… 所有项目均是最新的，无法还原。 WebController -&amp;gt; E:\CppWorkSpace\C3-master\Bin\WebController\Release\netcoreapp2.</description>
+    </item>
+    
+    <item>
+      <title>CobaltStrike 4.3 破解 修复暗桩</title>
+      <link>https://www.maka8ka.cc/post/cobaltstrike-4-3-%E7%A0%B4%E8%A7%A3-%E4%BF%AE%E5%A4%8D%E6%9A%97%E6%A1%A9/</link>
+      <pubDate>Sat, 01 May 2021 12:22:41 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/cobaltstrike-4-3-%E7%A0%B4%E8%A7%A3-%E4%BF%AE%E5%A4%8D%E6%9A%97%E6%A1%A9/</guid>
+      <description>CobaltStrike 4.3 破解 修复暗桩 关键词: CobaltStrike
+记录过程，自己动手，丰衣足食
+破解目标
+ 替换authkey.pub文件 修改源码中authkay.pub的md5值 修改过期时间 修复becon/BeaconData.class中暗桩  破解第一步，反编译,Reserve_Cobalt_src目录需自行创建，否则会报目录不存在错误，出现其他错误更换Java版本，比如
+Error: A JNI error has occurred, please check your installation and try again 使用Idea自带的反编译工具</description>
+    </item>
+    
+    <item>
+      <title>CobaltStrike-BOF及对应的cna脚本</title>
+      <link>https://www.maka8ka.cc/post/cobaltstrike-bof%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%9A%84cna%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Mon, 22 Mar 2021 11:12:53 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/cobaltstrike-bof%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%9A%84cna%E8%84%9A%E6%9C%AC/</guid>
+      <description>CobaltStrike-BOF 状态: 进行中
+【TOC】手牵手学习如何编写CobaltStrike-BOF及对应的cna脚本
+环境 linux
+MinGW-w64
+通过包管理器安装MinGW-w64
+sudo apt-get install -y *-w64-x86-* wget https://www.cobaltstrike.com/downloads/beacon.h
+一般c程序(不准确) #include &amp;lt;windows.h&amp;gt;INT main() { HANDLE LogonHandle; if (LogonUserA(&amp;#34;admin&amp;#34;, &amp;#34;localhost&amp;#34;, &amp;#34;1qaz!</description>
+    </item>
+    
+  </channel>
+</rss>

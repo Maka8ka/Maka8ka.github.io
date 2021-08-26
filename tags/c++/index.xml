@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/tags/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Tue, 12 Mar 2019 12:33:12 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;基础</title>
+      <link>https://www.maka8ka.cc/post/cpp%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Tue, 12 Mar 2019 12:33:12 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/cpp%E5%9F%BA%E7%A1%80/</guid>
+      <description>C++基础 优先级: 2 学习权重: 9 学习目标: 了解基础语法，为后面WindowsApi及QT等c++面向对象项目提供基础 学习类型: 编程/语法学习 学习进度: 0.1 状态: 进行中 语言类别: C++
+
+HelloWorld #include &amp;lt;iostream&amp;gt;#define day 7; //常量  using namespace std; const int b = 20; //常量  int main() { int a = 10; string b = &amp;#34;world&amp;#34;; cout &amp;lt;&amp;lt; &amp;#34;hello&amp;#34; &amp;lt;&amp;lt; b &amp;lt;&amp;lt; a &amp;lt;&amp;lt; endl; system(&amp;#34;pause&amp;#34;); return 0; } 命名规则 字母数字下划线，大小写敏感</description>
+    </item>
+    
+  </channel>
+</rss>

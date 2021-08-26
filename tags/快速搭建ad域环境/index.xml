@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>快速搭建AD域环境 on Maka8ka&#39;s Garden</title>
+    <link>https://maka8ka.github.io/tags/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAad%E5%9F%9F%E7%8E%AF%E5%A2%83/</link>
+    <description>Recent content in 快速搭建AD域环境 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 03 Apr 2018 04:15:45 +0000</lastBuildDate><atom:link href="https://maka8ka.github.io/tags/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAad%E5%9F%9F%E7%8E%AF%E5%A2%83/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快速搭建AD域环境</title>
+      <link>https://maka8ka.github.io/post/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAad%E5%9F%9F%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Tue, 03 Apr 2018 04:15:45 +0000</pubDate>
+      
+      <guid>https://maka8ka.github.io/post/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BAad%E5%9F%9F%E7%8E%AF%E5%A2%83/</guid>
+      <description>快速搭建AD域环境 关键词: LDAP, 域, 运维
+ 新建域控制器   安装完成重启   重启后部署域控制器配置   安装时本地计算机administrator用户不允许密码为空，ip需设置为固定ip   DC2加入域   普通机器使用使用普通用户加入域即可   Linux加入域 点击链接查看详情 https://maka8ka.github.io/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/  </description>
+    </item>
+    
+  </channel>
+</rss>

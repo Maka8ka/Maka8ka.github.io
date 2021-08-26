@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DLL on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/tags/dll/</link>
+    <description>Recent content in DLL on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Wed, 01 Jul 2020 17:21:56 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/tags/dll/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hook-dll注入</title>
+      <link>https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96-hook-dll%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Wed, 01 Jul 2020 17:21:56 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96-hook-dll%E6%B3%A8%E5%85%A5/</guid>
+      <description>Hook-dll注入 状态: 进行中
+OD用法 界面 c主界面模式
+t线程/进程模式
+b所有断点
+常用命令 dd查看地址
+dc查看地址ascii数据
+du 查看地址unicode数据
+快捷键 F2设置断点
+CE用法 快捷键 内存浏览器中
+ctrl+G前往内存
+微信分析（3.3.0.115）</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编程学习 on Maka8ka&#39;s Garden</title>
+    <link>https://www.maka8ka.cc/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 编程学习 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Maka8ka</copyright>
+    <lastBuildDate>Wed, 23 Jun 2021 11:12:31 +0000</lastBuildDate><atom:link href="https://www.maka8ka.cc/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Burp插件开发(一)</title>
+      <link>https://www.maka8ka.cc/post/burp%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%80/</link>
+      <pubDate>Wed, 23 Jun 2021 11:12:31 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/burp%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%80/</guid>
+      <description>Burp插件开发(一) 从零开始开发Burp插件 在burp目录中新建java文件，以官方示例helloworld为例
+E:\JavaWorkSpace\BurpApi&amp;gt;mkdir build E:\JavaWorkSpace\BurpApi&amp;gt;javac -d build burp/* E:\JavaWorkSpace\BurpApi&amp;gt;jar -cf hello.jar -C build burp //-cf createFile E:\JavaWorkSpace\BurpApi&amp;gt; 0x01 helloWorld解析 第一步，新建入口类BurpExtender</description>
+    </item>
+    
+    <item>
+      <title>基于以太坊的智能合约开发(一)</title>
+      <link>https://www.maka8ka.cc/post/%E5%9F%BA%E4%BA%8E%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%9A%84%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E4%B8%80/</link>
+      <pubDate>Mon, 16 Mar 2020 14:18:45 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/%E5%9F%BA%E4%BA%8E%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%9A%84%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E4%B8%80/</guid>
+      <description>基于以太坊的智能合约开发 关键词: ETH, 区块链, 开发, 智能合约 状态: 进行中
+小结：智能合约类似于定义各种结构体及方法，这些方法及对象将保存在区块链数据库中并将操作未来的数据库对象。
+first helloworld pragma solidity ^0.4.0; contract helloword{ string Myname = &amp;#34;name&amp;#34;; function getName() public returns(string){ return Myname; } function setName(string _name)public{ Myname = _name; } } 以太坊地址的本质</description>
+    </item>
+    
+    <item>
+      <title>汇编基础</title>
+      <link>https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Sat, 21 Dec 2019 17:13:19 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/</guid>
+      <description>汇编基础 状态: 进行中
+基础知识 原码反码补码
+反码=除首位（正负值）取反
+补码=反码+一
+移码=补码正负值取反
+仅限有符号的值
+  16位处理器是实模式
+  32 64位处理器是保护模式
+  EIP是指令指针寄存器 只想下一个操作的指针</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;基础</title>
+      <link>https://www.maka8ka.cc/post/cpp%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Tue, 12 Mar 2019 12:33:12 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/cpp%E5%9F%BA%E7%A1%80/</guid>
+      <description>C++基础 优先级: 2 学习权重: 9 学习目标: 了解基础语法，为后面WindowsApi及QT等c++面向对象项目提供基础 学习类型: 编程/语法学习 学习进度: 0.1 状态: 进行中 语言类别: C++
+
+HelloWorld #include &amp;lt;iostream&amp;gt;#define day 7; //常量  using namespace std; const int b = 20; //常量  int main() { int a = 10; string b = &amp;#34;world&amp;#34;; cout &amp;lt;&amp;lt; &amp;#34;hello&amp;#34; &amp;lt;&amp;lt; b &amp;lt;&amp;lt; a &amp;lt;&amp;lt; endl; system(&amp;#34;pause&amp;#34;); return 0; } 命名规则 字母数字下划线，大小写敏感</description>
+    </item>
+    
+    <item>
+      <title>Java 反射(简)</title>
+      <link>https://www.maka8ka.cc/post/java-%E5%8F%8D%E5%B0%84-%E7%AE%80/</link>
+      <pubDate>Wed, 02 Jan 2019 22:00:41 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/java-%E5%8F%8D%E5%B0%84-%E7%AE%80/</guid>
+      <description>Junit_测试 单元测试断言
+@Test 无需psvm main函数
+@Before 一般用于资源申请
+@After 一般用于资源释放
+package com.demojunit; import org.junit.After; import org.junit.Assert; import org.junit.Before; import org.junit.Test; public class CalcTest { /* 初始化方法 */ @Before public void init(){ System.</description>
+    </item>
+    
+    <item>
+      <title>JAVA基础</title>
+      <link>https://www.maka8ka.cc/post/java%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Fri, 02 Nov 2018 15:20:44 +0000</pubDate>
+      
+      <guid>https://www.maka8ka.cc/post/java%E5%9F%BA%E7%A1%80/</guid>
+      <description>Java基础 优先级: 2 学习权重: 9 学习目标: 了解基础语法、学习序列化及反序列化等相关知识点 学习类型: 编程/语法学习 学习进度: 0.68 状态: 进行中 语言类别: Java
+IDEA操作 新建项目》新建模块》src中新建软件包》新建类文件
+demo 数组遍历 package com.</description>
+    </item>
+    
+  </channel>
+</rss>

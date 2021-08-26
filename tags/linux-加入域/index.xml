@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux 加入域 on Maka8ka&#39;s Garden</title>
+    <link>https://maka8ka.github.io/tags/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/</link>
+    <description>Recent content in Linux 加入域 on Maka8ka&#39;s Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 03 Apr 2018 03:20:22 +0000</lastBuildDate><atom:link href="https://maka8ka.github.io/tags/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 加入域</title>
+      <link>https://maka8ka.github.io/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/</link>
+      <pubDate>Tue, 03 Apr 2018 03:20:22 +0000</pubDate>
+      
+      <guid>https://maka8ka.github.io/post/linux-%E5%8A%A0%E5%85%A5%E5%9F%9F/</guid>
+      <description>Linux 加入域 关键词: Linux, 运维
+在 Ubuntu 桌面平台上，安裝 samba 和 winbind 套件
+sudo apt install samba krb5-config krb5-user winbind libpam-winbind libnss-winbind   針對預設的 Kerberos 第 5 版領域，請輸入您 AD 網域的 DNS 名稱 (全部使用大寫字母)。
+例如，如果您的 AD 網域名稱為 mydomain.com，請輸入 MYDOMAIN.COM。
+  針對您領域的 Kerberos 伺服器，請輸入您 AD 伺服器的主機名稱 (在這整個程序的各個範例中均顯示為 )。
+ads_hostname /example:ad2012
+  針對您 Kerberos 領域的管理伺服器，再次輸入您 AD 伺服器的主機名稱。/example:ad2012
+  更新 PAM 組態。 開啟 PAM 組態頁面。 sudo pam-auth-update 選取在登入時建立主目錄，然後選取確定。
+4.編輯 /etc/nsswitch.conf 組態檔，如下列範例所示。</description>
+    </item>
+    
+  </channel>
+</rss>
